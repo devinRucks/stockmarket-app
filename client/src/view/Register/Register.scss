@@ -1,0 +1,155 @@
+#register-container {
+     height: 100vh;
+     display: flex;
+     justify-content: center;
+     align-items: flex-start;
+     align-content: center;
+     text-align: center;
+     line-height: 1.6;
+     background: #fff;
+     color: #111;
+     // border: 1px red solid;
+   }
+      
+   
+   // positions the form and adds subtle animation
+   #register-form {
+     display: flex;
+     flex-direction: column;
+     justify-content: space-evenly;
+     align-items: center;
+     margin-top: 12%;
+     width: 19em;
+     text-align: center;
+     -webkit-animation: moveDown .3s;
+     -moz-animation: moveDown .3s;
+     animation: moveDown .3s;
+     -webkit-animation-fill-mode: forwards;
+     -moz-animation-fill-mode: forwards;
+     animation-fill-mode: forwards;
+     // border: 1px red solid;
+   
+   
+     #error-container {
+       display: flex;
+       flex-direction: row;
+       align-items: center;
+       height: 15px;
+       // border: 1px red solid;
+   
+       .error-icon {
+            color: red;
+            margin-right: 5px;
+       }
+       .error-msg {
+            font-size: 15px;
+            color: red;
+       }
+   }
+   
+   }
+      
+   // animates to come down
+   @-webkit-keyframes moveDown {
+     0%   {-webkit-transform: translate(0,-10%);opacity: 0;}
+     100% {-webkit-transform: translate(0,0);opacity: 1;}
+   }
+      
+   @-moz-keyframes moveDown {
+     0%   {-moz-transform: translate(0,-10%);opacity: 0;}
+     100% {-moz-transform: translate(0,0);opacity: 1;}
+   }
+   
+   @keyframes moveDown {
+     0%   {transform: translate(0,-10%);opacity: 0;}
+     100% {transform: translate(0,0);opacity: 1;}
+   }
+   
+   
+   // styles the input field. Strip from default styling and add borders
+   .register-input {
+     color: #444;
+     font-size: 1.5em;
+     outline: none; // Chrome outline
+     box-shadow: none; // Firefox outline
+     -webkit-appearance: none; // mobile Safari
+     border-radius: 0; // mobile Safari
+     border-top: none;
+     border-left: solid 1px;
+     border-right: solid 1px;
+     border-bottom: solid 1px;
+     border-color: #bbb;
+     background: transparent;
+     display: block;
+     height: 2em;
+     width: 12em;
+     margin-bottom: 5%;
+     padding: 0 3%;
+     z-index: 0;
+     -webkit-transition: border .25s; // slightly slower than placeholder colour
+     -moz-transition: border .25s;
+     -o-transition: border .25s;
+     transition: border .25s;
+   
+     &:focus {
+       color: #111;
+       border-color: #444;
+     }
+   }
+   
+   
+   // width of user typed input must not go over submit button on the right (adds padding)
+   #register-button {
+     width: 10.5em;
+     padding-right: 1.85em;
+   }
+   
+   // on focus change colour of placeholder
+   .placeholder:focus {
+     color: #ddd;
+   }
+   
+   #register-input:focus::-webkit-input-placeholder,
+   #register-input:focus::-moz-input-placeholder
+   #register-input:focus::-ms-input-placeholder {
+     color: #ddd;
+   }
+   
+   
+   // positions submit button and strips from default styling
+   #register-button {
+     display: flex;
+     justify-content: center;
+     flex-direction: row;
+     align-items: center;
+     text-align: center;
+     outline: none;
+     margin-left: 45px;
+     -webkit-appearance: none; // mobile Safari
+     border: none;
+     background: transparent;
+     color: #bbb;
+     font-size: 2.05em;
+     padding: 3% 7%;
+     cursor: pointer;
+     right: -6%; // slight overlap with custom rectangle that hides border
+     bottom: 0%;
+     
+     &:hover, &:focus {
+       color: #111;
+     }
+   
+     #loading-symbol {
+       height: 30px;
+       width: 30px;
+       margin-left: 15px;
+     }
+   }
+   
+   
+   #linkToLogin {
+     list-style: none;
+     color: #111;
+   }
+   
+      

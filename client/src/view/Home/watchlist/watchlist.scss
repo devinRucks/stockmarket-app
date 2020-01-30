@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css?family=Francois+One&display=swap');
+
+$BGcolor: #FEFEFA;
+$TXTcolor: #1A1A1D;
+$TITLEcolor: #FEFEFA;
+
+#company-container {
+     margin-left: 15px;
+     // border: 1px red solid;
+
+     .horizontal-row {
+          margin-bottom: 5px;
+          width: 180px;
+     }
+
+     #default-companies {
+          // border: 1px red solid;
+     
+          .defaultCompanies-title {
+               color: $TITLEcolor;
+          }
+     
+          .default-company {
+               font-family: 'Francois One', sans-serif;
+               background: $BGcolor;
+               // width: 80%;
+               width: 125px;
+               border: 2px $BGcolor solid;
+               color: $TXTcolor;
+               list-style: none;
+               cursor: pointer;
+               padding-left: 15px;
+               margin-bottom: 2px;
+               font-size: 20px;
+               transition: all .15s ease-in-out;
+          
+               &:hover {
+                    background: $TXTcolor;
+                    color: $BGcolor;
+               }
+
+          }
+     }
+     
+     #watchlist {
+          // border: 2px green solid;
+
+          #myWatchlist-container {
+               display: flex;
+               flex-direction: row;
+               align-content: center;
+               align-items: center;
+               list-style: none;
+
+               .myWatchlist-company {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-family: 'Francois One', sans-serif;
+                    background: $BGcolor;
+                    // width: 60%;
+                    width: 125px;
+                    border: 2px $BGcolor solid;
+                    color: $TXTcolor;
+                    list-style: none;
+                    cursor: pointer;
+                    padding: 0 15px 0 15px;
+                    margin-bottom: 2px;
+                    font-size: 20px;
+                    // border: 1px red solid;
+               
+                    &:hover {
+                         background:  $TXTcolor;
+                         color: $BGcolor;
+                    }
+               }
+     
+               .trash-icon {
+                    color: #fff;
+                    margin-left: 10px;
+                    cursor: pointer;
+
+                    &:hover {
+                         color: rgb(255, 29, 33);
+                    }
+               }
+          }
+     
+          
+          .myWatchlist-title {
+               color: $TITLEcolor;
+          }
+
+     }
+}
