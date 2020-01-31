@@ -154,6 +154,7 @@ const server = app.listen(port, () => {
 
 // Socket Setup
 let io = socket(server)
+io.listen(server)
 
 io.on('connection', (socket) => {
      console.log('Made Socket Connection...')
