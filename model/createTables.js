@@ -2,7 +2,7 @@ const { db } = require('./connection')
 
 exports.createTables = () => {
 
-     db.connect((err) => {
+     db.getConnection((err) => {
           if (err) throw err
           console.log('MySql Connected...')
 
