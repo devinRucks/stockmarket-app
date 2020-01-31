@@ -2,14 +2,15 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "engine": {
+  "engines": {
     "node": "10.16.1"
   },
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "start": "nodemon server.js"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
