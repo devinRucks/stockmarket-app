@@ -5,7 +5,6 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const app = express();
 const path = require('path')
-const socket = require('socket.io')
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
 const cookieParser = require('cookie-parser')
@@ -153,8 +152,9 @@ const server = app.listen(port, () => {
 })
 
 // Socket Setup
+const socket = require('socket.io').listen(server)
 let io = socket(server)
-io.listen(server)
+console.log(server)
 
 io.on('connection', (socket) => {
      console.log('Made Socket Connection...')
