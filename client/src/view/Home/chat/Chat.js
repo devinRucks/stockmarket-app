@@ -14,7 +14,7 @@ export default class Chart extends React.Component {
                chat: [],
                chatOpen: false
           }
-          const socket = socketIOClient('http://localhost:8080')
+          const socket = socketIOClient()
           // let socket = socketIOClient.connect('http://localhost:8080', { transports: ['websocket'] });
           this.socket = socket
      }
