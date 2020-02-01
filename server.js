@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const app = express();
+const socket = require('socket.io')
 const path = require('path')
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
@@ -152,7 +153,6 @@ const server = app.listen(port, () => {
 })
 
 // Socket Setup
-const socket = require('socket.io').listen(server)
 let io = socket(server)
 console.log(server)
 
