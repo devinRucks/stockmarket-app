@@ -15,17 +15,14 @@ export default class Chart extends React.Component {
                chatOpen: false
           }
           const socket = socketIOClient()
-          // let socket = socketIOClient.connect('http://localhost:8080', { transports: ['websocket'] });
           this.socket = socket
      }
 
      sendSocket() {
-          // const socket = socketIOClient('http://localhost:8080')
           this.socket.emit('chat', this.state.chat)
      }
 
      componentDidMount() {
-          // const socket = socketIOClient('http://localhost:8080')
           this.socket.on('chat', (data) => {
                // setState of chat array with new incoming data from other sockets
                this.setState({
