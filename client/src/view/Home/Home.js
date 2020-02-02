@@ -138,43 +138,48 @@ export default class App extends React.Component {
                               <img className="title-img" src={logo} alt={"title img"} height="45" width="60"></img>
                               <h1 className="logoTxt">StockData</h1>
                          </div>
-                         <div id="search-container">
-                              <div id="error-container">
-                                   {displayError &&
-                                        <>
-                                             <div className="error-icon">
-                                                  <FontAwesomeIcon icon={faExclamationCircle} />
-                                             </div>
-                                             <div className="error-msg">Invalid Company</div>
-                                        </>
-                                   }
-                              </div>
+                         <div id="nav-container">
+                              <section id="logout-settings-container">
+                                   <Link to='/'>
+                                        <div className="logout-btn">
+                                             <FontAwesomeIcon
+                                                  onClick={() => this.logout()}
+                                                  icon={faSignOutAlt}
+                                                  size="1x" />
+                                        </div>
+                                   </Link>
 
-                              <input className="searchTxt"
-                                   onChange={(event) => this.updateInputValue(event)}
-                                   value={this.state.inputValue} />
-
-                              <div id="submit-loading-container">
-                                   <button className="submit"
-                                        style={{ display: loading ? 'none' : 'block' }}
-                                        onClick={() => this.handleClick()}> Submit </button>
-                                   <div id="loading-symbol">
-                                        {loading && <Loading type={'spokes'} color={'#FFFFFF'} />}
+                                   <div className="settings-btn">
+                                        <FontAwesomeIcon icon={faCog} size="1x" />
                                    </div>
-                              </div>
+                              </section>
 
-                              <Link to='/'>
-                                   <div className="logout-btn">
-                                        <FontAwesomeIcon
-                                             onClick={() => this.logout()}
-                                             icon={faSignOutAlt}
-                                             size="2x" />
+                              <section id="search-container">
+                                   <div id="error-container">
+                                        {displayError &&
+                                             <>
+                                                  <div className="error-icon">
+                                                       <FontAwesomeIcon icon={faExclamationCircle} />
+                                                  </div>
+                                                  <div className="error-msg">Invalid Company</div>
+                                             </>
+                                        }
                                    </div>
-                              </Link>
 
-                              <div className="settings-btn">
-                                   <FontAwesomeIcon icon={faCog} size="2x" />
-                              </div>
+                                   <input className="searchTxt"
+                                        onChange={(event) => this.updateInputValue(event)}
+                                        value={this.state.inputValue} />
+
+                                   <div id="submit-loading-container">
+                                        <button className="submit"
+                                             style={{ display: loading ? 'none' : 'block' }}
+                                             onClick={() => this.handleClick()}> Submit </button>
+                                        <div id="loading-symbol">
+                                             {loading && <Loading type={'spokes'} color={'#FFFFFF'} />}
+                                        </div>
+                                   </div>
+                              </section>
+
                          </div>
                     </header>
 

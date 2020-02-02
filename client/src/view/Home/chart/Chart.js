@@ -24,15 +24,21 @@ export default class Chart extends React.Component {
           dateAxis.renderer.grid.template.location = 0;
           dateAxis.renderer.minWidth = 15;
           dateAxis.renderer.labels.template.rotation = 90;
-          dateAxis.renderer.labels.template.fill = am4core.color("#FFF");
-          dateAxis.renderer.grid.template.stroke = am4core.color("#FFF");
+          // dateAxis.renderer.labels.template.fill = am4core.color("#FFF");
+          // dateAxis.renderer.grid.template.stroke = am4core.color("#FFF");
+
+          dateAxis.renderer.labels.template.fill = am4core.color("#333");
+          dateAxis.renderer.grid.template.stroke = am4core.color("#333");
           dateAxis.renderer.labels.template.verticalCenter = "middle";
           dateAxis.renderer.labels.template.horizontalCenter = "left";
 
           let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
           valueAxis.tooltip.disabled = true;
-          valueAxis.renderer.labels.template.fill = am4core.color("#FFF");
-          valueAxis.renderer.grid.template.stroke = am4core.color("#FFF");
+          // valueAxis.renderer.labels.template.fill = am4core.color("#FFF");
+          // valueAxis.renderer.grid.template.stroke = am4core.color("#FFF");
+
+          valueAxis.renderer.labels.template.fill = am4core.color("#333");
+          valueAxis.renderer.grid.template.stroke = am4core.color("#333");
 
           let series = chart.series.push(new am4charts.LineSeries());
           series.dataFields.dateX = "date";

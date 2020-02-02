@@ -6,21 +6,21 @@ $searchTxt-BGcolor: #FEFEFA;
 $searchTxt-color: #1A1A1D;
 $submitBtn-color: #1A1A1D;
 
-.windowMaximize-icon {
-     margin-right: 25px;
+.chat-icon {
+     display: inline-block;
+     margin: 5px 25px 5px 5px;
      cursor: pointer;
-     color: #fff;
      transition: color .15s ease-in-out;
+     color: #fff;
 
      &:hover {
-          color: rgb(225, 225, 225)
+          color: #333;
      }
 }
 
 #chat-container {
      width: 350px;
      height: 650px;
-     // height: 35px;
      margin-right: 20px;
      display: flex;
      flex-direction: column;
@@ -28,7 +28,6 @@ $submitBtn-color: #1A1A1D;
      border-top-left-radius: 8px;
      border-top-right-radius: 8px;
      transition: all 1s ease-in-out;
-     // border: 1px red solid;
 
      #chat-header {
           display: flex;
@@ -38,15 +37,14 @@ $submitBtn-color: #1A1A1D;
           position: sticky;
           top: 0;
           width: 100%;
-          height: 40px;
-          // background: $header-color;
+          height: 30px;
           border-top-left-radius: 5px;
           border-top-right-radius: 5px;
-          // border: 1px red solid;
 
-          .chat-icon {
+          .windowMinimize-icon {
                display: inline-block;
                margin-right: 10px;
+               margin-bottom: 5px;
                cursor: pointer;
                transition: color .15s ease-in-out;
                color: #fff;
@@ -59,25 +57,42 @@ $submitBtn-color: #1A1A1D;
      }
 
      #chat-content-container {
-          height: 255px;
+          height: 265px;
           width: 100%;
-          background: #fff;
+          background: rgb(238, 238, 238);
           overflow-y: auto;
           font-family: 'Ubuntu', sans-serif;
-          // border: 1px red solid;
+          border-left: 2px $footer-color solid;
+          border-right: 2px $footer-color solid;
 
           #chat-content {
                display: flex;
                align-items: center;
                flex-direction: row;
-               padding-top: 2px;
-               padding-bottom: 2px;
+               margin-left: 5px;
+               margin-right: 5px;
+               margin: 10px 5px 10px 5px;
+               // border: 1px red solid;
 
-               .chat-handle {
-                    font-weight: bold;
-                    font-size: 18px;
-                    margin-right: 5px;
-                    margin-left: 5px;
+               .message {
+                    display: flex;
+                    flex-direction: row;
+                    // align-items: center;
+                    width: auto;
+                    padding: 3px 10px 3px 10px;
+                    background: rgb(205, 205, 205);
+                    border-radius: 15px;
+
+                    .chat-handle {
+                         font-weight: bold;
+                         font-size: 18px;
+                         margin-right: 5px;
+                    }
+
+                    .chat-message { 
+                         color: #333;
+                         padding-top: 2px;
+                    }
                }
           }
 
@@ -90,11 +105,10 @@ $submitBtn-color: #1A1A1D;
           justify-content: space-between;
           align-items: center;
           align-content: center;
-          // border: 1px red solid;
 
           .message-text {
-               height: 27px;
-               width: 220px;
+               height: 28px;
+               width: 255px;
                font-size: 16px;
                font-weight: 400;
                font-family: 'Ubuntu', sans-serif;
@@ -109,19 +123,17 @@ $submitBtn-color: #1A1A1D;
           }
 
           .submit {
-               text-align: center;
-               height: 30px;
-               width: 80px;
-               font-family: 'Ubuntu', sans-serif;
-               font-weight: 700;
-               font-size: 19px;
-               border: 2px #fff solid;
-               border-radius: 3px;
-               background: #FEFEFA;
-               color: #1A1A1D;
-               margin-right: 10px;
+               color: $submitBtn-BGcolor;
+               background: $footer-color;
+               border: none;
+               margin-right: 25px;
                cursor: pointer;
                outline: none;
+               transition: scale .5s ease-in-out;
+
+               &:active {
+                    transform: scale(1.30);
+               }
           }
      }
 }

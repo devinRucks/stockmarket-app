@@ -1,7 +1,7 @@
 import React from 'react';
 import './chat.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faWindowMinimize, faCommentDots } from '@fortawesome/free-solid-svg-icons'
+import { faWindowMinimize, faCommentDots, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import socketIOClient from 'socket.io-client'
 import Cookies from 'js-cookie'
 
@@ -39,7 +39,6 @@ export default class Chart extends React.Component {
      }
 
      handleClick() {
-          // const socket = socketIOClient('http://localhost:8080')
           const username = Cookies.get('username')
 
           this.socket.emit('chat', {
@@ -56,13 +55,12 @@ export default class Chart extends React.Component {
      }
 
      render() {
-          // If content.handle === local username, set color to red, else: set color to blue
           const { inputValue, chat, chatOpen, username } = this.state;
           return (
 
                <>
                     {!chatOpen &&
-                         <div className="chat-icon windowMaximize-icon"
+                         <div className="chat-icon"
                               onClick={() => this.handleChatView()}>
                               <FontAwesomeIcon icon={faCommentDots} size='2x' />
                          </div>
@@ -71,7 +69,7 @@ export default class Chart extends React.Component {
                          style={{ display: !chatOpen ? 'none' : '' }}>
                          <header id="chat-header">
                               {chatOpen &&
-                                   <div className="chat-icon windowMinimize-icon"
+                                   <div className="windowMinimize-icon"
                                         onClick={() => this.handleChatView()}>
                                         <FontAwesomeIcon icon={faWindowMinimize} size='2x' />
                                    </div>
@@ -80,18 +78,22 @@ export default class Chart extends React.Component {
                          <section id="chat-content-container">
                               {chat.map((content, index) =>
                                    <div id="chat-content" key={index}>
-                                        <div className="chat-handle" style={{ color: username === content.handle ? '#19bd1b' : '#009dff' }}>{content.handle}:</div>
-                                        <div className="chat-message">{content.message}</div>
+                                        <div className="message">
+                                             <div className="chat-handle" style={{ color: username === content.handle ? '#333333' : '#282828' }}>{content.handle}:</div>
+                                             <div className="chat-message">{content.message}</div>
+                                        </div>
                                    </div>)}
                          </section>
                          <section id="message-container">
-                              <input className="message-text"
+                              <textarea className="message-text"
                                    onChange={(event) => this.updateInputValue(event)}
                                    value={inputValue} />
 
                               <button className="submit"
                                    onClick={() => this.handleClick()}
-                                   style={{ display: !chatOpen ? 'none' : '' }}> Submit </button>
+                                   style={{ display: !chatOpen ? 'none' : '' }}>
+                                   <FontAwesomeIcon icon={faPaperPlane} size='2x' />
+                              </button>
                          </section>
                     </div>
                </>
