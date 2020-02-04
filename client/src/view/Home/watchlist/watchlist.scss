@@ -4,18 +4,14 @@ $BGcolor: #FEFEFA;
 
 $BORDERcolor: #333;
 
-// $TXTcolor: #1A1A1D;
 $TXTcolor: #333;
 
-
-// $TITLEcolor: #FEFEFA;
 $TITLEcolor: #333;
 
 
 #company-container {
      margin-top: 10px;
      margin-left: 15px;
-     // border: 1px red solid;
 
      .horizontal-row {
           margin-bottom: 5px;
@@ -23,8 +19,6 @@ $TITLEcolor: #333;
      }
 
      #default-companies {
-          // border: 1px red solid;
-     
           .defaultCompanies-title {
                color: $TITLEcolor;
           }
@@ -32,7 +26,6 @@ $TITLEcolor: #333;
           .default-company {
                font-family: 'Francois One', sans-serif;
                background: $BGcolor;
-               // width: 80%;
                width: 125px;
                border: 1px $BORDERcolor solid;
                color: $TXTcolor;
@@ -43,22 +36,15 @@ $TITLEcolor: #333;
                font-size: 20px;
                transition: all .10s ease-in-out;
           
-               &:hover {
-                    // background: $TXTcolor;
-                    // color: $BGcolor;
-                    transform: scale(1.03);
-               }
+               &:hover { transform: scale(1.03); }
 
-               &:active {
-                    transform: scale(.95);
-               }
+               &:active { transform: scale(.95); }
 
           }
      }
      
      #watchlist {
           margin-top: 10px;
-          // border: 2px green solid;
 
           #myWatchlist-container {
                display: flex;
@@ -74,7 +60,6 @@ $TITLEcolor: #333;
                     align-items: center;
                     font-family: 'Francois One', sans-serif;
                     background: $BGcolor;
-                    // width: 60%;
                     width: 125px;
                     border: 1px $BORDERcolor solid;
                     color: $TXTcolor;
@@ -85,15 +70,9 @@ $TITLEcolor: #333;
                     font-size: 20px;
                     transition: all .10s ease-in-out;
                
-                    &:hover {
-                         // background:  $TXTcolor;
-                         // color: $BGcolor;
-                         transform: scale(1.03);
-                    }
+                    &:hover { transform: scale(1.03); }
 
-                    &:active {
-                         transform: scale(.95);
-                    }
+                    &:active { transform: scale(.95); }
                }
      
                .trash-icon {

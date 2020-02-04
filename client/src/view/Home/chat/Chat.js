@@ -12,41 +12,42 @@ export default class Chart extends React.Component {
                inputValue: '',
                username: '',
                chat: [],
+               typing: '',
                chatOpen: false
           }
-          const socket = socketIOClient()
-          this.socket = socket
-     }
-
-     sendSocket() {
-          this.socket.emit('chat', this.state.chat)
+          this.socket = socketIOClient()
+          this.username = Cookies.get('username')
      }
 
      componentDidMount() {
           this.socket.on('chat', (data) => {
                // setState of chat array with new incoming data from other sockets
                this.setState({
-                    chat: [...this.state.chat, { 'handle': data.handle, 'message': data.message }]
+                    chat: [...this.state.chat, { 'handle': data.handle, 'message': data.message }],
+                    typing: ''
                })
-               console.log(data)
+          })
+          this.socket.on('typing', (data) => {
+               this.setState({ typing: `${data.handle} is typing... ` })
+               setTimeout(() => this.setState({ typing: '' }), 3000)
           })
      }
 
      updateInputValue = (event) => {
-          this.setState({
-               inputValue: event.target.value
-          })
+          this.setState({ inputValue: event.target.value })
+
+          // If the user deletes message before sending, this will prevent the "User is typing..." message from continually showing
+          if (this.state.inputValue !== '') {
+               this.socket.emit('typing', { handle: this.username })
+          }
      }
 
      handleClick() {
-          const username = Cookies.get('username')
-
           this.socket.emit('chat', {
-               handle: username,
+               handle: this.username,
                message: this.state.inputValue
           })
-
-          this.setState({ inputValue: '', username: username })
+          this.setState({ inputValue: '', username: this.username })
      }
 
      handleChatView() {
@@ -55,7 +56,7 @@ export default class Chart extends React.Component {
      }
 
      render() {
-          const { inputValue, chat, chatOpen, username } = this.state;
+          const { inputValue, chat, chatOpen, username, typing } = this.state;
           return (
 
                <>
@@ -82,7 +83,9 @@ export default class Chart extends React.Component {
                                              <div className="chat-handle" style={{ color: username === content.handle ? '#333333' : '#282828' }}>{content.handle}:</div>
                                              <div className="chat-message">{content.message}</div>
                                         </div>
-                                   </div>)}
+                                   </div>
+                              )}
+                              <div className="typing-message">{typing}</div>
                          </section>
                          <section id="message-container">
                               <textarea className="message-text"

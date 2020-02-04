@@ -15,8 +15,6 @@ export default class Chart extends React.Component {
 
           chart.paddingRight = 20;
 
-          // chart.fill = am4core.color("#fff");
-
           chart.data = this.props.data;
           console.log("COMPONENT DID MOUNT")
 
@@ -26,9 +24,9 @@ export default class Chart extends React.Component {
           dateAxis.renderer.labels.template.rotation = 90;
           // dateAxis.renderer.labels.template.fill = am4core.color("#FFF");
           // dateAxis.renderer.grid.template.stroke = am4core.color("#FFF");
-
           dateAxis.renderer.labels.template.fill = am4core.color("#333");
           dateAxis.renderer.grid.template.stroke = am4core.color("#333");
+
           dateAxis.renderer.labels.template.verticalCenter = "middle";
           dateAxis.renderer.labels.template.horizontalCenter = "left";
 
@@ -36,7 +34,6 @@ export default class Chart extends React.Component {
           valueAxis.tooltip.disabled = true;
           // valueAxis.renderer.labels.template.fill = am4core.color("#FFF");
           // valueAxis.renderer.grid.template.stroke = am4core.color("#FFF");
-
           valueAxis.renderer.labels.template.fill = am4core.color("#333");
           valueAxis.renderer.grid.template.stroke = am4core.color("#333");
 
@@ -51,13 +48,13 @@ export default class Chart extends React.Component {
 
           series.strokeWidth = 3;
           series.fillOpacity = 1;
-          series.stroke = am4core.color("#00ff00");
+          series.stroke = am4core.color("#30c759");
 
           // changes color of gradient
-          // series.fill = am4core.color("white").lighten(0.5);
+          series.fill = am4core.color("#30c759").lighten(0.5);
 
           let fillModifier = new am4core.LinearGradientModifier();
-          fillModifier.opacities = [0, 0];
+          fillModifier.opacities = [.7, .2];
           fillModifier.offsets = [0, .15];
           fillModifier.gradient.rotation = 90;
           series.segments.template.fillModifier = fillModifier;
@@ -80,22 +77,8 @@ export default class Chart extends React.Component {
 
 
      render() {
-          // if (this.props.loading) {
-          //      return (
-          //           <div id="loading-symbol">
-          //                <Loading type={'spokes'} color={'#FFFFFF'} />
-          //           </div>
-          //      )
-          // } else {
           return (
-               <div id="chart" style={{ width: "100%", height: "500px" }}>
-                    {/* <h1 class="loading-symbol">Loading</h1> */}
-                    {/* <div id="loading-symbol">
-                         <Loading type={'spokes'} color={'#FFFFFF'} />
-                    </div> */}
-               </div>
+               <div id="chart" style={{ width: "100%", height: "500px" }}></div>
           );
-          // }
      }
-
 }

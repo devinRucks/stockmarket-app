@@ -6,7 +6,7 @@ import Chat from './chat/Chat'
 import axios from 'axios'
 import logo from '../imgs/title-img.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignOutAlt, faCog, faExclamationCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt, faCog, faExclamationCircle, faPlusCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import Loading from '../Loading/Loading'
@@ -89,7 +89,7 @@ export default class App extends React.Component {
      async handleClick() {
           if (this.state.inputValue !== '') {
                this.setState({
-                    currentCompany: this.state.inputValue,
+                    currentCompany: this.state.inputValue.toUpperCase(),
                     loading: true
                }, async () => await this.getData())
           } else if (this.state.prevCompany !== this.state.currentCompany) {
@@ -118,7 +118,6 @@ export default class App extends React.Component {
           this.setState({
                addToWatchlist: this.state.currentCompany
           }, () => {
-               console.log(this.state.addToWatchlist)
                axios.post('/addToWatchlist', { company: this.state.currentCompany })
           })
      }
@@ -140,6 +139,9 @@ export default class App extends React.Component {
                          </div>
                          <div id="nav-container">
                               <section id="logout-settings-container">
+                                   <div className="settings-btn">
+                                        <FontAwesomeIcon icon={faCog} size="1x" />
+                                   </div>
                                    <Link to='/'>
                                         <div className="logout-btn">
                                              <FontAwesomeIcon
@@ -148,10 +150,6 @@ export default class App extends React.Component {
                                                   size="1x" />
                                         </div>
                                    </Link>
-
-                                   <div className="settings-btn">
-                                        <FontAwesomeIcon icon={faCog} size="1x" />
-                                   </div>
                               </section>
 
                               <section id="search-container">
@@ -173,8 +171,8 @@ export default class App extends React.Component {
                                    <div id="submit-loading-container">
                                         <button className="submit"
                                              style={{ display: loading ? 'none' : 'block' }}
-                                             onClick={() => this.handleClick()}> Submit </button>
-                                        <div id="loading-symbol">
+                                             onClick={() => this.handleClick()}> <FontAwesomeIcon icon={faSearch} /> </button>
+                                        <div className="loading-symbol">
                                              {loading && <Loading type={'spokes'} color={'#FFFFFF'} />}
                                         </div>
                                    </div>
@@ -200,9 +198,7 @@ export default class App extends React.Component {
                                              <div className="icon" onClick={() => this.addToWatchlist()}>
                                                   <FontAwesomeIcon icon={faPlusCircle} />
                                              </div>
-                                             <div className="msg">
-                                                  Add To Watchlist
-                                             </div>
+                                             <div className="msg"> Add To Watchlist </div>
                                         </div>
                                    </>
                               }

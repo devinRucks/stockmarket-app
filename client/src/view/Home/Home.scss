@@ -40,7 +40,7 @@ body {
 }
 
 #header-container {
-     height: 90px;
+     height: 75px;
      width: 100vw;
      display: flex;
      flex-direction: row;
@@ -150,14 +150,14 @@ body {
                     justify-content: center;
                     align-items: center;
                     align-content: center;
-                    height: 40px;
-                    width: 90px;
-                    margin-right: 30px;
+                    height: 25px;
+                    width: 55px;
+                    margin-right: 20px;
      
                     .submit {
                          position: absolute;
-                         height: 35px;
-                         width: 85px;
+                         height: 25px;
+                         width: 55px;
                          font-family: 'Ubuntu', sans-serif;
                          font-weight: 700;
                          font-size: 19px;
@@ -168,10 +168,14 @@ body {
                          margin-right: 35px;
                          cursor: pointer;
                          outline: none;
-                         transition: all .15s ease-in-out;
+                         transition: scale .10s ease-in-out;
+               
+                         &:hover { transform: scale(1.03); }
+     
+                         &:active { transform: scale(.95); }
                     }
      
-                    #loading-symbol {
+                    .loading-symbol {
                          height: 30px;
                          width: 30px;
                     }
@@ -193,8 +197,6 @@ body {
      #watchlist-container {
           grid-area: watchlist;
           background: $watchlist-BGcolor;
-          // border: 1px blue solid;
-
      }
 
      #action-container {
@@ -204,13 +206,11 @@ body {
           justify-content: space-evenly;
           align-items: flex-start;
           margin-left: 20px;
-          // border: 1px blue solid;
-          color: #fff;
+          color: #333;
 
           .current-company {
                font-size: 32px;
                padding-left: 10px;
-               // border: 1px red solid;
           }
 
           .add-to-watchlist {
@@ -218,7 +218,6 @@ body {
                display: flex;
                justify-content: center;
                align-content: center;
-               // border: 1px green solid;
 
                .icon {
                     padding-right: 5px;
@@ -229,7 +228,6 @@ body {
 
      #chart-container {
           grid-area: chart;
-          // border: 1px red solid;
      }
 
 }
