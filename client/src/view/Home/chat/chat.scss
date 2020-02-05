@@ -14,7 +14,7 @@ $submitBtn-color: #1A1A1D;
      color: #fff;
 
      &:hover {
-          color: #333;
+          color: #2693e6;
      }
 }
 
@@ -137,6 +137,10 @@ $submitBtn-color: #1A1A1D;
 
                &:active {
                     transform: scale(1.30);
+               }
+
+               &:hover {
+                    color: #2693e6;
                }
           }
      }

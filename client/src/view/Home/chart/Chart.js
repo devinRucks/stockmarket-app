@@ -78,7 +78,7 @@ export default class Chart extends React.Component {
 
      render() {
           return (
-               <div id="chart" style={{ width: "100%", height: "500px" }}></div>
+               <div id="chart" style={{ width: "100%", height: "450px" }}></div>
           );
      }
 }

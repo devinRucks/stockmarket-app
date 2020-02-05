@@ -3,10 +3,11 @@ import './Home.scss';
 import Chart from './chart/Chart'
 import Watchlist from './watchlist/Watchlist'
 import Chat from './chat/Chat'
+import Settings from './settings/Settings'
 import axios from 'axios'
 import logo from '../imgs/title-img.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignOutAlt, faCog, faExclamationCircle, faPlusCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt, faExclamationCircle, faPlusCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import Loading from '../Loading/Loading'
@@ -23,7 +24,6 @@ export default class App extends React.Component {
                prevMonthDate: '',
                currentDate: '',
                graphData: {},
-               displayModal: false,
                displayError: false,
                loading: false
           }
@@ -133,15 +133,15 @@ export default class App extends React.Component {
                <div className="App">
 
                     <header id="header-container">
+
                          <div id="logo-container">
                               <img className="title-img" src={logo} alt={"title img"} height="45" width="60"></img>
                               <h1 className="logoTxt">StockData</h1>
                          </div>
+
                          <div id="nav-container">
                               <section id="logout-settings-container">
-                                   <div className="settings-btn">
-                                        <FontAwesomeIcon icon={faCog} size="1x" />
-                                   </div>
+                                   < Settings />
                                    <Link to='/'>
                                         <div className="logout-btn">
                                              <FontAwesomeIcon
@@ -177,10 +177,8 @@ export default class App extends React.Component {
                                         </div>
                                    </div>
                               </section>
-
                          </div>
                     </header>
-
 
                     <div id="content-container">
                          <section id="watchlist-container">

@@ -1,0 +1,67 @@
+
+/* The side navigation menu */
+#settings-sidebar {
+     height: 100%; /* 100% Full-height */
+     width: 300px; /* 0 width - change this with JavaScript */
+     position: fixed; /* Stay in place */
+     z-index: 4; /* Stay on top */
+     top: 0; /* Stay at the top */
+     right: 0;
+     background-color: #474747;
+     color: #fff;
+     overflow-x: hidden; /* Disable horizontal scroll */
+     transition: all .35s ease-in-out;
+     border-top-left-radius: 20px;
+     border-bottom-left-radius: 20px;
+
+     #settings-header-container {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          align-content: center;
+          height: 75px;
+          width: 100%;
+          border-bottom: 3px #333 solid;
+
+          .close-btn {
+               margin-left: 10px;
+               margin-bottom: 20px;
+               cursor: pointer;
+               transition: all .15s ease-in-out;
+
+               &:hover { 
+                    transform: scale(1.05) rotate(90deg); 
+               }
+          }
+
+          .settings-title {
+               font-size: 35px;
+               margin-right: 20px;
+          }
+     }
+
+     #settings-content-container {
+          width: 100%;
+
+          .setting {
+               display: flex;
+               flex-direction: row;
+               justify-content: space-between;
+               align-items: center;
+               align-content: center;
+               margin-top: 10px;
+               height: 45px;
+               width: 100%;
+
+               .setting-description {
+                    font-size: 22px;
+                    margin-left: 25px;
+               }
+
+               .setting-toggle {
+                    margin-right: 25px;
+               }
+          }
+     }
+}

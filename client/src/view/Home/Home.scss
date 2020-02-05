@@ -4,9 +4,11 @@
 // $background-color: #1A1A1D;
 $background-color: #FEFEFA;
 
-$header-color: rgb(49, 49, 52);
+// $header-color: rgb(49, 49, 52);
+$header-color: #333;
 // $header-color: #FEFEFA;
-$footer-color: rgb(73, 73, 77);
+// $footer-color: rgb(73, 73, 77);
+$footer-color: #333;
 
 $title-color: #FEFEFA;
 // $title-color: #333;
@@ -236,7 +238,7 @@ body {
      position: fixed;
      bottom: 0;
      width: 100vw;
-     height: 60px;
+     height: 50px;
      display: flex;
      justify-content: flex-end;
      align-items: center;
