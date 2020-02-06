@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.scss';
-import Home from './view/Home/Home'
-import Login from './view/Login/Login'
-import Register from './view/Register/Register'
+import Home from './components/Home/Home'
+import Login from './components/Login/Login'
+import Register from './components/Register/Register'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import withAuth from './view/ProtectedRoute/Protected-Route';
+import withAuth from './components/ProtectedRoute/Protected-Route';
 
 export default class App extends React.Component {
   constructor(props) {

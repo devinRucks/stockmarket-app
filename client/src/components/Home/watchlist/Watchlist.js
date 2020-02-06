@@ -1,5 +1,6 @@
 import React from 'react';
 import './watchlist.scss'
+import * as utils from '../../../utils/styling'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
@@ -24,7 +25,6 @@ export default class Watchlist extends React.Component {
      componentDidMount() {
           axios.post('/retrieveWatchlist')
                .then(res => {
-                    console.log(res.data)
                     this.setState({
                          myWatchlist: [...res.data]
                     })
@@ -60,15 +60,26 @@ export default class Watchlist extends React.Component {
 
 
      render() {
+          const { darkMode } = this.props;
           const { defaultCompanies, myWatchlist } = this.state;
+
           const defaultCompanyList = defaultCompanies.map((companySymbol, index) => {
-               return <li className="default-company" onClick={() => this.props.companyClick(companySymbol)} key={index}>{companySymbol}</li>
+               return (
+                    <li className="default-company"
+                         style={darkMode ? utils.darkModeBorder : utils.lightModeBorder}
+                         onClick={() => this.props.companyClick(companySymbol)}
+                         key={index}>
+                         {companySymbol}
+                    </li>
+               )
           })
           const watchlist = myWatchlist.map((companySymbol, index) => {
                return (
-                    <li id="myWatchlist-container" key={index}>
+                    <li id="myWatchlist-container"
+                         key={index}>
                          <div
                               className="myWatchlist-company"
+                              style={darkMode ? utils.darkModeBorder : utils.lightModeBorder}
                               onClick={() => this.props.companyClick(companySymbol)}>
                               {companySymbol}
                          </div>
@@ -82,7 +93,7 @@ export default class Watchlist extends React.Component {
           })
 
           return (
-               <div id="company-container">
+               <div id="company-container" style={darkMode ? utils.generalDarkMode : utils.generalLightMode}>
                     <section id="default-companies">
                          <h1 className="defaultCompanies-title">Default Companies</h1>
                          <hr className="horizontal-row"></hr>

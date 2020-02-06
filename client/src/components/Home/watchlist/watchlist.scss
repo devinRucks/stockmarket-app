@@ -12,6 +12,8 @@ $TITLEcolor: #333;
 #company-container {
      margin-top: 10px;
      margin-left: 15px;
+     transition: all .5s ease-in-out;
+
 
      .horizontal-row {
           margin-bottom: 5px;
@@ -19,22 +21,18 @@ $TITLEcolor: #333;
      }
 
      #default-companies {
-          .defaultCompanies-title {
-               color: $TITLEcolor;
-          }
      
           .default-company {
                font-family: 'Francois One', sans-serif;
-               background: $BGcolor;
                width: 125px;
-               border: 1px $BORDERcolor solid;
-               color: $TXTcolor;
                list-style: none;
                cursor: pointer;
                padding-left: 15px;
                margin-bottom: 2px;
                font-size: 20px;
-               transition: all .10s ease-in-out;
+               transition: all .5s ease-in-out;
+               transition: scale .10s ease-in-out;
+
           
                &:hover { transform: scale(1.03); }
 
@@ -59,16 +57,14 @@ $TITLEcolor: #333;
                     justify-content: space-between;
                     align-items: center;
                     font-family: 'Francois One', sans-serif;
-                    background: $BGcolor;
                     width: 125px;
-                    border: 1px $BORDERcolor solid;
-                    color: $TXTcolor;
                     list-style: none;
                     cursor: pointer;
                     padding: 0 15px 0 15px;
                     margin-bottom: 2px;
                     font-size: 20px;
-                    transition: all .10s ease-in-out;
+                    transition: all .5s ease-in-out;
+                    transition: scale .10s ease-in-out;
                
                     &:hover { transform: scale(1.03); }
 
@@ -76,7 +72,7 @@ $TITLEcolor: #333;
                }
      
                .trash-icon {
-                    color: $TXTcolor;
+                    // color: $TXTcolor;
                     margin-left: 10px;
                     cursor: pointer;
 
@@ -88,7 +84,7 @@ $TITLEcolor: #333;
      
           
           .myWatchlist-title {
-               color: $TITLEcolor;
+               // color: $TITLEcolor;
           }
 
      }

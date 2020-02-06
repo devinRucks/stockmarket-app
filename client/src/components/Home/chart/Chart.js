@@ -2,7 +2,6 @@ import React from 'react';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-// import Loading from '../../Loading/Loading'
 
 import './chart.scss'
 
@@ -22,20 +21,27 @@ export default class Chart extends React.Component {
           dateAxis.renderer.grid.template.location = 0;
           dateAxis.renderer.minWidth = 15;
           dateAxis.renderer.labels.template.rotation = 90;
-          // dateAxis.renderer.labels.template.fill = am4core.color("#FFF");
-          // dateAxis.renderer.grid.template.stroke = am4core.color("#FFF");
-          dateAxis.renderer.labels.template.fill = am4core.color("#333");
-          dateAxis.renderer.grid.template.stroke = am4core.color("#333");
+          if (this.props.darkMode) {
+               dateAxis.renderer.labels.template.fill = am4core.color("#FFF");
+               dateAxis.renderer.grid.template.stroke = am4core.color("#FFF");
+          } else {
+               dateAxis.renderer.labels.template.fill = am4core.color("#333");
+               dateAxis.renderer.grid.template.stroke = am4core.color("#333");
+          }
 
           dateAxis.renderer.labels.template.verticalCenter = "middle";
           dateAxis.renderer.labels.template.horizontalCenter = "left";
 
           let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
           valueAxis.tooltip.disabled = true;
-          // valueAxis.renderer.labels.template.fill = am4core.color("#FFF");
-          // valueAxis.renderer.grid.template.stroke = am4core.color("#FFF");
-          valueAxis.renderer.labels.template.fill = am4core.color("#333");
-          valueAxis.renderer.grid.template.stroke = am4core.color("#333");
+
+          if (this.props.darkMode) {
+               valueAxis.renderer.labels.template.fill = am4core.color("#FFF");
+               valueAxis.renderer.grid.template.stroke = am4core.color("#FFF");
+          } else {
+               valueAxis.renderer.labels.template.fill = am4core.color("#333");
+               valueAxis.renderer.grid.template.stroke = am4core.color("#333");
+          }
 
           let series = chart.series.push(new am4charts.LineSeries());
           series.dataFields.dateX = "date";
@@ -63,7 +69,7 @@ export default class Chart extends React.Component {
      }
 
      componentDidUpdate(prevProps, prevState) {
-          if (prevProps.data !== this.props.data) {
+          if (prevProps.data !== this.props.data || prevProps.darkMode !== this.props.darkMode) {
                this.removePreviousChart()
                this.createGraph()
           }

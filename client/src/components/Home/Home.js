@@ -5,7 +5,8 @@ import Watchlist from './watchlist/Watchlist'
 import Chat from './chat/Chat'
 import Settings from './settings/Settings'
 import axios from 'axios'
-import logo from '../imgs/title-img.png'
+import logo from '../../utils/title-img.png'
+import * as utils from '../../utils/styling'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faExclamationCircle, faPlusCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -25,7 +26,8 @@ export default class App extends React.Component {
                currentDate: '',
                graphData: {},
                displayError: false,
-               loading: false
+               loading: false,
+               darkMode: false
           }
      }
 
@@ -113,6 +115,10 @@ export default class App extends React.Component {
           })
      }
 
+     setDarkMode(state) {
+          this.setState({ darkMode: state })
+     }
+
      // called when the add to watchlist button is clicked
      addToWatchlist() {
           this.setState({
@@ -127,12 +133,12 @@ export default class App extends React.Component {
      }
 
      render() {
-          const { currentCompany, addToWatchlist, graphData, displayError, loading } = this.state;
+          const { currentCompany, addToWatchlist, graphData, displayError, loading, darkMode } = this.state;
 
           return (
-               <div className="App">
+               <div className="App" style={darkMode ? utils.generalDarkMode : utils.generalLightMode}>
 
-                    <header id="header-container">
+                    <header id="header-container" style={darkMode ? utils.headerAndFooterDarkMode : utils.headerAndFooterLightMode}>
 
                          <div id="logo-container">
                               <img className="title-img" src={logo} alt={"title img"} height="45" width="60"></img>
@@ -141,13 +147,12 @@ export default class App extends React.Component {
 
                          <div id="nav-container">
                               <section id="logout-settings-container">
-                                   < Settings />
+                                   < Settings darkMode={(state) => this.setDarkMode(state)} />
                                    <Link to='/'>
-                                        <div className="logout-btn">
+                                        <div className="logout-btn" style={darkMode ? utils.headerAndFooterDarkMode : utils.headerAndFooterLightMode}>
                                              <FontAwesomeIcon
                                                   onClick={() => this.logout()}
-                                                  icon={faSignOutAlt}
-                                                  size="1x" />
+                                                  icon={faSignOutAlt} />
                                         </div>
                                    </Link>
                               </section>
@@ -180,19 +185,20 @@ export default class App extends React.Component {
                          </div>
                     </header>
 
-                    <div id="content-container">
-                         <section id="watchlist-container">
-                              <Watchlist companyClick={(company) => this.updateCurrentCompany(company)} addToWatchlist={addToWatchlist} />
+                    <div id="content-container" style={darkMode ? utils.generalDarkMode : utils.generalLightMode}>
+                         <section id="watchlist-container" style={darkMode ? utils.generalDarkMode : utils.generalLightMode}>
+                              <Watchlist companyClick={(company) => this.updateCurrentCompany(company)} addToWatchlist={addToWatchlist} darkMode={darkMode} />
                          </section>
 
                          <section id="action-container">
                               {!displayError &&
                                    <>
-                                        <div className="current-company">
+                                        <div className="current-company"
+                                             style={darkMode ? utils.darkModeFontColor : utils.lightModeFontColor}>
                                              {currentCompany}
                                         </div>
                                         <div className="add-to-watchlist"
-                                             style={{ display: currentCompany === '' ? 'none' : 'flex' }} >
+                                             style={currentCompany === '' ? { display: 'none' } : { display: 'flex' } && darkMode ? utils.darkModeFontColor : utils.lightModeFontColor}>
                                              <div className="icon" onClick={() => this.addToWatchlist()}>
                                                   <FontAwesomeIcon icon={faPlusCircle} />
                                              </div>
@@ -203,11 +209,11 @@ export default class App extends React.Component {
                          </section>
 
                          <section id="chart-container">
-                              <Chart data={graphData} loading={loading} />
+                              <Chart data={graphData} loading={loading} darkMode={darkMode} />
                          </section>
                     </div>
-                    <footer id="footer">
-                         <Chat />
+                    <footer id="footer" style={darkMode ? utils.headerAndFooterDarkMode : utils.headerAndFooterLightMode}>
+                         <Chat darkMode={darkMode} />
                     </footer>
                </div>
           );

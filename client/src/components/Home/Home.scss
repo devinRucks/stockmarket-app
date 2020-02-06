@@ -1,33 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
-// $background-color: #1A1A1D;
-$background-color: #FEFEFA;
-
-// $header-color: rgb(49, 49, 52);
-$header-color: #333;
-// $header-color: #FEFEFA;
-// $footer-color: rgb(73, 73, 77);
-$footer-color: #333;
-
-$title-color: #FEFEFA;
-// $title-color: #333;
 
 $submitBtn-BGcolor: #FEFEFA;
 $searchTxt-BGcolor: #FEFEFA;
-// $submitBtn-BGcolor: #333;
-
 
 $submitBtn-color: #1A1A1D;
 $searchTxt-color: #333;
-// $submitBtn-color: #FEFEFA;
-
-
-// $watchlist-BGcolor: #1A1A1D;
-$watchlist-BGcolor: #FEFEFA;
-
-// $logout-color: #333;
-$logout-color: #FEFEFA;
 
 
 * {
@@ -36,8 +15,12 @@ $logout-color: #FEFEFA;
      box-sizing: border-box;
 }
 
-body {
-     background: $background-color;
+
+.App {
+     height: 100vh;
+     width: 100%;
+     overflow: hidden;
+     transition: all 0.5s ease-in-out;
      font-family: 'Nunito', sans-serif;
 }
 
@@ -51,7 +34,8 @@ body {
      align-content: center;
      position: relative;
      top: 0;
-     background: $header-color;
+     background: #333;
+     transition: all 0.5s ease-in-out;
      border-bottom: 2px #333 solid;
 
      #logo-container {
@@ -68,7 +52,6 @@ body {
           
           .logoTxt {
                font-size: 50px;
-               color: $title-color;
           }
      }
 
@@ -89,7 +72,6 @@ body {
                .logout-btn {
                     margin-right: 15px;
                     cursor: pointer;
-                    color: $logout-color;
      
                     &:hover {
                          color: rgb(186, 20, 23)
@@ -195,10 +177,11 @@ body {
           "watchlist chart chart"
           "watchlist chart chart";
      grid-template-columns: 200px 1fr;
+     transition: all 0.5s ease-in-out;
      
      #watchlist-container {
           grid-area: watchlist;
-          background: $watchlist-BGcolor;
+          transition: all 0.5s ease-in-out;
      }
 
      #action-container {
@@ -242,5 +225,5 @@ body {
      display: flex;
      justify-content: flex-end;
      align-items: center;
-     background: $footer-color;
+     transition: all 0.5s ease-in-out;
 }

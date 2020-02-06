@@ -13,9 +13,9 @@ export default class Settings extends React.Component {
           }
      }
 
-     componentDidMount() {
-
-     }
+     // componentDidMount() {
+     //      this.props.darkMode(this.state.darkMode)
+     // }
 
      handleSettingsMenuDisplay() {
           this.setState(prevState => ({
@@ -25,10 +25,9 @@ export default class Settings extends React.Component {
      }
 
      handleDarkModeChange() {
-          this.setState(prevState => ({
+          this.setState((prevState) => ({
                darkMode: !prevState.darkMode
-          }))
-          console.log("Dark Mode Changed")
+          }), () => this.props.darkMode(this.state.darkMode))
      }
 
 
@@ -37,7 +36,7 @@ export default class Settings extends React.Component {
           return (
                <>
                     <div className="settings-btn" onClick={() => this.handleSettingsMenuDisplay()}>
-                         <FontAwesomeIcon icon={faCog} size="1x" />
+                         <FontAwesomeIcon icon={faCog} />
                     </div>
                     <div id="settings-sidebar" style={{ right: displaySettingsMenu ? '0' : '-300px' }}>
                          <header id="settings-header-container">

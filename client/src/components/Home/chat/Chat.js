@@ -56,12 +56,13 @@ export default class Chart extends React.Component {
      }
 
      render() {
+          const { darkMode } = this.props;
           const { inputValue, chat, chatOpen, username, typing } = this.state;
           return (
 
                <>
                     {!chatOpen &&
-                         <div className="chat-icon"
+                         <div className="chat-icon" style={{ color: darkMode ? '#333' : '#fff' }}
                               onClick={() => this.handleChatView()}>
                               <FontAwesomeIcon icon={faCommentDots} size='2x' />
                          </div>
