@@ -109,7 +109,7 @@ app.post('/loginUser', (req, res) => {
 
                const payload = { username }
 
-               const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' })
+               const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '40m' })
 
                res.cookie('token', token, { httpOnly: true }).cookie('userId', `${userId}`).cookie('username', `${username}`).sendStatus(200)
           } else {
@@ -155,6 +155,7 @@ const server = app.listen(port, () => {
 // Socket Setup
 let io = socket(server)
 
+
 io.on('connection', (socket) => {
      console.log('Made Socket Connection...')
 
@@ -166,7 +167,16 @@ io.on('connection', (socket) => {
           socket.broadcast.emit('typing', data)
      })
 
+     socket.on('onlineUsers', (data) => {
+          console.log(`${data.user} connected....`)
+
+          let user = { [socket.id]: data.user }
+
+          io.sockets.emit('onlineUsers', (user))
+     })
+
      socket.on('disconnect', () => {
-          console.log('user disconnected')
+          console.log(`user disconnected`)
+
      })
 })

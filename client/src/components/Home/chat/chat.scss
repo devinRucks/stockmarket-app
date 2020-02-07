@@ -19,6 +19,7 @@ $submitBtn-color: #1A1A1D;
 }
 
 #chat-container {
+     position: relative;
      width: 350px;
      height: 650px;
      margin-right: 20px;
@@ -29,6 +30,45 @@ $submitBtn-color: #1A1A1D;
      border-top-right-radius: 8px;
      transition: all 1s ease-in-out;
 
+     #tabs {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          cursor: pointer;
+          top: -40px;
+          height: 40px;
+          width: 50px;
+          // border: 1px red solid;
+
+          &.chat-tab {
+               left: 30px;
+               color: #2693e6;
+               background: $footer-color;
+          }
+
+          &.users-tab {
+               left: 85px;
+               color: #009311;
+               background: #333;
+          }
+
+          &.minimize-tab {
+               top: -18px;
+               width: 35px;
+               height: 18px;
+               right: 15px;
+               color: #fff;
+               background: $footer-color;
+
+               &:hover {
+                    color: rgb(164, 164, 164);
+               }
+          }
+     }
+
      #chat-header {
           display: flex;
           justify-content: flex-end;
@@ -37,27 +77,13 @@ $submitBtn-color: #1A1A1D;
           position: sticky;
           top: 0;
           width: 100%;
-          height: 30px;
+          height: 15px;
           border-top-left-radius: 5px;
           border-top-right-radius: 5px;
-
-          .windowMinimize-icon {
-               display: inline-block;
-               margin-right: 10px;
-               margin-bottom: 5px;
-               cursor: pointer;
-               transition: color .15s ease-in-out;
-               color: #fff;
-
-               &:hover {
-                    color: #333;
-               }
-          }
-
      }
 
      #chat-content-container {
-          height: 265px;
+          height: 285px;
           width: 100%;
           background: rgb(238, 238, 238);
           overflow-y: auto;
@@ -66,7 +92,9 @@ $submitBtn-color: #1A1A1D;
           border-right: 2px $footer-color solid;
 
           .typing-message {
+               color: #333;
                font-size: 12px;
+               margin-top: 4px;
                margin-left: 7px;
                font-style: italic;
           }
@@ -79,23 +107,29 @@ $submitBtn-color: #1A1A1D;
                margin-right: 5px;
                margin: 10px 5px 10px 5px;
 
+
                .message {
                     display: flex;
                     flex-direction: row;
                     width: auto;
-                    padding: 3px 10px 3px 10px;
-                    background: rgb(205, 205, 205);
-                    border-radius: 15px;
+
+                    .user-icon {
+                         padding-top: 2px;
+                         margin-right: 5px;
+                         // border: 1px red solid;
+                    }
 
                     .chat-handle {
                          font-weight: bold;
                          font-size: 18px;
                          margin-right: 5px;
+                         // border: 1px red solid;
                     }
 
                     .chat-message { 
                          color: #333;
                          padding-top: 2px;
+                         // border: 1px red solid;
                     }
                }
           }
@@ -103,7 +137,7 @@ $submitBtn-color: #1A1A1D;
      }
 
      #message-container {
-          height: 60px;
+          height: 50px;
           width: 100%;
           display: flex;
           justify-content: space-between;

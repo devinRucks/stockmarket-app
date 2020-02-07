@@ -1,7 +1,7 @@
 import React from 'react';
 import './chat.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faWindowMinimize, faCommentDots, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faCommentDots, faPaperPlane, faUsers, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import socketIOClient from 'socket.io-client'
 import Cookies from 'js-cookie'
 
@@ -12,6 +12,7 @@ export default class Chart extends React.Component {
                inputValue: '',
                username: '',
                chat: [],
+               onlineUsers: [],
                typing: '',
                chatOpen: false
           }
@@ -29,7 +30,14 @@ export default class Chart extends React.Component {
           })
           this.socket.on('typing', (data) => {
                this.setState({ typing: `${data.handle} is typing... ` })
-               setTimeout(() => this.setState({ typing: '' }), 3000)
+               setTimeout(() => this.setState({ typing: '' }), 5000)
+          })
+
+          this.socket.emit('onlineUsers', { user: this.username })
+          this.socket.on('onlineUsers', (data) => {
+               this.setState({
+                    onlineUsers: [...this.state.onlineUsers, data]
+               }, () => console.log(this.state.onlineUsers))
           })
      }
 
@@ -69,18 +77,28 @@ export default class Chart extends React.Component {
                     }
                     <div id="chat-container"
                          style={{ display: !chatOpen ? 'none' : '' }}>
-                         <header id="chat-header">
-                              {chatOpen &&
-                                   <div className="windowMinimize-icon"
-                                        onClick={() => this.handleChatView()}>
-                                        <FontAwesomeIcon icon={faWindowMinimize} size='2x' />
-                                   </div>
-                              }
-                         </header>
+                         <div id="tabs" className="chat-tab">
+                              <FontAwesomeIcon icon={faCommentDots} size='2x' />
+                         </div>
+                         <div id="tabs" className="users-tab">
+                              <FontAwesomeIcon icon={faUsers} size='2x' />
+                         </div>
+                         {chatOpen &&
+                              <div id="tabs" className="minimize-tab"
+                                   onClick={() => this.handleChatView()}>
+                                   <FontAwesomeIcon icon={faTimes} size='1x' />
+                              </div>
+                         }
+
+                         <header id="chat-header"></header>
+
                          <section id="chat-content-container">
                               {chat.map((content, index) =>
                                    <div id="chat-content" key={index}>
                                         <div className="message">
+                                             <div className="user-icon" style={{ color: username === content.handle ? '#2693e6' : '#f52525' }}>
+                                                  <FontAwesomeIcon icon={faUserCircle} />
+                                             </div>
                                              <div className="chat-handle" style={{ color: username === content.handle ? '#333333' : '#282828' }}>{content.handle}:</div>
                                              <div className="chat-message">{content.message}</div>
                                         </div>
@@ -88,6 +106,7 @@ export default class Chart extends React.Component {
                               )}
                               <div className="typing-message">{typing}</div>
                          </section>
+
                          <section id="message-container">
                               <textarea className="message-text"
                                    onChange={(event) => this.updateInputValue(event)}
