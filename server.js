@@ -170,15 +170,13 @@ io.on('connection', (socket) => {
      socket.on('onlineUsers', (data) => {
           console.log(`${data.user} connected....`)
 
-          // Dont need socket.id on client side.
-          // let user = { [socket.id]: data.user }
-          let user = data.user
+          let user = { username: data.user, id: socket.id }
 
           io.sockets.emit('onlineUsers', (user))
      })
 
      socket.on('disconnect', () => {
           console.log(`user disconnected`)
-
+          io.sockets.emit('disconnect', (socket.id))
      })
 })

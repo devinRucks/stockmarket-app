@@ -30,17 +30,29 @@ export default class Chart extends React.Component {
                     typing: ''
                })
           })
+
           this.socket.on('typing', (data) => {
                this.setState({ typing: `${data.handle} is typing... ` })
                setTimeout(() => this.setState({ typing: '' }), 5000)
           })
 
+          // Updates the state of onlineUsers if a user connects
           this.socket.emit('onlineUsers', { user: this.username })
-          // NEED TO UPDATE THE STATE OF ONLINE USERS SOMEHOW WHEN A USER DISCONNECTS. WITH THIS CODE, IT WORKS BUT THE USER WILL HAVE TO REFRESH THE PAGE TO SEE THE UPDATED USERS.
           this.socket.on('onlineUsers', (data) => {
                this.setState({
                     onlineUsers: [...this.state.onlineUsers, data]
-               }, () => console.log(this.state.onlineUsers))
+               })
+          })
+
+          // Updates the state of onlineUsers if a user disconnects
+          this.socket.on('disconnect', (data) => {
+               const onlineUsersCopy = [...this.state.onlineUsers]
+               onlineUsersCopy.forEach((user, index) => {
+                    if (user.id === data) {
+                         onlineUsersCopy.splice(index, 1)
+                         this.setState({ onlineUsers: onlineUsersCopy })
+                    }
+               })
           })
      }
 
@@ -151,7 +163,7 @@ export default class Chart extends React.Component {
                                         {onlineUsers.map((user, index) =>
                                              <div id="chat-user-content" key={index}>
                                                   <div className="user">
-                                                       {user}
+                                                       {user.username}
                                                   </div>
                                                   <div className="online-status">
                                                        <FontAwesomeIcon icon={faCircle} />
