@@ -170,7 +170,9 @@ io.on('connection', (socket) => {
      socket.on('onlineUsers', (data) => {
           console.log(`${data.user} connected....`)
 
-          let user = { [socket.id]: data.user }
+          // Dont need socket.id on client side.
+          // let user = { [socket.id]: data.user }
+          let user = data.user
 
           io.sockets.emit('onlineUsers', (user))
      })
