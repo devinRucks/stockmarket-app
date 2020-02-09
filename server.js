@@ -87,6 +87,7 @@ app.get('/logoutUser', (req, res) => {
 
 app.get('/retrieveAllUsernames', (req, res) => {
      retrieveAllUsernames((users) => {
+          console.log(users)
           res.send(users)
      })
 })

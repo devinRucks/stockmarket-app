@@ -70,6 +70,9 @@ export default class Chart extends React.Component {
                     })
                     // allUsers: [{username: "Demo"}, {username: "Tyler"}]
                })
+               .catch((err) => {
+                    console.log(err)
+               })
      }
 
 
