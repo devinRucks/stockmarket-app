@@ -63,12 +63,11 @@ export default class Chart extends React.Component {
 
      async getAllUsernames() {
           axios.get('/retrieveAllUsernames')
-               .then(res => res.data)
-               .then(data => {
-                    console.log(data)
-                    // this.setState({
-                    //      allUsers: [...this.state.allUsers, ...data]
-                    // })
+               .then(res => {
+                    console.log(res.data)
+                    this.setState({
+                         allUsers: [...this.state.allUsers, ...res.data]
+                    })
                     // allUsers: [{username: "Demo"}, {username: "Tyler"}]
                })
      }
