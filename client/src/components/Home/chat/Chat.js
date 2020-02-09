@@ -3,6 +3,7 @@ import './chat.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCommentDots, faPaperPlane, faUsers, faUserCircle, faCircle } from '@fortawesome/free-solid-svg-icons'
 import socketIOClient from 'socket.io-client'
+import axios from 'axios'
 import Cookies from 'js-cookie'
 
 export default class Chart extends React.Component {
@@ -13,6 +14,7 @@ export default class Chart extends React.Component {
                username: '',
                chat: [],
                onlineUsers: [],
+               allUsers: [],
                typing: '',
                chatOpen: false,
                chatMessagesView: true,
@@ -22,7 +24,7 @@ export default class Chart extends React.Component {
           this.username = Cookies.get('username')
      }
 
-     componentDidMount() {
+     async componentDidMount() {
           this.socket.on('chat', (data) => {
                // setState of chat array with new incoming data from other sockets
                this.setState({
@@ -42,6 +44,7 @@ export default class Chart extends React.Component {
                this.setState({
                     onlineUsers: [...this.state.onlineUsers, data]
                })
+               // onlineUsers: [{username: "Demo", id: "wenunecONSnksjd"}, {username: "Tyler", id: "wenunecONSnksjd"}]
           })
 
           // Updates the state of onlineUsers if a user disconnects
@@ -54,7 +57,22 @@ export default class Chart extends React.Component {
                     }
                })
           })
+
+          await this.getAllUsernames()
      }
+
+     async getAllUsernames() {
+          axios.get('/retrieveAllUsernames')
+               .then(res => res.data)
+               .then(data => {
+                    this.setState({
+                         allUsers: [...this.state.allUsers, ...data]
+                    }, () => console.log(this.state.allUsers))
+                    // allUsers: [{username: "Demo"}, {username: "Tyler"}]
+               })
+     }
+
+
 
      updateInputValue = (event) => {
           this.setState({ inputValue: event.target.value })
@@ -91,9 +109,15 @@ export default class Chart extends React.Component {
           }
      }
 
+     // Returns true if a user (from allUsers) is also in onlineUsers.
+     checkUserOnlineStatus(user) {
+          const { onlineUsers } = this.state;
+          return onlineUsers.some(onlineUser => onlineUser['username'] === user)
+     }
+
      render() {
           const { darkMode } = this.props;
-          const { inputValue, chat, onlineUsers, chatOpen, username, typing, chatMessagesView, chatUsersView } = this.state;
+          const { inputValue, chat, allUsers, chatOpen, username, typing, chatMessagesView, chatUsersView } = this.state;
           return (
 
                <>
@@ -160,12 +184,12 @@ export default class Chart extends React.Component {
                          {chatUsersView &&
                               <div id="chat-users-body">
                                    <section id="chat-users-container">
-                                        {onlineUsers.map((user, index) =>
+                                        {allUsers.map((user, index) =>
                                              <div id="chat-user-content" key={index}>
                                                   <div className="user">
                                                        {user.username}
                                                   </div>
-                                                  <div className="online-status">
+                                                  <div className="online-status" style={{ color: this.checkUserOnlineStatus(user.username) ? 'green' : 'gray' }}>
                                                        <FontAwesomeIcon icon={faCircle} />
                                                   </div>
                                              </div>

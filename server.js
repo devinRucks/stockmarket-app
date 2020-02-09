@@ -11,7 +11,7 @@ const axios = require('axios')
 const cookieParser = require('cookie-parser')
 const helmet = require('helmet')
 const { createTables } = require('./model/createTables')
-const { addUser, findUser } = require('./model/user')
+const { addUser, findUser, retrieveAllUsernames } = require('./model/user')
 const { addToWatchlist, retrieveWatchlist, removeFromWatchlist } = require('./model/watchlist')
 const { blacklistToken, findBlacklistedToken } = require('./model/tokenBlacklist')
 const utils = require('./controller/apiDataManipulation')
@@ -82,6 +82,12 @@ app.get('/logoutUser', (req, res) => {
      blacklistToken(token, () => {
           console.log("Token added to blacklist..")
           res.end()
+     })
+})
+
+app.get('/retrieveAllUsernames', (req, res) => {
+     retrieveAllUsernames((users) => {
+          res.send(users)
      })
 })
 
@@ -172,7 +178,7 @@ io.on('connection', (socket) => {
 
           let user = { username: data.user, id: socket.id }
 
-          io.sockets.emit('onlineUsers', (user))
+          socket.broadcast.emit('onlineUsers', (user))
      })
 
      socket.on('disconnect', () => {
