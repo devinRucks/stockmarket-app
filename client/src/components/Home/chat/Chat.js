@@ -24,7 +24,7 @@ export default class Chart extends React.Component {
           this.username = Cookies.get('username')
      }
 
-     async componentDidMount() {
+     componentDidMount() {
           this.socket.on('chat', (data) => {
                // setState of chat array with new incoming data from other sockets
                this.setState({
@@ -58,10 +58,6 @@ export default class Chart extends React.Component {
                })
           })
 
-          await this.getAllUsernames()
-     }
-
-     async getAllUsernames() {
           axios.get('/retrieveAllUsernames')
                .then(res => {
                     console.log(res.data)
@@ -74,6 +70,20 @@ export default class Chart extends React.Component {
                     console.log(err)
                })
      }
+
+     // async getAllUsernames() {
+     //      axios.get('/retrieveAllUsernames')
+     //           .then(res => {
+     //                console.log(res.data)
+     //                this.setState({
+     //                     allUsers: [...this.state.allUsers, ...res.data]
+     //                })
+     //                // allUsers: [{username: "Demo"}, {username: "Tyler"}]
+     //           })
+     //           .catch((err) => {
+     //                console.log(err)
+     //           })
+     // }
 
 
 
