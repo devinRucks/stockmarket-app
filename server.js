@@ -178,7 +178,7 @@ io.on('connection', (socket) => {
 
           let user = { username: data.user, id: socket.id }
 
-          socket.broadcast.emit('onlineUsers', (user))
+          io.sockets.emit('onlineUsers', (user))
      })
 
      socket.on('disconnect', () => {
