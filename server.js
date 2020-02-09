@@ -85,7 +85,7 @@ app.get('/logoutUser', (req, res) => {
      })
 })
 
-app.get('/retrieveAllUsernames', (req, res) => {
+app.post('/retrieveAllUsernames', (req, res) => {
      retrieveAllUsernames((users) => {
           res.json(users)
      })
