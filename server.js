@@ -14,6 +14,7 @@ const { createTables } = require('./model/createTables')
 const { addUser, findUser, retrieveAllUsernames } = require('./model/user')
 const { addToWatchlist, retrieveWatchlist, removeFromWatchlist } = require('./model/watchlist')
 const { blacklistToken, findBlacklistedToken } = require('./model/tokenBlacklist')
+const { addOnlineUser, retrieveAllOnlineUsers, removeOnlineUser } = require('./model/chatUsers')
 const utils = require('./controller/apiDataManipulation')
 const withAuth = require('./controller/middleware')
 
@@ -87,6 +88,12 @@ app.get('/logoutUser', (req, res) => {
 
 app.post('/retrieveAllUsernames', (req, res) => {
      retrieveAllUsernames((users) => {
+          res.json(users)
+     })
+})
+
+app.post('/retrieveAllOnlineUsers', (req, res) => {
+     retrieveAllOnlineUsers((users) => {
           res.json(users)
      })
 })
@@ -176,15 +183,34 @@ io.on('connection', (socket) => {
      socket.on('onlineUsers', (data) => {
           console.log(`${data.user} connected....`)
 
-          let user = { username: data.user, id: socket.id }
+          addOnlineUser(data.user, socket.id, (success) => {
+               if (success) {
+                    console.log('Online User Added...')
+                    res.sendStatus(200)
+               } else {
+                    res.sendStatus(401)
+               }
+          })
 
           // io.sockets.emit('onlineUsers', (user))
-          socket.broadcast.emit('onlineUsers', (user))
-
+          // socket.broadcast.emit('onlineUsers', (user))
+          socket.broadcast.emit('onlineUsers')
      })
 
      socket.on('disconnect', () => {
           console.log(`user disconnected`)
-          io.sockets.emit('disconnect', (socket.id))
+
+          removeOnlineUser(socket.id, (success) => {
+               if (success) {
+                    console.log('Online User Removed...')
+                    res.sendStatus(200)
+               } else {
+                    res.sendStatus(401)
+               }
+          })
+
+          // io.sockets.emit('disconnect', (socket.id))
+          io.sockets.emit('disconnect')
+
      })
 })

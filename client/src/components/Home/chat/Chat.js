@@ -40,25 +40,25 @@ export default class Chat extends React.Component {
 
           // Updates the state of onlineUsers if a user connects
           this.socket.emit('onlineUsers', { user: this.username })
-          this.socket.on('onlineUsers', (data) => {
-               this.setState({
-                    onlineUsers: [...this.state.onlineUsers, data]
-               })
-               // onlineUsers: [{username: "Demo", id: "wenunecONSnksjd"}, {username: "Tyler", id: "wenunecONSnksjd"}]
+          this.socket.on('onlineUsers', async () => {
+               await this.getAllOnlineUsers()
           })
 
           // Updates the state of onlineUsers if a user disconnects
-          this.socket.on('disconnect', (data) => {
-               const onlineUsersCopy = [...this.state.onlineUsers]
-               onlineUsersCopy.forEach((user, index) => {
-                    if (user.id === data) {
-                         onlineUsersCopy.splice(index, 1)
-                         this.setState({ onlineUsers: onlineUsersCopy })
-                    }
-               })
+          this.socket.on('disconnect', async () => {
+               // const onlineUsersCopy = [...this.state.onlineUsers]
+               // onlineUsersCopy.forEach((user, index) => {
+               //      if (user.id === data) {
+               //           onlineUsersCopy.splice(index, 1)
+               //           this.setState({ onlineUsers: onlineUsersCopy })
+               //      }
+               // })
+
+               await this.getAllOnlineUsers()
           })
 
           await this.getAllUsernames()
+          await this.getAllOnlineUsers()
      }
 
      async getAllUsernames() {
@@ -69,6 +69,19 @@ export default class Chat extends React.Component {
                          allUsers: [...this.state.allUsers, ...res.data]
                     })
                     // allUsers: [{username: "Demo"}, {username: "Tyler"}]
+               })
+               .catch((err) => {
+                    console.log(err)
+               })
+     }
+
+     async getAllOnlineUsers() {
+          axios.post('/retrieveAllOnlineUsers')
+               .then(res => {
+                    console.log(res.data)
+                    this.setState({
+                         onlineUsers: [...this.state.onlineUsers, ...res.data]
+                    })
                })
                .catch((err) => {
                     console.log(err)
