@@ -6,7 +6,7 @@ import socketIOClient from 'socket.io-client'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-export default class Chart extends React.Component {
+export default class Chat extends React.Component {
      constructor(props) {
           super(props)
           this.state = {

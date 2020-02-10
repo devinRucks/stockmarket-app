@@ -23,5 +23,11 @@ exports.createTables = () => {
           db.query(blacklistedTokens, (err, result) => {
                if (err) throw err;
           })
+
+          const onlineUsers = 'CREATE TABLE if not exists onlineUsers (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), socket_id VARCHAR(255))'
+
+          db.query(onlineUsers, (err, result) => {
+               if (err) throw err;
+          })
      })
 }
