@@ -30,7 +30,6 @@ exports.removeOnlineUser = (socket_id, callback) => {
           if (err) {
                callback(false)
           } else {
-               console.log(result)
                callback(true)
           }
      })

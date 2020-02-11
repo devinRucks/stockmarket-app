@@ -186,14 +186,9 @@ io.on('connection', (socket) => {
           addOnlineUser(data.user, socket.id, (success) => {
                if (success) {
                     console.log('Online User Added...')
-                    res.sendStatus(200)
-               } else {
-                    res.sendStatus(401)
                }
           })
 
-          // io.sockets.emit('onlineUsers', (user))
-          // socket.broadcast.emit('onlineUsers', (user))
           socket.broadcast.emit('onlineUsers')
      })
 
@@ -203,14 +198,11 @@ io.on('connection', (socket) => {
           removeOnlineUser(socket.id, (success) => {
                if (success) {
                     console.log('Online User Removed...')
-                    res.sendStatus(200)
                     io.sockets.emit('disconnect')
                } else {
-                    res.sendStatus(401)
+                    io.sockets.emit('disconnect')
                }
           })
-
-          // io.sockets.emit('disconnect', (socket.id))
 
      })
 })
