@@ -204,13 +204,13 @@ io.on('connection', (socket) => {
                if (success) {
                     console.log('Online User Removed...')
                     res.sendStatus(200)
+                    io.sockets.emit('disconnect')
                } else {
                     res.sendStatus(401)
                }
           })
 
           // io.sockets.emit('disconnect', (socket.id))
-          io.sockets.emit('disconnect')
 
      })
 })

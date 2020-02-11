@@ -46,14 +46,7 @@ export default class Chat extends React.Component {
 
           // Updates the state of onlineUsers if a user disconnects
           this.socket.on('disconnect', async () => {
-               // const onlineUsersCopy = [...this.state.onlineUsers]
-               // onlineUsersCopy.forEach((user, index) => {
-               //      if (user.id === data) {
-               //           onlineUsersCopy.splice(index, 1)
-               //           this.setState({ onlineUsers: onlineUsersCopy })
-               //      }
-               // })
-
+               console.log("DISCONNECTED")
                await this.getAllOnlineUsers()
           })
 
@@ -64,11 +57,15 @@ export default class Chat extends React.Component {
      async getAllUsernames() {
           axios.post('/retrieveAllUsernames')
                .then(res => {
-                    console.log(res.data)
+                    const allUsernames = res.data;
+
+                    const filteredUsernames = allUsernames.filter(user => user.username !== this.username)
+
+                    console.log(filteredUsernames)
+
                     this.setState({
-                         allUsers: [...this.state.allUsers, ...res.data]
+                         allUsers: [...this.state.allUsers, ...filteredUsernames]
                     })
-                    // allUsers: [{username: "Demo"}, {username: "Tyler"}]
                })
                .catch((err) => {
                     console.log(err)
@@ -78,16 +75,19 @@ export default class Chat extends React.Component {
      async getAllOnlineUsers() {
           axios.post('/retrieveAllOnlineUsers')
                .then(res => {
-                    console.log(res.data)
+                    this.clearOnlineUsersArray()
                     this.setState({
                          onlineUsers: [...this.state.onlineUsers, ...res.data]
-                    })
+                    }, () => console.log(this.state.onlineUsers))
                })
                .catch((err) => {
                     console.log(err)
                })
      }
 
+     clearOnlineUsersArray() {
+          this.setState({ onlineUsers: [] })
+     }
 
 
      updateInputValue = (event) => {

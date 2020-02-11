@@ -8,8 +8,7 @@ exports.addOnlineUser = (username, socket_id, callback) => {
      db.query(sql, userInfo, (err, result) => {
           if (err) {
                callback(false)
-          }
-          else if (result.length) {
+          } else if (result.length) {
                callback(true)
           }
      })
@@ -30,8 +29,7 @@ exports.removeOnlineUser = (socket_id, callback) => {
      db.query(sql, (err, result) => {
           if (err) {
                callback(false)
-          }
-          else if (result.length) {
+          } else {
                console.log(result)
                callback(true)
           }
