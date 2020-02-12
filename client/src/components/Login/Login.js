@@ -3,7 +3,7 @@ import './Login.scss'
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationCircle, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import Loading from '../Loading/Loading'
 
 export default class Login extends React.Component {
@@ -25,8 +25,8 @@ export default class Login extends React.Component {
           })
      }
 
-     loginUser() {
-          const { username, password } = this.state;
+     loginUser(username, password) {
+          // const { username, password } = this.state;
 
           axios.post('/loginUser', {
                username: username,
@@ -41,15 +41,19 @@ export default class Login extends React.Component {
                .catch(err => {
                     console.error(err)
                     this.setState({ displayError: true, errorMsg: 'Invalid Username or Password', loading: false })
-                    console.log("wrong username or password")
                })
      }
 
-     handleSubmit = async (e) => {
+     handleSubmit(e) {
           e.preventDefault();
           this.setState({ loading: true })
-          await this.loginUser()
+          const { username, password } = this.state;
+          this.loginUser(username, password)
+     }
 
+     loginUsingDemo() {
+          this.setState({ loading: true })
+          this.loginUser('Demo', 'demo')
      }
 
      render() {
@@ -57,7 +61,7 @@ export default class Login extends React.Component {
 
           return (
                <div id="login-container">
-                    <form id="login-form" onSubmit={this.handleSubmit}>
+                    <form id="login-form" onSubmit={(e) => this.handleSubmit(e)}>
                          <h1>Login</h1><br />
 
                          <input
@@ -101,6 +105,14 @@ export default class Login extends React.Component {
                                    {loading && <Loading type={'spokes'} color={'#333333'} />}
                               </div>
                          </button>
+
+                         <div id="login-demo-account-container">
+                              <li id="login-demo-account-link" onClick={() => this.loginUsingDemo()}>
+                                   Click Here To Login Using Demo Account
+                              </li>
+                              <FontAwesomeIcon icon={faArrowRight} />
+                         </div>
+
                          <Link to='/register'>
                               <li id="linkToRegister">Don't Have An Account? Register Here</li>
                          </Link>

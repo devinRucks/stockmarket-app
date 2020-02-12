@@ -7,14 +7,27 @@ $searchTxt-color: #1A1A1D;
 $submitBtn-color: #1A1A1D;
 
 .chat-icon {
-     display: inline-block;
+     display: absolute;
+     height: 35px;
+     width: 35px;
      margin: 5px 25px 5px 5px;
      cursor: pointer;
      transition: color .15s ease-in-out;
      color: #fff;
+     // border: 1px red solid;
 
      &:hover {
           color: #2693e6;
+     }
+
+     .chat-notification {
+          position: relative;
+          height: 20px;
+          width: 10px;
+          z-index: 6;
+          color: red;
+          top: -38px;
+          right: -24px;
      }
 }
 

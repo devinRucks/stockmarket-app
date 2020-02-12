@@ -1,7 +1,7 @@
 import React from 'react';
 import './chat.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faCommentDots, faPaperPlane, faUsers, faUserCircle, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faCommentDots, faPaperPlane, faUsers, faUserCircle, faCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import socketIOClient from 'socket.io-client'
 import axios from 'axios'
 import Cookies from 'js-cookie'
@@ -18,7 +18,8 @@ export default class Chat extends React.Component {
                typing: '',
                chatOpen: false,
                chatMessagesView: true,
-               chatUsersView: false
+               chatUsersView: false,
+               chatNotification: false
           }
           this.socket = socketIOClient()
           this.username = Cookies.get('username')
@@ -31,6 +32,7 @@ export default class Chat extends React.Component {
                     chat: [...this.state.chat, { 'handle': data.handle, 'message': data.message }],
                     typing: ''
                })
+               this.chatNotificationDisplay()
           })
 
           this.socket.on('typing', (data) => {
@@ -38,13 +40,13 @@ export default class Chat extends React.Component {
                setTimeout(() => this.setState({ typing: '' }), 5000)
           })
 
-          // Updates the state of onlineUsers if a user connects
+          // If a user connects, calls method that gets updated version of online users
           this.socket.emit('onlineUsers', { user: this.username })
           this.socket.on('onlineUsers', async () => {
                await this.getAllOnlineUsers()
           })
 
-          // Updates the state of onlineUsers if a user disconnects
+          // If a user disconnects, calls method that gets updated version of online users
           this.socket.on('disconnect', async () => {
                console.log("DISCONNECTED")
                await this.getAllOnlineUsers()
@@ -58,11 +60,7 @@ export default class Chat extends React.Component {
           axios.post('/retrieveAllUsernames')
                .then(res => {
                     const allUsernames = res.data;
-
                     const filteredUsernames = allUsernames.filter(user => user.username !== this.username)
-
-                    console.log(filteredUsernames)
-
                     this.setState({
                          allUsers: [...this.state.allUsers, ...filteredUsernames]
                     })
@@ -78,7 +76,7 @@ export default class Chat extends React.Component {
                     this.clearOnlineUsersArray()
                     this.setState({
                          onlineUsers: [...this.state.onlineUsers, ...res.data]
-                    }, () => console.log(this.state.onlineUsers))
+                    })
                })
                .catch((err) => {
                     console.log(err)
@@ -108,20 +106,34 @@ export default class Chat extends React.Component {
 
      handleChatView() {
           const chatOpen = this.state.chatOpen
-          this.setState({ chatOpen: !chatOpen })
+          this.setState({ chatOpen: !chatOpen, chatNotification: false })
      }
 
+     // If Message Tab is clicked and message content is not already showing
      chatMessagesView() {
-          // If Message Tab is clicked and message content is not already showing
           if (!this.state.chatMessagesView) {
                this.setState({ chatMessagesView: true, chatUsersView: false })
           }
      }
 
+     // If Users Tab is clicked and users are not already showing
      chatUsersView() {
-          // If Users Tab is clicked and users are not already showing
           if (!this.state.chatUsersView) {
                this.setState({ chatMessagesView: false, chatUsersView: true })
+          }
+     }
+
+     chatNotificationDisplay() {
+          const { chatOpen } = this.state
+
+          if (chatOpen) {
+               this.setState({
+                    chatNotification: false
+               })
+          } else if (!chatOpen) {
+               this.setState({
+                    chatNotification: true
+               })
           }
      }
 
@@ -133,7 +145,7 @@ export default class Chat extends React.Component {
 
      render() {
           const { darkMode } = this.props;
-          const { inputValue, chat, allUsers, chatOpen, username, typing, chatMessagesView, chatUsersView } = this.state;
+          const { inputValue, chat, allUsers, chatOpen, username, typing, chatMessagesView, chatUsersView, chatNotification } = this.state;
           return (
 
                <>
@@ -141,6 +153,11 @@ export default class Chat extends React.Component {
                          <div className="chat-icon" style={{ color: darkMode ? '#333' : '#fff' }}
                               onClick={() => this.handleChatView()}>
                               <FontAwesomeIcon icon={faCommentDots} size='2x' />
+                              {chatNotification &&
+                                   <div className="chat-notification">
+                                        <FontAwesomeIcon icon={faExclamationCircle} />
+                                   </div>
+                              }
                          </div>
                     }
                     <div id="chat-container"
