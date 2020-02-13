@@ -15,7 +15,6 @@ export default class Chart extends React.Component {
           chart.paddingRight = 20;
 
           chart.data = this.props.data;
-          console.log("COMPONENT DID MOUNT")
 
           let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
           dateAxis.renderer.grid.template.location = 0;

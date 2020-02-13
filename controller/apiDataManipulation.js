@@ -1,5 +1,4 @@
 const historicalDataManipulation = (response) => {
-     let totalPrice = 0;
      let allClosingPricesAndDates = [];
      const allHistoricalData = response.data.history
 
@@ -7,7 +6,6 @@ const historicalDataManipulation = (response) => {
      const allHistoricalDates = Object.keys(allHistoricalData)
 
      for (let i = 0; i < allHistoricalPrices.length; i++) {
-          totalPrice += parseInt(allHistoricalPrices[i].close)
           allClosingPricesAndDates.push(
                {
                     date: allHistoricalDates[i],
@@ -15,8 +13,7 @@ const historicalDataManipulation = (response) => {
                })
      }
 
-     const avgPrice = totalPrice / allHistoricalPrices.length;
-     return { avgPrice: avgPrice, graphData: allClosingPricesAndDates }
+     return { graphData: allClosingPricesAndDates }
 }
 
 exports.historicalDataManipulation = historicalDataManipulation;

@@ -137,18 +137,13 @@ app.post('/getData', withAuth, async (req, res) => {
      let currentDate = req.body.currentDate
      let prevMonthDate = req.body.prevMonthDate
 
-     const currentDataAPI = `https://api.worldtradingdata.com/api/v1/stock?symbol=${stockSymbol}&api_token=${process.env.STOCK_DATA_API_KEY}`
      const historicalDataAPI = `https://api.worldtradingdata.com/api/v1/history?symbol=${stockSymbol}&sort=newest&date_from=${prevMonthDate}&date_to=${currentDate}&api_token=${process.env.STOCK_DATA_API_KEY}`
 
      try {
-          const currentDataAPIResponse = await axios.get(currentDataAPI)
           const historicalDataAPIResponse = await axios.get(historicalDataAPI)
-
           const historicalData = utils.historicalDataManipulation(historicalDataAPIResponse)
 
           res.json({
-               'currentPrice': parseInt(currentDataAPIResponse.data.data[0].price),
-               'avgPrice': historicalData.avgPrice,
                'graphData': historicalData.graphData
           })
      } catch (error) {
@@ -193,7 +188,6 @@ io.on('connection', (socket) => {
      })
 
      socket.on('disconnect', () => {
-          console.log(`user disconnected`)
 
           removeOnlineUser(socket.id, (success) => {
                if (success) {

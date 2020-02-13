@@ -73,8 +73,6 @@ export default class App extends React.Component {
                .then(res => res.data)
                .then(data => {
                     this.setState({
-                         currentPrice: data.currentPrice,
-                         avgPrice: data.avgPrice,
                          graphData: data.graphData,
                          displayError: false,
                          displayModal: true,

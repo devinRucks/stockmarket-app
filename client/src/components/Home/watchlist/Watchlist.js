@@ -16,7 +16,6 @@ export default class Watchlist extends React.Component {
                     'GOOGL',
                     'GE',
                     'FB',
-                    'WMT'
                ],
                myWatchlist: []
           }
