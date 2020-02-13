@@ -3,7 +3,7 @@ import './Register.scss'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import Loading from '../Loading/Loading'
 
 export default class Regsiter extends React.Component {
@@ -13,7 +13,8 @@ export default class Regsiter extends React.Component {
                username: '',
                email: '',
                password: '',
-               displayError: false,
+               displayErrorMsg: false,
+               displaySuccessMsg: false,
                loading: false,
                errorMsg: ''
           }
@@ -36,13 +37,12 @@ export default class Regsiter extends React.Component {
           })
                .then(res => {
                     if (res.status === 200) {
-                         this.setState({ displayError: false, loading: false })
-                         console.log("res status: 200")
+                         this.setState({ displayErrorMsg: false, displaySuccessMsg: true, loading: false })
                     }
                })
                .catch(err => {
                     console.error(err)
-                    this.setState({ displayError: true, errorMsg: 'Username already exists', loading: false })
+                    this.setState({ displayErrorMsg: true, displaySuccessMsg: false, errorMsg: 'Username already exists', loading: false })
                     console.log("Username already exists")
                })
      }
@@ -50,11 +50,11 @@ export default class Regsiter extends React.Component {
      handleSubmit = async (e) => {
           e.preventDefault()
           this.setState({ loading: true })
-          await this.createUser()
+          this.createUser()
      }
 
      render() {
-          const { username, password, email, displayError, errorMsg, loading } = this.state
+          const { username, password, email, displayErrorMsg, displaySuccessMsg, errorMsg, loading } = this.state
           return (
                <div id="register-container">
                     <form id="register-form" onSubmit={this.handleSubmit}>
@@ -85,8 +85,8 @@ export default class Regsiter extends React.Component {
                               onChange={this.handleChange}
                          />
 
-                         <div id="error-container">
-                              {displayError &&
+                         <div id="error-success-container">
+                              {displayErrorMsg &&
                                    <>
                                         <div className="error-icon">
                                              <FontAwesomeIcon icon={faExclamationCircle} />
@@ -96,6 +96,17 @@ export default class Regsiter extends React.Component {
                                         </div>
                                    </>
                               }
+                              {displaySuccessMsg &&
+                                   <>
+                                        <div className="success-msg">
+                                             User Successfully Registered!
+                                        </div>
+                                        <div className="success-icon">
+                                             <FontAwesomeIcon icon={faCheckCircle} />
+                                        </div>
+                                   </>
+                              }
+
                          </div>
 
                          <button

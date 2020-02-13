@@ -35,6 +35,7 @@ export default class Chat extends React.Component {
                this.chatNotificationDisplay()
           })
 
+          // Nofies user if there is someone else typing a message. disappears after seconds.
           this.socket.on('typing', (data) => {
                this.setState({ typing: `${data.handle} is typing... ` })
                setTimeout(() => this.setState({ typing: '' }), 5000)
@@ -42,15 +43,10 @@ export default class Chat extends React.Component {
 
           // If a user connects, calls method that gets updated version of online users
           this.socket.emit('onlineUsers', { user: this.username })
-          this.socket.on('onlineUsers', async () => {
-               await this.getAllOnlineUsers()
-          })
+          this.socket.on('onlineUsers', async () => { await this.getAllOnlineUsers() })
 
           // If a user disconnects, calls method that gets updated version of online users
-          this.socket.on('disconnect', async () => {
-               console.log("DISCONNECTED")
-               await this.getAllOnlineUsers()
-          })
+          this.socket.on('disconnect', async () => { await this.getAllOnlineUsers() })
 
           await this.getAllUsernames()
           await this.getAllOnlineUsers()
@@ -87,7 +83,6 @@ export default class Chat extends React.Component {
           this.setState({ onlineUsers: [] })
      }
 
-
      updateInputValue = (event) => {
           this.setState({ inputValue: event.target.value })
           // If the user deletes message before sending, this will prevent the "User is typing..." message from continually showing
@@ -123,14 +118,16 @@ export default class Chat extends React.Component {
           }
      }
 
+     // Notifies user if there are unread messages in chat. Gets called each time there is a new message.
      chatNotificationDisplay() {
           const { chatOpen } = this.state
+          const { allowChatNotifications } = this.props;
 
           if (chatOpen) {
                this.setState({
                     chatNotification: false
                })
-          } else if (!chatOpen) {
+          } else if (!chatOpen && allowChatNotifications) {
                this.setState({
                     chatNotification: true
                })

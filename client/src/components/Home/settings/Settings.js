@@ -9,19 +9,15 @@ export default class Settings extends React.Component {
           super(props)
           this.state = {
                displaySettingsMenu: false,
-               darkMode: false
+               darkMode: false,
+               chatNotifications: true
           }
      }
-
-     // componentDidMount() {
-     //      this.props.darkMode(this.state.darkMode)
-     // }
 
      handleSettingsMenuDisplay() {
           this.setState(prevState => ({
                displaySettingsMenu: !prevState.displaySettingsMenu
           }))
-          console.log("Settings clicked")
      }
 
      handleDarkModeChange() {
@@ -30,9 +26,14 @@ export default class Settings extends React.Component {
           }), () => this.props.darkMode(this.state.darkMode))
      }
 
+     handleChatNotification() {
+          this.setState((prevState) => ({
+               chatNotifications: !prevState.chatNotifications
+          }), () => this.props.chatNotifications(this.state.chatNotifications))
+     }
 
      render() {
-          const { displaySettingsMenu, darkMode } = this.state;
+          const { displaySettingsMenu, darkMode, chatNotifications } = this.state;
           return (
                <>
                     <div className="settings-btn" onClick={() => this.handleSettingsMenuDisplay()}>
@@ -53,6 +54,24 @@ export default class Settings extends React.Component {
                                         <Switch
                                              checked={darkMode}
                                              onChange={() => this.handleDarkModeChange()}
+                                             onColor="#86d3ff"
+                                             onHandleColor="#2693e6"
+                                             handleDiameter={30}
+                                             uncheckedIcon={false}
+                                             checkedIcon={false}
+                                             boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                                             activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                                             height={20}
+                                             width={48}
+                                        />
+                                   </div>
+                              </div>
+                              <div className="setting">
+                                   <div className="setting-description">Chat Notifications</div>
+                                   <div className="setting-toggle">
+                                        <Switch
+                                             checked={chatNotifications}
+                                             onChange={() => this.handleChatNotification()}
                                              onColor="#86d3ff"
                                              onHandleColor="#2693e6"
                                              handleDiameter={30}

@@ -27,7 +27,8 @@ export default class App extends React.Component {
                graphData: {},
                displayError: false,
                loading: false,
-               darkMode: false
+               darkMode: false,
+               chatNotifications: true
           }
      }
 
@@ -119,6 +120,10 @@ export default class App extends React.Component {
           this.setState({ darkMode: state })
      }
 
+     setChatNotifications(state) {
+          this.setState({ chatNotifications: state })
+     }
+
      // called when the add to watchlist button is clicked
      addToWatchlist() {
           this.setState({
@@ -133,7 +138,7 @@ export default class App extends React.Component {
      }
 
      render() {
-          const { currentCompany, addToWatchlist, graphData, displayError, loading, darkMode } = this.state;
+          const { currentCompany, addToWatchlist, graphData, displayError, loading, darkMode, chatNotifications } = this.state;
 
           return (
                <div className="App" style={darkMode ? utils.generalDarkMode : utils.generalLightMode}>
@@ -147,7 +152,10 @@ export default class App extends React.Component {
 
                          <div id="nav-container">
                               <section id="logout-settings-container">
-                                   < Settings darkMode={(state) => this.setDarkMode(state)} />
+                                   <Settings
+                                        darkMode={(state) => this.setDarkMode(state)}
+                                        chatNotifications={(state) => this.setChatNotifications(state)}
+                                   />
                                    <Link to='/'>
                                         <div className="logout-btn" style={darkMode ? utils.headerAndFooterDarkMode : utils.headerAndFooterLightMode}>
                                              <FontAwesomeIcon
@@ -213,7 +221,7 @@ export default class App extends React.Component {
                          </section>
                     </div>
                     <footer id="footer" style={darkMode ? utils.headerAndFooterDarkMode : utils.headerAndFooterLightMode}>
-                         <Chat darkMode={darkMode} />
+                         <Chat allowChatNotifications={chatNotifications} darkMode={darkMode} />
                     </footer>
                </div>
           );

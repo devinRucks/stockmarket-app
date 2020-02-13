@@ -12,7 +12,7 @@ exports.addUser = (username, password, email, callback) => {
                if (err) {
                     callback(false) // Username already exists
                }
-               else if (result.length) {
+               else {
                     callback(true) // Username does not exist, create new user
                }
           })
