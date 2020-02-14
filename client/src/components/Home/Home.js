@@ -39,6 +39,11 @@ export default class App extends React.Component {
           })
      }
 
+     /**
+      * Retrieves current date.
+      * @example 
+      *   2019-12-04
+      */
      retrieveCurrentDate() {
           const dateObj = new Date();
           const month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -47,8 +52,11 @@ export default class App extends React.Component {
           return `${year}-${month}-${day}`
      }
 
-     // Retrieves date of exactly 30 days ago and changes the format to fit API requirements
-     // EX: 12-04-2019 to 2019-12-04
+     /**
+      * Retrieves date of 30 days from current date. Then formats to fit API requirements.
+      * @example 
+      *   12-04-2019 -> 2019-12-04
+      */
      retrievePrevMonthDate() {
           let prevMonth = moment().subtract(30, 'days').calendar()
           const prevMonthDate = prevMonth.replace(/\//g, '-');
@@ -63,7 +71,10 @@ export default class App extends React.Component {
           })
      }
 
-     // Gets stock data from API and if error, display error message
+
+     /**
+      * Gets stock data from API. If error in API call, displays error message
+      */
      getData() {
           axios.post('/getData', {
                stockSymbol: this.state.currentCompany,
@@ -75,7 +86,6 @@ export default class App extends React.Component {
                     this.setState({
                          graphData: data.graphData,
                          displayError: false,
-                         displayModal: true,
                          loading: false,
                          inputValue: ''
                     })
@@ -86,15 +96,17 @@ export default class App extends React.Component {
                })
      }
 
-     // On Submit Button Click
+     // On Submit Button 
      async handleClick() {
+          // Checks to make sure user has typed something in search field.
           if (this.state.inputValue !== '') {
                this.setState({
                     currentCompany: this.state.inputValue.toUpperCase(),
                     loading: true
                }, async () => await this.getData())
           } else if (this.state.prevCompany !== this.state.currentCompany) {
-               // This prevents repeat API calls for the same company by double-clicking
+               // This prevents repeat API calls for the same company by double-clicking.
+               // prevCompany is always one company behind, which allows checking for repeat clicks.
                await this.getData()
                this.setState({ prevCompany: this.state.currentCompany })
           } else {
@@ -103,7 +115,11 @@ export default class App extends React.Component {
 
      }
 
-     // callback function for watchlist component. Updates currentCompany state depending on which item in watchlist was clicked.
+
+     /**
+      * Callback function from Watchlist component. 
+      * @param {string} companyClicked - company that was clicked
+      */
      updateCurrentCompany(companyClicked) {
           this.setState({
                inputValue: '',
@@ -114,10 +130,18 @@ export default class App extends React.Component {
           })
      }
 
+     /**
+      * Callback function from Settings component
+      * @param {boolean} state - true if DarkMode setting is on, false if not. Default is false.
+      */
      setDarkMode(state) {
           this.setState({ darkMode: state })
      }
 
+     /**
+      * Callback function from Settings component
+      * @param {boolean} state - true if ChatNotifications are turned on, false if not. Default is true.
+      */
      setChatNotifications(state) {
           this.setState({ chatNotifications: state })
      }

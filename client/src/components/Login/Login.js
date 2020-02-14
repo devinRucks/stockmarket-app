@@ -25,9 +25,15 @@ export default class Login extends React.Component {
           })
      }
 
+     /**
+      * Calls authentication route on server.
+      * If success, route to homepage.
+      * If error, display error message.
+      * 
+      * @param {string} username
+      * @param {string} password 
+      */
      loginUser(username, password) {
-          // const { username, password } = this.state;
-
           axios.post('/loginUser', {
                username: username,
                password: password

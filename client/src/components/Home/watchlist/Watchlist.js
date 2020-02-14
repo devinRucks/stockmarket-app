@@ -40,12 +40,25 @@ export default class Watchlist extends React.Component {
           }
      }
 
-     // Checks for duplicate company being added to myWatchlist. Returns TRUE if the company IS a duplicate.
+
+     /**
+      * Checks for duplicate company being added to myWatchlist.
+      * Prevents company from being added to DB if it is a duplicate.
+      * 
+      * @param {string} newCompany - 'TSLA'
+      * @return {boolean} Returns true if the company is a duplicate, false if not.
+      */
      duplicateWatchlistCompany(newCompany) {
           const myWatchlist = this.state.myWatchlist;
           return myWatchlist.includes(newCompany)
      }
 
+     /**
+      * Removes company from DB when trash icon is clicked.
+      * Removes from markup by filtering out that company from the state of myWatchlist array.
+      * 
+      * @param {string} company - 'TSLA' 
+      */
      removeItem(company) {
           axios.post('/removeFromWatchlist', { company })
                .then(res => {

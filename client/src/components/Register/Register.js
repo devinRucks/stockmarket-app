@@ -27,7 +27,11 @@ export default class Regsiter extends React.Component {
           })
      }
 
-
+     /**
+      * Calls /createRoute route on server.
+      * If success, display success message.
+      * If error, display error message.
+      */
      createUser() {
           const { username, password, email } = this.state
           axios.post('/createUser', {

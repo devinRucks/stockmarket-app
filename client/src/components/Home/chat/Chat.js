@@ -35,15 +35,18 @@ export default class Chat extends React.Component {
                this.chatNotificationDisplay()
           })
 
+
           // Nofies user if there is someone else typing a message. disappears after seconds.
           this.socket.on('typing', (data) => {
                this.setState({ typing: `${data.handle} is typing... ` })
                setTimeout(() => this.setState({ typing: '' }), 5000)
           })
 
+
           // If a user connects, calls method that gets updated version of online users
           this.socket.emit('onlineUsers', { user: this.username })
           this.socket.on('onlineUsers', async () => { await this.getAllOnlineUsers() })
+
 
           // If a user disconnects, calls method that gets updated version of online users
           this.socket.on('disconnect', async () => { await this.getAllOnlineUsers() })
@@ -52,10 +55,19 @@ export default class Chat extends React.Component {
           await this.getAllOnlineUsers()
      }
 
+     /**
+      * Retrieves array of all usernames in database. 
+      * Used as a basis for showing online/offline users.
+      * Filters out the user's own username.
+      * 
+      * @example
+      *   [ {username: 'Bob'}, {username: 'Devin'} ]
+      */
      async getAllUsernames() {
           axios.post('/retrieveAllUsernames')
                .then(res => {
                     const allUsernames = res.data;
+                    console.log(allUsernames)
                     const filteredUsernames = allUsernames.filter(user => user.username !== this.username)
                     this.setState({
                          allUsers: [...this.state.allUsers, ...filteredUsernames]
@@ -66,10 +78,20 @@ export default class Chat extends React.Component {
                })
      }
 
+     /**
+      * Retrieves array of online users from database.
+      * Also includes the unique socket id for each user.
+      * The socket id will be used to delete the user from the DB when they disconnect.
+      * Gets called each time a user connects or disconnects.
+      * 
+      * @example
+      * [ {username: 'Bob', socket_id: 'Rwebsetg4823'}, {username: 'Devin', socket_id: 'waKdmS302SDs02'} ]
+      */
      async getAllOnlineUsers() {
+          this.setState({ onlineUsers: [] })
           axios.post('/retrieveAllOnlineUsers')
                .then(res => {
-                    this.clearOnlineUsersArray()
+                    console.log(res.data)
                     this.setState({
                          onlineUsers: [...this.state.onlineUsers, ...res.data]
                     })
@@ -79,13 +101,11 @@ export default class Chat extends React.Component {
                })
      }
 
-     clearOnlineUsersArray() {
-          this.setState({ onlineUsers: [] })
-     }
 
      updateInputValue = (event) => {
           this.setState({ inputValue: event.target.value })
-          // If the user deletes message before sending, this will prevent the "User is typing..." message from continually showing
+          // If the user deletes message before sending, 
+          // this will prevent the "User is typing..." message from continually showing
           if (this.state.inputValue !== '') {
                this.socket.emit('typing', { handle: this.username })
           }
@@ -134,7 +154,13 @@ export default class Chat extends React.Component {
           }
      }
 
-     // Returns true if a user (from allUsers) is also in onlineUsers.
+
+     /**
+      * Returns true if a user from allUsers is also in onlineUsers, false if not.
+      * 
+      * @param {string} user - Each username in allUsers array. Gets mapped at render()
+      * @return {boolean} used to determine color of onlineStatus dot
+      */
      checkUserOnlineStatus(user) {
           const { onlineUsers } = this.state;
           return onlineUsers.some(onlineUser => onlineUser['username'] === user)
