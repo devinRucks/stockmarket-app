@@ -16,4 +16,4 @@
 
 
 # Demo
-![](weatherApp-demo.gif)
+![](stockapp-demo.gif)
