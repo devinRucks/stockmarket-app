@@ -14,7 +14,7 @@
 * [JWT](https://jwt.io/) - Authentication
 * [Socket.io](https://socket.io/) - Chat App
 
-## Visit Live Site
+## View Live Site
 [Visit Here](https://fullstack-stockmarket-app.herokuapp.com/)
 
 # Demo
