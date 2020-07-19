@@ -10,6 +10,8 @@
 
 * [React](https://reactjs.org/) - Frontend
 * [Express](https://expressjs.com/) - Backend
+* [MarketStack](https://marketstack.com/) - API
+* [am4core] (https://www.amcharts.com/docs/v4/) - Chart
 * [JsDoc](https://jsdoc.app/) - Documentation
 * [JWT](https://jwt.io/) - Authentication
 * [Socket.io](https://socket.io/) - Chat App
