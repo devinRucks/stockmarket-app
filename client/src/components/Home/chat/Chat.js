@@ -67,7 +67,7 @@ export default class Chat extends React.Component {
           axios.post('/retrieveAllUsernames')
                .then(res => {
                     const allUsernames = res.data;
-                    console.log(allUsernames)
+                    // console.log(allUsernames)
                     const filteredUsernames = allUsernames.filter(user => user.username !== this.username)
                     this.setState({
                          allUsers: [...this.state.allUsers, ...filteredUsernames]
@@ -91,7 +91,7 @@ export default class Chat extends React.Component {
           this.setState({ onlineUsers: [] })
           axios.post('/retrieveAllOnlineUsers')
                .then(res => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     this.setState({
                          onlineUsers: [...this.state.onlineUsers, ...res.data]
                     })

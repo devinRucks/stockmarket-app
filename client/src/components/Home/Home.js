@@ -84,7 +84,7 @@ export default class App extends React.Component {
                .then(res => res.data)
                .then(data => {
                     this.setState({
-                         graphData: data.graphData,
+                         graphData: data.dataForGraph,
                          displayError: false,
                          loading: false,
                          inputValue: ''

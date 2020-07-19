@@ -137,14 +137,14 @@ app.post('/getData', withAuth, async (req, res) => {
      let currentDate = req.body.currentDate
      let prevMonthDate = req.body.prevMonthDate
 
-     const historicalDataAPI = `https://api.worldtradingdata.com/api/v1/history?symbol=${stockSymbol}&sort=newest&date_from=${prevMonthDate}&date_to=${currentDate}&api_token=${process.env.STOCK_DATA_API_KEY}`
+     const stockDataAPI = `https://api.marketstack.com/v1/eod?access_key=${process.env.STOCK_DATA_API_KEY}&symbols=${stockSymbol}&date_from=${prevMonthDate}&date_to=${currentDate}`
 
      try {
-          const historicalDataAPIResponse = await axios.get(historicalDataAPI)
-          const historicalData = utils.historicalDataManipulation(historicalDataAPIResponse)
+          const APIResponse = await axios.get(stockDataAPI)
+          const datesAndPrices = utils.dataManipulation(APIResponse)
 
           res.json({
-               'graphData': historicalData.graphData
+               'dataForGraph': datesAndPrices.dataForGraph
           })
      } catch (error) {
           res.status(401).send("This company does not exist")
