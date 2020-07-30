@@ -21,7 +21,7 @@ import { AccessoryStoreContext } from '../../stores/AccessoryStore'
 const Home = observer(() => {
      const [inputValue, setInputValue] = useState('');
      const [currentCompany, setCurrentCompany] = useState('');
-     // const [addToWatchlist, setAddToWatchlist] = useState('');
+     const [addToWatchlistVal, setAddToWatchlistVal] = useState('');
 
      const GraphInfoStore = useContext(GraphInfoStoreContext);
      const AccessoryStore = useContext(AccessoryStoreContext);
@@ -86,12 +86,16 @@ const Home = observer(() => {
                })
      }
 
+     // Every time setCurrentCompany changes, getData will be called
+     useEffect(() => {
+          getData();
+     }, [currentCompany])
+
      // On Submit Button 
      const handleClick = () => {
           // Checks to make sure user has typed something in search field.
-          if (this.state.inputValue !== '') {
-               setCurrentCompany(inputValue.toUpperCase());
-               getData();
+          if (inputValue !== '') {
+               setCurrentCompany(inputValue);
           }
 
      }
@@ -101,24 +105,18 @@ const Home = observer(() => {
       * @param {string} companyClicked - company that was clicked
       */
      const updateCurrentCompany = (companyClicked) => {
-          this.setState({
-               inputValue: '',
-               currentCompany: companyClicked,
-               loading: true
-          }, () => {
-               this.handleClick()
-          })
+          setInputValue('')
+          setCurrentCompany(companyClicked);
+          AccessoryStore.loading = true;
+          handleClick();
      }
 
 
      // called when the add to watchlist button is clicked
-     const addToWatchlist = () => {
-          this.setState({
-               addToWatchlist: this.state.currentCompany
-          }, () => {
-               axios.post('/addToWatchlist', { company: this.state.currentCompany })
-          })
-     }
+     // const addToWatchlist = () => {
+     //      setAddToWatchlistVal(currentCompany)
+     //      axios.post('/addToWatchlist', { company: currentCompany })
+     // }
 
      const logout = () => {
           axios.get('/logoutUser')
@@ -140,7 +138,7 @@ const Home = observer(() => {
                               <Link to='/'>
                                    <div className="logout-btn">
                                         <FontAwesomeIcon
-                                             onClick={() => logout()}
+                                             onClick={logout}
                                              icon={faSignOutAlt} />
                                    </div>
                               </Link>
@@ -165,7 +163,7 @@ const Home = observer(() => {
                               <div id="submit-loading-container">
                                    <button className="submit"
                                         style={{ display: AccessoryStore.loading ? 'none' : 'block' }}
-                                        onClick={handleClick()}> <FontAwesomeIcon icon={faSearch} /> </button>
+                                        onClick={handleClick}> <FontAwesomeIcon icon={faSearch} /> </button>
                                    <div className="loading-symbol">
                                         {AccessoryStore.loading && <Loading type={'spokes'} color={'#FFFFFF'} />}
                                    </div>
@@ -186,9 +184,9 @@ const Home = observer(() => {
                                         {currentCompany}
                                    </div>
                                    <div className="add-to-watchlist">
-                                        <div className="icon" onClick={addToWatchlist()}>
+                                        {/* <div className="icon" onClick={addToWatchlist()}>
                                              <FontAwesomeIcon icon={faPlusCircle} />
-                                        </div>
+                                        </div> */}
                                         <div className="msg"> Add To Watchlist </div>
                                    </div>
                               </>

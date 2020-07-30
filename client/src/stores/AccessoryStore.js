@@ -1,4 +1,4 @@
-import { observable } from 'mobx-react-lite'
+import { observable } from 'mobx'
 import { createContext } from 'react';
 
 class AccessoryStore {
