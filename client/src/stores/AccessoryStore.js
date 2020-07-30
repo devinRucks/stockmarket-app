@@ -3,7 +3,6 @@ import { observable } from 'mobx'
 
 class AccessoryStore {
      @observable displayError = false;
-     @observable loading = false;
      @observable darkMode = false;
      @observable chatNotifications = true;
 }
