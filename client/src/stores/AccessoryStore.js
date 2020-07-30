@@ -1,5 +1,5 @@
 import { observable } from 'mobx'
-import { createContext } from 'react';
+// import { createContext } from 'react';
 
 class AccessoryStore {
      @observable displayError = false;
@@ -8,5 +8,6 @@ class AccessoryStore {
      @observable chatNotifications = true;
 }
 
-
-export const AccessoryStoreContext = createContext(new AccessoryStore());
+const store = new AccessoryStore();
+export default store;
+// export const AccessoryStoreContext = createContext(new AccessoryStore());

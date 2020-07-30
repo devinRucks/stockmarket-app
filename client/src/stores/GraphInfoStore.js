@@ -1,5 +1,5 @@
 import { observable } from 'mobx'
-import { createContext } from 'react';
+// import { createContext } from 'react';
 
 class GraphInfoStore {
      @observable prevMonthDate = '';
@@ -7,5 +7,6 @@ class GraphInfoStore {
      @observable graphData = {};
 }
 
-
-export const GraphInfoStoreContext = createContext(new GraphInfoStore());
+const store = new GraphInfoStore();
+export default store;
+// export const GraphInfoStoreContext = createContext(new GraphInfoStore());

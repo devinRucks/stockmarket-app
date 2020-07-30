@@ -12,19 +12,15 @@ import { faSignOutAlt, faExclamationCircle, faPlusCircle, faSearch } from '@fort
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import Loading from '../Loading/Loading'
-import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
-import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
-import { AccessoryStoreContext } from '../../stores/AccessoryStore'
+import { observer, inject } from 'mobx-react';
 
 
-const Home = observer(() => {
+const Home = inject('GraphInfoStore', 'AccessoryStore')(observer((props) => {
      const [inputValue, setInputValue] = useState('');
      const [currentCompany, setCurrentCompany] = useState('');
      const [addToWatchlistVal, setAddToWatchlistVal] = useState('');
-
-     const GraphInfoStore = useContext(GraphInfoStoreContext);
-     const AccessoryStore = useContext(AccessoryStoreContext);
+     const { GraphInfoStore } = props;
+     const { AccessoryStore } = props;
 
      useEffect(() => {
           GraphInfoStore.currentDate = retrieveCurrentDate();
@@ -62,8 +58,9 @@ const Home = observer(() => {
       * Gets stock data from API. If error in API call, displays error message
       */
      const getData = () => {
-
           AccessoryStore.loading = true;
+
+          console.log(currentCompany)
 
           axios.post('/getData', {
                stockSymbol: currentCompany,
@@ -86,6 +83,9 @@ const Home = observer(() => {
                })
      }
 
+     // const useMountEffect = (func) => useEffect(func, [currentCompany], [])
+     // useMountEffect(getData)
+
      // Every time setCurrentCompany changes, getData will be called
      useEffect(() => {
           getData();
@@ -96,6 +96,7 @@ const Home = observer(() => {
           // Checks to make sure user has typed something in search field.
           if (inputValue !== '') {
                setCurrentCompany(inputValue);
+               getData();
           }
 
      }
@@ -202,6 +203,6 @@ const Home = observer(() => {
                </footer>
           </div>
      );
-});
+}));
 
 export default Home;
