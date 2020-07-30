@@ -100,25 +100,25 @@ const Home = observer(() => {
       * Callback function from Watchlist component. 
       * @param {string} companyClicked - company that was clicked
       */
-     // const updateCurrentCompany = (companyClicked) => {
-     //      this.setState({
-     //           inputValue: '',
-     //           currentCompany: companyClicked,
-     //           loading: true
-     //      }, () => {
-     //           this.handleClick()
-     //      })
-     // }
+     const updateCurrentCompany = (companyClicked) => {
+          this.setState({
+               inputValue: '',
+               currentCompany: companyClicked,
+               loading: true
+          }, () => {
+               this.handleClick()
+          })
+     }
 
 
-     // // called when the add to watchlist button is clicked
-     // const addToWatchlist = () => {
-     //      this.setState({
-     //           addToWatchlist: this.state.currentCompany
-     //      }, () => {
-     //           axios.post('/addToWatchlist', { company: this.state.currentCompany })
-     //      })
-     // }
+     // called when the add to watchlist button is clicked
+     const addToWatchlist = () => {
+          this.setState({
+               addToWatchlist: this.state.currentCompany
+          }, () => {
+               axios.post('/addToWatchlist', { company: this.state.currentCompany })
+          })
+     }
 
      const logout = () => {
           axios.get('/logoutUser')

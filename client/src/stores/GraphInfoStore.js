@@ -1,5 +1,5 @@
-// import { observable, computed } from 'mobx';
 import { observable } from 'mobx-react-lite'
+import { createContext } from 'react';
 
 class GraphInfoStore {
      @observable prevMonthDate = '';
@@ -9,5 +9,3 @@ class GraphInfoStore {
 
 
 export const GraphInfoStoreContext = createContext(new GraphInfoStore());
-
-// export const LanguagesStoreContext = createContext(new LanguagesStore());
