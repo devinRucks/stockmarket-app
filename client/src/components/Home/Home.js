@@ -15,17 +15,18 @@ import { retrieveCurrentDate, retrievePrevMonthDate } from '../../utils/function
 import { observer, inject } from 'mobx-react';
 
 
-const Home = inject('GraphInfoStore', 'AccessoryStore')(observer((props) => {
+const Home = inject('GraphInfoStore', 'SettingsStore')(observer((props) => {
 	const [inputValue, setInputValue] = useState('');
 	const [currentCompany, setCurrentCompany] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [errorMsg, setErrorMsg] = useState(false);
 	const [addToWatchlistVal, setAddToWatchlistVal] = useState('');
 	const { GraphInfoStore } = props;
-	const { AccessoryStore } = props;
+	const { SettingsStore } = props;
 
 	useEffect(() => {
-		GraphInfoStore.currentDate = retrieveCurrentDate();
-		GraphInfoStore.prevMonthDate = retrievePrevMonthDate();
+		GraphInfoStore.setStartDate();
+		GraphInfoStore.setEndDate();
 	});
 
 	/**
@@ -36,20 +37,20 @@ const Home = inject('GraphInfoStore', 'AccessoryStore')(observer((props) => {
 
 		axios.post('/getData', {
 			stockSymbol: currentCompany,
-			currentDate: GraphInfoStore.currentDate,
-			prevMonthDate: GraphInfoStore.prevMonthDate
+			currentDate: GraphInfoStore.endDate,
+			prevMonthDate: GraphInfoStore.startDate
 		})
 			.then(res => res.data)
 			.then(data => {
 				GraphInfoStore.graphData = data.dataForGraph;
-				AccessoryStore.displayError = false;
+				setErrorMsg(false);
 				setLoading(false);
 				setInputValue('')
 			})
 			.catch(err => {
 				console.log(err)
 				GraphInfoStore.graphData = {};
-				AccessoryStore.displayError = true;
+				setErrorMsg(true);
 				setLoading(false);
 				setInputValue('')
 			})
@@ -119,7 +120,7 @@ const Home = inject('GraphInfoStore', 'AccessoryStore')(observer((props) => {
 
 					<section id="search-container">
 						<div id="error-container">
-							{AccessoryStore.displayError &&
+							{errorMsg &&
 								<>
 									<div className="error-icon">
 										<FontAwesomeIcon icon={faExclamationCircle} />
@@ -151,7 +152,7 @@ const Home = inject('GraphInfoStore', 'AccessoryStore')(observer((props) => {
 				</section>
 
 				<section id="action-container">
-					{!AccessoryStore.displayError &&
+					{!errorMsg &&
 						<>
 							<div className="current-company">
 								{currentCompany}
@@ -171,7 +172,7 @@ const Home = inject('GraphInfoStore', 'AccessoryStore')(observer((props) => {
 				</section>
 			</div>
 			<footer id="footer">
-				<Chat allowChatNotifications={AccessoryStore.chatNotifications} />
+				<Chat allowChatNotifications={SettingsStore.chatNotifications} />
 			</footer>
 		</div>
 	);

@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import withAuth from './components/ProtectedRoute/Protected-Route';
 import { Provider } from 'mobx-react'
 import GraphInfoStore from './stores/GraphInfoStore'
-import AccessoryStore from './stores/AccessoryStore';
+import SettingsStore from './stores/SettingsStore';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class App extends React.Component {
         <div className="App">
           <Switch>
             <Route exact path="/" component={Login} />
-            <Provider GraphInfoStore={GraphInfoStore} AccessoryStore={AccessoryStore}>
+            <Provider GraphInfoStore={GraphInfoStore} SettingsStore={SettingsStore}>
               <Route path='/home' component={withAuth(Home)} />
             </Provider>
             <Route path="/register" component={Register} />
