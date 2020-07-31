@@ -8,6 +8,7 @@ import withAuth from './components/ProtectedRoute/Protected-Route';
 import { Provider } from 'mobx-react'
 import GraphInfoStore from './stores/GraphInfoStore'
 import SettingsStore from './stores/SettingsStore';
+import WatchlistStore from './stores/WatchlistStore'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class App extends React.Component {
         <div className="App">
           <Switch>
             <Route exact path="/" component={Login} />
-            <Provider GraphInfoStore={GraphInfoStore} SettingsStore={SettingsStore}>
+            <Provider GraphInfoStore={GraphInfoStore} SettingsStore={SettingsStore} WatchlistStore={WatchlistStore}>
               <Route path='/home' component={withAuth(Home)} />
             </Provider>
             <Route path="/register" component={Register} />

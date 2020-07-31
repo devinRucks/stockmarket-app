@@ -11,11 +11,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faExclamationCircle, faPlusCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import Loading from '../Loading/Loading'
-import { retrieveCurrentDate, retrievePrevMonthDate } from '../../utils/functions'
 import { observer, inject } from 'mobx-react';
 
+// TODO:
+// - Add WatchlistStore
+// - Add CompanyStore
+// - Change all child components to functional
+// - Convert Watchlist Component to implement stores.
 
-const Home = inject('GraphInfoStore', 'SettingsStore')(observer((props) => {
+const Home = inject('GraphInfoStore', 'SettingsStore', 'WatchlistStore')(observer((props) => {
 	const [inputValue, setInputValue] = useState('');
 	const [currentCompany, setCurrentCompany] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -23,6 +27,7 @@ const Home = inject('GraphInfoStore', 'SettingsStore')(observer((props) => {
 	const [addToWatchlistVal, setAddToWatchlistVal] = useState('');
 	const { GraphInfoStore } = props;
 	const { SettingsStore } = props;
+	const { WatchlistStore } = props;
 
 	useEffect(() => {
 		GraphInfoStore.setStartDate();
@@ -87,10 +92,9 @@ const Home = inject('GraphInfoStore', 'SettingsStore')(observer((props) => {
 
 
 	// called when the add to watchlist button is clicked
-	// const addToWatchlist = () => {
-	//      setAddToWatchlistVal(currentCompany)
-	//      axios.post('/addToWatchlist', { company: currentCompany })
-	// }
+	const addToWatchlist = () => {
+		WatchlistStore.addToWatchlist(GraphInfoStore.currentCompany)
+	}
 
 	const logout = () => {
 		axios.get('/logoutUser')
@@ -158,9 +162,9 @@ const Home = inject('GraphInfoStore', 'SettingsStore')(observer((props) => {
 								{currentCompany}
 							</div>
 							<div className="add-to-watchlist">
-								{/* <div className="icon" onClick={addToWatchlist()}>
-                                             <FontAwesomeIcon icon={faPlusCircle} />
-                                        </div> */}
+								<div className="icon" onClick={addToWatchlist}>
+									<FontAwesomeIcon icon={faPlusCircle} />
+								</div>
 								<div className="msg"> Add To Watchlist </div>
 							</div>
 						</>
