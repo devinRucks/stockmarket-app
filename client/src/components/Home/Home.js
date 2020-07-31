@@ -21,10 +21,8 @@ import { observer, inject } from 'mobx-react';
 
 const Home = inject('GraphInfoStore', 'SettingsStore', 'WatchlistStore')(observer((props) => {
 	const [inputValue, setInputValue] = useState('');
-	const [currentCompany, setCurrentCompany] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(false);
-	const [addToWatchlistVal, setAddToWatchlistVal] = useState('');
 	const { GraphInfoStore } = props;
 	const { SettingsStore } = props;
 	const { WatchlistStore } = props;
@@ -41,7 +39,7 @@ const Home = inject('GraphInfoStore', 'SettingsStore', 'WatchlistStore')(observe
 		setLoading(true);
 
 		axios.post('/getData', {
-			stockSymbol: currentCompany,
+			stockSymbol: GraphInfoStore.currentCompany,
 			currentDate: GraphInfoStore.endDate,
 			prevMonthDate: GraphInfoStore.startDate
 		})
@@ -61,37 +59,40 @@ const Home = inject('GraphInfoStore', 'SettingsStore', 'WatchlistStore')(observe
 			})
 	}
 
-	// const useMountEffect = (func) => useEffect(func, [currentCompany], [])
-	// useMountEffect(getData)
 
-	// Every time setCurrentCompany changes, getData will be called
+	/**
+	 * Every time currentCompany changes, getData will be called
+	 */
 	useEffect(() => {
 		getData();
-	}, [currentCompany])
+	}, [GraphInfoStore.currentCompany])
 
-	// On Submit Button 
+
+
+	/**
+	 * Called when submit button is clicked
+	 */
 	const handleClick = () => {
-		// Checks to make sure user has typed something in search field.
-		if (inputValue !== '') {
-			setCurrentCompany(inputValue);
-			getData();
-		}
-
+		GraphInfoStore.setCurrentCompany(inputValue)
+		getData();
 	}
+
 
 	/**
 	 * Callback function from Watchlist component. 
 	 * @param {string} companyClicked - company that was clicked
 	 */
-	const updateCurrentCompany = (companyClicked) => {
-		setInputValue('')
-		setCurrentCompany(companyClicked);
-		setLoading(true);
-		handleClick();
-	}
+	// const updateCurrentCompany = (companyClicked) => {
+	// 	setInputValue('')
+	// 	setCurrentCompany(companyClicked);
+	// 	setLoading(true);
+	// 	handleClick();
+	// }
 
 
-	// called when the add to watchlist button is clicked
+	/**
+	 * Called when add to watchlist button is clicked
+	 */
 	const addToWatchlist = () => {
 		WatchlistStore.addToWatchlist(GraphInfoStore.currentCompany)
 	}
@@ -159,7 +160,7 @@ const Home = inject('GraphInfoStore', 'SettingsStore', 'WatchlistStore')(observe
 					{!errorMsg &&
 						<>
 							<div className="current-company">
-								{currentCompany}
+								{GraphInfoStore.currentCompany}
 							</div>
 							<div className="add-to-watchlist">
 								<div className="icon" onClick={addToWatchlist}>

@@ -4,54 +4,31 @@ import * as utils from '../../../utils/styling'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
+import { observer, inject } from 'mobx-react';
 
-export default class Watchlist extends React.Component {
-     constructor(props) {
-          super(props);
-          this.state = {
-               defaultCompanies: [
-                    'TSLA',
-                    'AAPL',
-                    'AMZN',
-                    'GOOGL',
-                    'GE',
-                    'FB',
-               ],
-               myWatchlist: []
+const Watchlist = inject('WatchlistStore')(observer((props) => {
+     const { WatchlistStore } = props;
+     let postInitialRender = false;
+
+     // sets customWatchlist on initial render
+     // gets data from server
+     useEffect(() => {
+          WatchlistStore.getCurrentWatchlist();
+          postInitialRender = true;
+     }, [])
+
+     // Updates customWatchlist when addToWatchlist is clicked. 
+     // This is separate from the useEffect above because I dont want to have to retrieve 
+     // data from server on every time an item is added to the watchlist. 
+     // It's faster to just render the html
+     // NOTE: I'm still sending data TO server, just not retrieving it here..
+     useEffect(() => {
+          // Only want this function to run after inital render.
+          if (postInitialRender) {
+
           }
-     }
+     })
 
-     componentDidMount() {
-          axios.post('/retrieveWatchlist')
-               .then(res => {
-                    this.setState({
-                         myWatchlist: [...res.data]
-                    })
-               })
-     }
-
-     componentDidUpdate(prevProps) {
-          if (prevProps.addToWatchlist !== this.props.addToWatchlist) {
-               if (!this.duplicateWatchlistCompany(this.props.addToWatchlist)) {
-                    this.setState({
-                         myWatchlist: [...this.state.myWatchlist, this.props.addToWatchlist]
-                    }, () => console.log(this.state.myWatchlist))
-               } else console.log("Company already exists")
-          }
-     }
-
-
-     /**
-      * Checks for duplicate company being added to myWatchlist.
-      * Prevents company from being added to DB if it is a duplicate.
-      * 
-      * @param {string} newCompany - 'TSLA'
-      * @return {boolean} Returns true if the company is a duplicate, false if not.
-      */
-     duplicateWatchlistCompany(newCompany) {
-          const myWatchlist = this.state.myWatchlist;
-          return myWatchlist.includes(newCompany)
-     }
 
      /**
       * Removes company from DB when trash icon is clicked.

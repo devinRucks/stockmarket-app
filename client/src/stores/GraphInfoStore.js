@@ -4,7 +4,23 @@ import moment from 'moment'
 class GraphInfoStore {
      @observable startDate = '';
      @observable endDate = '';
+     @observable currentCompany = '';
      @observable graphData = {};
+
+
+     /**
+      * Sets the current company to the input value of the search box.
+      * The inputValue must not be empty
+      * @param {string} inputValue - 'TSLA'
+      */
+     @action setCurrentCompany = (inputValue) => {
+          // Checks to make sure user has typed something in search field.
+          if (inputValue !== '') {
+               this.currentCompany = inputValue;
+          }
+     }
+
+
 
      /**
       * Retrieves current date.
