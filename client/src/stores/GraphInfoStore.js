@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx'
+import { createContext } from 'react';
 import moment from 'moment'
 
 class GraphInfoStore {
@@ -49,5 +50,6 @@ class GraphInfoStore {
      }
 }
 
-const store = new GraphInfoStore();
-export default store;
+// const store = new GraphInfoStore();
+// export default store;
+export const GraphInfoStoreContext = createContext(new GraphInfoStore());

@@ -1,5 +1,7 @@
-import { observable } from 'mobx'
+import { observable, action } from 'mobx'
 import axios from 'axios';
+import { createContext } from 'react';
+
 
 class WatchlistStore {
      @observable defaultWatchlist = [
@@ -12,16 +14,14 @@ class WatchlistStore {
      ];
      @observable customWatchlist = [];
 
-
-
-
      /**
       * Called when add to watchlist button is clicked. (From <Home/>)
       * If company doesn't already exist, add to customWatchlist and store in DB
       * 
       * @param {string} currentCompany 
       */
-     @action addToWatchlist = (currentCompany) => {
+     @action
+     addToWatchlist = (currentCompany) => {
           if (!this.companyExists(currentCompany)) {
                // if company does not already exist, add it to custom watchlist
                this.customWatchlist.push(currentCompany)
@@ -31,20 +31,16 @@ class WatchlistStore {
           }
      }
 
+     // /**
+     //  * Called on inital render from Watchlist component
+     //  */
+     @action
+     setCustomWatchlist = async () => {
 
-
-     /**
-      * Called on inital render from Watchlist component
-      */
-     @action getCurrentWatchlist = () => {
-          axios.post('/retrieveWatchlist')
-               .then(res => {
-                    this.customWatchlist = [...res.data]
-               })
+          const res = await axios.post('/retrieveWatchlist')
+          this.customWatchlist = res.data
+          console.log(this.customWatchlist)
      }
-
-
-
 
      /**
       * Checks for duplicate company being added to myWatchlist.
@@ -57,8 +53,25 @@ class WatchlistStore {
           const watchlist = this.customWatchlist;
           return watchlist.includes(company)
      }
+
+     /**
+      * Removes company from DB when trash icon is clicked.
+      * Removes from markup by filtering out that company from the state of myWatchlist array.
+      * 
+      * @param {string} company - 'TSLA' 
+      */
+     @action
+     removeFromWatchlist = (company) => {
+          axios.post('/removeFromWatchlist', { company })
+               .then(res => {
+                    if (res.status === 200) {
+                         this.customWatchlist = this.customWatchlist.filter(companySymbol => companySymbol !== company)
+                    }
+               })
+     }
 }
 
 
-const store = new WatchlistStore();
-export default store;
+// const store = new WatchlistStore();
+// export default store;
+export const WatchlistStoreContext = createContext(new WatchlistStore());

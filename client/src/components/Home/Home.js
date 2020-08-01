@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './Home.scss';
 import Chart from './chart/Chart'
 import Watchlist from './watchlist/Watchlist'
@@ -6,31 +6,34 @@ import Chat from './chat/Chat'
 import Settings from './settings/Settings'
 import axios from 'axios'
 import logo from '../../utils/title-img.png'
-import * as utils from '../../utils/styling'
+// import * as utils from '../../utils/styling'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt, faExclamationCircle, faPlusCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import Loading from '../Loading/Loading'
-import { observer, inject } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
+import { WatchlistStoreContext } from '../../stores/WatchlistStore'
+import { SettingsStoreContext } from '../../stores/SettingsStore'
 
 // TODO:
 // - Add WatchlistStore
-// - Add CompanyStore
+// - Use componentDidMount() on WatchlistStore for getting initial watchlists
 // - Change all child components to functional
 // - Convert Watchlist Component to implement stores.
 
-const Home = inject('GraphInfoStore', 'SettingsStore', 'WatchlistStore')(observer((props) => {
+const Home = observer(() => {
 	const [inputValue, setInputValue] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(false);
-	const { GraphInfoStore } = props;
-	const { SettingsStore } = props;
-	const { WatchlistStore } = props;
+	const GraphInfoStore = useContext(GraphInfoStoreContext)
+	const WatchlistStore = useContext(WatchlistStoreContext)
+	const SettingsStore = useContext(SettingsStoreContext)
 
 	useEffect(() => {
 		GraphInfoStore.setStartDate();
 		GraphInfoStore.setEndDate();
-	});
+	}, [GraphInfoStore]);
 
 	/**
 	 * Gets stock data from API. If error in API call, displays error message
@@ -63,9 +66,9 @@ const Home = inject('GraphInfoStore', 'SettingsStore', 'WatchlistStore')(observe
 	/**
 	 * Every time currentCompany changes, getData will be called
 	 */
-	useEffect(() => {
-		getData();
-	}, [GraphInfoStore.currentCompany])
+	// useEffect(() => {
+	// 	getData();
+	// }, [GraphInfoStore, getData])
 
 
 
@@ -181,6 +184,6 @@ const Home = inject('GraphInfoStore', 'SettingsStore', 'WatchlistStore')(observe
 			</footer>
 		</div>
 	);
-}));
+});
 
 export default Home;
