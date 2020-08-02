@@ -1,12 +1,10 @@
 import React, { useEffect, useContext } from 'react';
-import './watchlist.scss'
-// import * as utils from '../../../utils/styling'
+import './Watchlist.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios';
 import { observer } from 'mobx-react';
-import { GraphInfoStoreContext } from '../../../stores/GraphInfoStore'
-import { WatchlistStoreContext } from '../../../stores/WatchlistStore'
+import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
+import { WatchlistStoreContext } from '../../stores/WatchlistStore'
 
 const Watchlist = observer(() => {
      const GraphInfoStore = useContext(GraphInfoStoreContext)
@@ -15,7 +13,8 @@ const Watchlist = observer(() => {
      // sets customWatchlist on initial render
      // gets data from server
      useEffect(() => {
-          WatchlistStore.setCustomWatchlist();
+          WatchlistStore.setCustomWatchlist()
+          // eslint-disable-next-line
      }, [])
 
 

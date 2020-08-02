@@ -1,5 +1,5 @@
 import React from 'react';
-import './settings.scss'
+import './Settings.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCog, faTimes } from '@fortawesome/free-solid-svg-icons'
 import Switch from 'react-switch'

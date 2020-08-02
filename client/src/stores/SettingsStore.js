@@ -6,6 +6,4 @@ class SettingsStore {
      @observable chatNotifications = true;
 }
 
-// const store = new SettingsStore();
-// export default store;
 export const SettingsStoreContext = createContext(new SettingsStore());

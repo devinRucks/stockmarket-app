@@ -1,5 +1,5 @@
 import React from 'react';
-import './chat.scss'
+import './Chat.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCommentDots, faPaperPlane, faUsers, faUserCircle, faCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import socketIOClient from 'socket.io-client'

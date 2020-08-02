@@ -36,6 +36,7 @@ class GraphInfoStore {
           this.endDate = `${year}-${month}-${day}`
      }
 
+
      /**
       * Retrieves date of 30 days from current date. Then formats to fit API requirements.
       * @example 

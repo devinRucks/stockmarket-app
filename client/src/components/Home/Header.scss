@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+
+
+$submitBtn-BGcolor: #FEFEFA;
+$searchTxt-BGcolor: #FEFEFA;
+
+$submitBtn-color: #1A1A1D;
+$searchTxt-color: #333;
+
+#header-container {
+     height: 75px;
+     width: 100vw;
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     align-items: center;
+     align-content: center;
+     position: relative;
+     top: 0;
+     background: #333;
+     transition: all 0.5s ease-in-out;
+     border-bottom: 2px #333 solid;
+
+     #logo-container {
+          height: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          align-content: center;
+
+          .title-img {
+               margin: 0 10px 5px 10px;
+          }
+          
+          .logoTxt {
+               font-size: 50px;
+          }
+     }
+
+     #nav-container {
+          display: flex; 
+          flex-direction: column;
+          align-items: flex-end;
+          justify-content: space-evenly;
+          height: 100%;
+          width: 450px;
+
+          #logout-settings-container {
+               display: flex;
+               flex-direction: row;
+               justify-content: flex-end;
+               align-items: center;
+
+               .logout-btn {
+                    margin-right: 15px;
+                    cursor: pointer;
+     
+                    &:hover {
+                         color: rgb(186, 20, 23)
+                    }
+               }
+     
+               .settings-btn {
+                    cursor: pointer;
+                    margin-right: 10px;
+                    color: rgb(150, 150, 150);
+                    transition: transform .3s ease-in-out;
+     
+                    &:hover {
+                         transform: rotate(45deg);
+                    }
+               }
+          }
+
+          #search-container {
+               display: flex;
+               flex-direction: row;
+               justify-content: flex-end;
+               align-items: center;
+
+               #error-container {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    height: 100%;
+                    margin-right: 15px;
+          
+                    .error-icon {
+                         color: red;
+                         margin-right: 5px;
+                    }
+                    .error-msg {
+                         font-size: 15px;
+                         color: red;
+                    }
+               }
+          
+               .searchTxt {
+                    display: flex; 
+                    justify-content: center;
+                    height: 27px;
+                    width: 120px;
+                    font-size: 23px;
+                    font-weight: 400;
+                    padding: 2px 8px 4px 8px;
+                    border-radius: 5px;
+                    border: 2px #333 solid;
+                    background: $searchTxt-BGcolor;
+                    color: $searchTxt-color;
+                    outline: none;
+                    margin-right: 15px;
+               }
+     
+               #submit-loading-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    align-content: center;
+                    height: 25px;
+                    width: 55px;
+                    margin-right: 20px;
+     
+                    .submit {
+                         position: absolute;
+                         height: 25px;
+                         width: 55px;
+                         font-family: 'Ubuntu', sans-serif;
+                         font-weight: 700;
+                         font-size: 19px;
+                         border: 2px #fff solid;
+                         border-radius: 7px;
+                         background: $submitBtn-BGcolor;
+                         color: $submitBtn-color;
+                         margin-right: 35px;
+                         cursor: pointer;
+                         outline: none;
+                         transition: scale .10s ease-in-out;
+               
+                         &:hover { transform: scale(1.03); }
+     
+                         &:active { transform: scale(.95); }
+                    }
+     
+                    .loading-symbol {
+                         height: 30px;
+                         width: 30px;
+                    }
+               }
+          }
+
+     }
+}

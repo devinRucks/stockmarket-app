@@ -2,7 +2,6 @@ import { observable, action } from 'mobx'
 import axios from 'axios';
 import { createContext } from 'react';
 
-
 class WatchlistStore {
      @observable defaultWatchlist = [
           'TSLA',
@@ -14,12 +13,11 @@ class WatchlistStore {
      ];
      @observable customWatchlist = [];
 
+
      /**
-      * Called when add to watchlist button is clicked. (From <Home/>)
-      * If company doesn't already exist, add to customWatchlist and store in DB
-      * 
-      * @param {string} currentCompany 
-      */
+     * Called when add to watchlist button is clicked. (From <Home/>)
+     * If company doesn't already exist, add to customWatchlist and store in DB
+     */
      @action
      addToWatchlist = (currentCompany) => {
           if (!this.companyExists(currentCompany)) {
@@ -31,34 +29,27 @@ class WatchlistStore {
           }
      }
 
-     // /**
-     //  * Called on inital render from Watchlist component
-     //  */
-     @action
-     setCustomWatchlist = async () => {
-
-          const res = await axios.post('/retrieveWatchlist')
-          this.customWatchlist = res.data
-          console.log(this.customWatchlist)
-     }
-
      /**
       * Checks for duplicate company being added to myWatchlist.
       * Prevents company from being added to DB if it is a duplicate.
-      * 
-      * @param {string} company - 'TSLA'
-      * @return {boolean} Returns true if the company is a duplicate, false if not.
-      */
+     */
      companyExists(company) {
           const watchlist = this.customWatchlist;
           return watchlist.includes(company)
      }
 
      /**
+      * Called on inital render from Watchlist component
+     */
+     @action
+     setCustomWatchlist = async () => {
+          const res = await axios.post('/retrieveWatchlist')
+          this.customWatchlist = res.data
+     }
+
+     /**
       * Removes company from DB when trash icon is clicked.
       * Removes from markup by filtering out that company from the state of myWatchlist array.
-      * 
-      * @param {string} company - 'TSLA' 
       */
      @action
      removeFromWatchlist = (company) => {
@@ -71,7 +62,4 @@ class WatchlistStore {
      }
 }
 
-
-// const store = new WatchlistStore();
-// export default store;
 export const WatchlistStoreContext = createContext(new WatchlistStore());
