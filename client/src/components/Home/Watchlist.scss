@@ -8,84 +8,87 @@ $TXTcolor: #333;
 
 $TITLEcolor: #333;
 
+#watchlist-container {
+     grid-area: watchlist;
 
-#company-container {
-     margin-top: 10px;
-     margin-left: 15px;
-     transition: all .5s ease-in-out;
-
-
-     .horizontal-row {
-          margin-bottom: 5px;
-          width: 180px;
-     }
-
-     #default-companies {
-     
-          .default-company {
-               font-family: 'Francois One', sans-serif;
-               width: 125px;
-               list-style: none;
-               cursor: pointer;
-               padding-left: 15px;
-               margin-bottom: 2px;
-               font-size: 20px;
-               transition: all .5s ease-in-out;
-               transition: scale .10s ease-in-out;
-
-          
-               &:hover { transform: scale(1.03); }
-
-               &:active { transform: scale(.95); }
-
-          }
-     }
-     
-     #watchlist {
+     #company-container {
           margin-top: 10px;
+          margin-left: 15px;
+          transition: all .5s ease-in-out;
 
-          #myWatchlist-container {
-               display: flex;
-               flex-direction: row;
-               align-content: center;
-               align-items: center;
-               list-style: none;
 
-               .myWatchlist-company {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    align-items: center;
+          .horizontal-row {
+               margin-bottom: 5px;
+               width: 180px;
+          }
+
+          #default-companies {
+          
+               .default-company {
                     font-family: 'Francois One', sans-serif;
                     width: 125px;
                     list-style: none;
                     cursor: pointer;
-                    padding: 0 15px 0 15px;
+                    padding-left: 15px;
                     margin-bottom: 2px;
                     font-size: 20px;
                     transition: all .5s ease-in-out;
                     transition: scale .10s ease-in-out;
+
                
                     &:hover { transform: scale(1.03); }
 
                     &:active { transform: scale(.95); }
-               }
-     
-               .trash-icon {
-                    // color: $TXTcolor;
-                    margin-left: 10px;
-                    cursor: pointer;
 
-                    &:hover {
-                         color: rgb(255, 29, 33);
+               }
+          }
+          
+          #watchlist {
+               margin-top: 10px;
+
+               #myWatchlist-container {
+                    display: flex;
+                    flex-direction: row;
+                    align-content: center;
+                    align-items: center;
+                    list-style: none;
+
+                    .myWatchlist-company {
+                         display: flex;
+                         flex-direction: row;
+                         justify-content: space-between;
+                         align-items: center;
+                         font-family: 'Francois One', sans-serif;
+                         width: 125px;
+                         list-style: none;
+                         cursor: pointer;
+                         padding: 0 15px 0 15px;
+                         margin-bottom: 2px;
+                         font-size: 20px;
+                         transition: all .5s ease-in-out;
+                         transition: scale .10s ease-in-out;
+                    
+                         &:hover { transform: scale(1.03); }
+
+                         &:active { transform: scale(.95); }
+                    }
+          
+                    .trash-icon {
+                         // color: $TXTcolor;
+                         margin-left: 10px;
+                         cursor: pointer;
+
+                         &:hover {
+                              color: rgb(255, 29, 33);
+                         }
                     }
                }
-          }
-     
           
-          .myWatchlist-title {
-               // color: $TITLEcolor;
-          }
+               
+               .myWatchlist-title {
+                    // color: $TITLEcolor;
+               }
 
+          }
      }
 }

@@ -1,26 +1,32 @@
-import React from 'react';
+import React, { useContext, useEffect, useRef, useLayoutEffect } from 'react';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-
+import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
+import { SettingsStoreContext } from '../../stores/SettingsStore'
 import './Chart.scss'
 
 am4core.useTheme(am4themes_animated);
 
-export default class Chart extends React.Component {
-     createGraph() {
+const Chart = () => {
+     const stockChart = useRef(null);
+     const GraphInfoStore = useContext(GraphInfoStoreContext)
+     const SettingsStore = useContext(SettingsStoreContext)
 
+     useLayoutEffect(() => {
           let chart = am4core.create("chart", am4charts.XYChart);
 
           chart.paddingRight = 20;
 
-          chart.data = this.props.data;
+          // chart.data = this.props.data;
+          chart.data = GraphInfoStore.graphData;
 
           let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
           dateAxis.renderer.grid.template.location = 0;
           dateAxis.renderer.minWidth = 15;
           dateAxis.renderer.labels.template.rotation = 90;
-          if (this.props.darkMode) {
+
+          if (SettingsStore.darkMode) {
                dateAxis.renderer.labels.template.fill = am4core.color("#FFF");
                dateAxis.renderer.grid.template.stroke = am4core.color("#FFF");
           } else {
@@ -34,7 +40,7 @@ export default class Chart extends React.Component {
           let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
           valueAxis.tooltip.disabled = true;
 
-          if (this.props.darkMode) {
+          if (SettingsStore.darkMode) {
                valueAxis.renderer.labels.template.fill = am4core.color("#FFF");
                valueAxis.renderer.grid.template.stroke = am4core.color("#FFF");
           } else {
@@ -64,26 +70,48 @@ export default class Chart extends React.Component {
           fillModifier.gradient.rotation = 90;
           series.segments.template.fillModifier = fillModifier;
 
-          this.chart = chart;
-     }
+          stockChart.current = chart;
 
-     componentDidUpdate(prevProps, prevState) {
-          if (prevProps.data !== this.props.data || prevProps.darkMode !== this.props.darkMode) {
-               this.removePreviousChart()
-               this.createGraph()
-          }
-     }
+          return () => {
+               chart.dispose();
+          };
+     }, [GraphInfoStore.graphData, SettingsStore.darkMode]);
 
-     removePreviousChart() {
-          if (this.chart) {
-               this.chart.dispose();
-          }
-     }
+     useLayoutEffect(() => {
+          stockChart.current.data = GraphInfoStore.graphData;
+     }, [GraphInfoStore.graphData]);
+
+     // useEffect(() => {
+     //      if (SettingsStore.darkMode) {
+     //           stockChart.current.dateAxis.renderer.labels.template.fill = am4core.color("#FFF");
+     //           stockChart.current.dateAxis.renderer.grid.template.stroke = am4core.color("#FFF");
+     //           stockChart.current.valueAxis.renderer.labels.template.fill = am4core.color("#FFF");
+     //           stockChart.current.valueAxis.renderer.grid.template.stroke = am4core.color("#FFF");
+     //      } else {
+     //           stockChart.current.dateAxis.renderer.labels.template.fill = am4core.color("#333");
+     //           stockChart.current.dateAxis.renderer.grid.template.stroke = am4core.color("#333");
+     //           stockChart.current.valueAxis.renderer.labels.template.fill = am4core.color("#333");
+     //           stockChart.current.valueAxis.renderer.grid.template.stroke = am4core.color("#333");
+     //      }
+     // }, [SettingsStore.darkMode])
+
+     // componentDidUpdate(prevProps, prevState) {
+     //      if (prevProps.data !== this.props.data || prevProps.darkMode !== this.props.darkMode) {
+     //           this.removePreviousChart()
+     //           this.createGraph()
+     //      }
+     // }
+
+     // const removePreviousChart = () => {
+     //      if (this.chart) {
+     //           this.chart.dispose();
+     //      }
+     // }
 
 
-     render() {
-          return (
-               <div id="chart" style={{ width: "100%", height: "450px" }}></div>
-          );
-     }
+     return (
+          <div id="chart" style={{ width: "100%", height: "450px" }}></div>
+     );
 }
+
+export default Chart;

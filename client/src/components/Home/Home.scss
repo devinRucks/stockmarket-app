@@ -27,11 +27,6 @@
           "watchlist chart chart";
      grid-template-columns: 200px 1fr;
      transition: all 0.5s ease-in-out;
-     
-     #watchlist-container {
-          grid-area: watchlist;
-          transition: all 0.5s ease-in-out;
-     }
 
      #action-container {
           grid-area: action;
@@ -58,10 +53,6 @@
                     cursor: pointer;
                }
           }
-     }
-
-     #chart-container {
-          grid-area: chart;
      }
 
 }

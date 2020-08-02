@@ -46,18 +46,20 @@ const Watchlist = observer(() => {
      })
 
      return (
-          <div id="company-container">
-               <section id="default-companies">
-                    <h1 className="defaultCompanies-title">Default Companies</h1>
-                    <hr className="horizontal-row"></hr>
-                    {defaultCompanyList}
-               </section>
-               <section id="watchlist">
-                    <h1 className="myWatchlist-title">My Watchlist</h1>
-                    <hr className="horizontal-row"></hr>
-                    {customCompanyList}
-               </section>
-          </div>
+          <section id="watchlist-container">
+               <div id="company-container">
+                    <section id="default-companies">
+                         <h1 className="defaultCompanies-title">Default Companies</h1>
+                         <hr className="horizontal-row"></hr>
+                         {defaultCompanyList}
+                    </section>
+                    <section id="watchlist">
+                         <h1 className="myWatchlist-title">My Watchlist</h1>
+                         <hr className="horizontal-row"></hr>
+                         {customCompanyList}
+                    </section>
+               </div>
+          </section>
      )
 });
 

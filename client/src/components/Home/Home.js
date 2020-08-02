@@ -42,9 +42,7 @@ const Home = observer(() => {
 		<div className="App">
 			< Header />
 			<div id="content-container">
-				<section id="watchlist-container">
-					<Watchlist />
-				</section>
+				<Watchlist />
 
 				<section id="action-container">
 					{!UtilityStore.errorMsg &&
@@ -62,9 +60,8 @@ const Home = observer(() => {
 					}
 				</section>
 
-				<section id="chart-container">
-					<Chart data={GraphInfoStore.graphData} loading={UtilityStore.loading} />
-				</section>
+				<Chart data={GraphInfoStore.graphData} loading={UtilityStore.loading} />
+
 			</div>
 			<footer id="footer">
 				<Chat allowChatNotifications={SettingsStore.chatNotifications} />

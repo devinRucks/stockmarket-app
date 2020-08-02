@@ -1,5 +1,9 @@
-#chart {
-     height: 450px;
-     width: 100%;
-     padding-right: 20px;
+#chart-container {
+     grid-area: chart;
+
+     #chart {
+          height: 450px;
+          width: 100%;
+          padding-right: 20px;
+     }
 }
