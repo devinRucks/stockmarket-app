@@ -1,92 +1,68 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Settings.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCog, faTimes } from '@fortawesome/free-solid-svg-icons'
 import Switch from 'react-switch'
+import { observer } from 'mobx-react';
+import { SettingsStoreContext } from '../../stores/SettingsStore'
 
-export default class Settings extends React.Component {
-     constructor(props) {
-          super(props)
-          this.state = {
-               displaySettingsMenu: false,
-               darkMode: false,
-               chatNotifications: true
-          }
-     }
+const Settings = observer(() => {
+     const SettingsStore = useContext(SettingsStoreContext)
 
-     handleSettingsMenuDisplay() {
-          this.setState(prevState => ({
-               displaySettingsMenu: !prevState.displaySettingsMenu
-          }))
-     }
+     return (
+          <>
+               <div className="settings-btn" onClick={SettingsStore.setDisplaySettingsMenu}>
+                    <FontAwesomeIcon icon={faCog} />
+               </div>
+               <div id="settings-sidebar" style={{ right: SettingsStore.displaySettingsMenu ? '0' : '-300px' }}>
+                    <header id="settings-header-container">
+                         <div className="close-btn" onClick={SettingsStore.setDisplaySettingsMenu}>
+                              <FontAwesomeIcon icon={faTimes} size="2x" />
+                         </div>
+                         <div className="settings-title">Settings</div>
+                    </header>
 
-     handleDarkModeChange() {
-          this.setState((prevState) => ({
-               darkMode: !prevState.darkMode
-          }), () => this.props.darkMode(this.state.darkMode))
-     }
-
-     handleChatNotification() {
-          this.setState((prevState) => ({
-               chatNotifications: !prevState.chatNotifications
-          }), () => this.props.chatNotifications(this.state.chatNotifications))
-     }
-
-     render() {
-          const { displaySettingsMenu, darkMode, chatNotifications } = this.state;
-          return (
-               <>
-                    <div className="settings-btn" onClick={() => this.handleSettingsMenuDisplay()}>
-                         <FontAwesomeIcon icon={faCog} />
-                    </div>
-                    <div id="settings-sidebar" style={{ right: displaySettingsMenu ? '0' : '-300px' }}>
-                         <header id="settings-header-container">
-                              <div className="close-btn" onClick={() => this.handleSettingsMenuDisplay()}>
-                                   <FontAwesomeIcon icon={faTimes} size="2x" />
+                    <section id="settings-content-container">
+                         <div className="setting">
+                              <div className="setting-description">Dark Mode</div>
+                              <div className="setting-toggle">
+                                   <Switch
+                                        checked={SettingsStore.darkMode}
+                                        onChange={SettingsStore.setDarkMode}
+                                        onColor="#86d3ff"
+                                        onHandleColor="#2693e6"
+                                        handleDiameter={30}
+                                        uncheckedIcon={false}
+                                        checkedIcon={false}
+                                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                                        height={20}
+                                        width={48}
+                                   />
                               </div>
-                              <div className="settings-title">Settings</div>
-                         </header>
+                         </div>
+                         <div className="setting">
+                              <div className="setting-description">Chat Notifications</div>
+                              <div className="setting-toggle">
+                                   <Switch
+                                        checked={SettingsStore.chatNotifications}
+                                        onChange={SettingsStore.setChatNotifications}
+                                        onColor="#86d3ff"
+                                        onHandleColor="#2693e6"
+                                        handleDiameter={30}
+                                        uncheckedIcon={false}
+                                        checkedIcon={false}
+                                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                                        height={20}
+                                        width={48}
+                                   />
+                              </div>
+                         </div>
+                    </section>
+               </div>
+          </>
+     )
+});
 
-                         <section id="settings-content-container">
-                              <div className="setting">
-                                   <div className="setting-description">Dark Mode</div>
-                                   <div className="setting-toggle">
-                                        <Switch
-                                             checked={darkMode}
-                                             onChange={() => this.handleDarkModeChange()}
-                                             onColor="#86d3ff"
-                                             onHandleColor="#2693e6"
-                                             handleDiameter={30}
-                                             uncheckedIcon={false}
-                                             checkedIcon={false}
-                                             boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                                             activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                                             height={20}
-                                             width={48}
-                                        />
-                                   </div>
-                              </div>
-                              <div className="setting">
-                                   <div className="setting-description">Chat Notifications</div>
-                                   <div className="setting-toggle">
-                                        <Switch
-                                             checked={chatNotifications}
-                                             onChange={() => this.handleChatNotification()}
-                                             onColor="#86d3ff"
-                                             onHandleColor="#2693e6"
-                                             handleDiameter={30}
-                                             uncheckedIcon={false}
-                                             checkedIcon={false}
-                                             boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                                             activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                                             height={20}
-                                             width={48}
-                                        />
-                                   </div>
-                              </div>
-                         </section>
-                    </div>
-               </>
-          )
-     }
-}
+export default Settings;

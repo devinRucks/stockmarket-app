@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useContext, useRef, useLayoutEffect } from 'react';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
+import { observer } from 'mobx-react';
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
 import { SettingsStoreContext } from '../../stores/SettingsStore'
@@ -8,7 +9,7 @@ import './Chart.scss'
 
 am4core.useTheme(am4themes_animated);
 
-const Chart = () => {
+const Chart = observer(() => {
      const stockChart = useRef(null);
      const GraphInfoStore = useContext(GraphInfoStoreContext)
      const SettingsStore = useContext(SettingsStoreContext)
@@ -81,37 +82,11 @@ const Chart = () => {
           stockChart.current.data = GraphInfoStore.graphData;
      }, [GraphInfoStore.graphData]);
 
-     // useEffect(() => {
-     //      if (SettingsStore.darkMode) {
-     //           stockChart.current.dateAxis.renderer.labels.template.fill = am4core.color("#FFF");
-     //           stockChart.current.dateAxis.renderer.grid.template.stroke = am4core.color("#FFF");
-     //           stockChart.current.valueAxis.renderer.labels.template.fill = am4core.color("#FFF");
-     //           stockChart.current.valueAxis.renderer.grid.template.stroke = am4core.color("#FFF");
-     //      } else {
-     //           stockChart.current.dateAxis.renderer.labels.template.fill = am4core.color("#333");
-     //           stockChart.current.dateAxis.renderer.grid.template.stroke = am4core.color("#333");
-     //           stockChart.current.valueAxis.renderer.labels.template.fill = am4core.color("#333");
-     //           stockChart.current.valueAxis.renderer.grid.template.stroke = am4core.color("#333");
-     //      }
-     // }, [SettingsStore.darkMode])
-
-     // componentDidUpdate(prevProps, prevState) {
-     //      if (prevProps.data !== this.props.data || prevProps.darkMode !== this.props.darkMode) {
-     //           this.removePreviousChart()
-     //           this.createGraph()
-     //      }
-     // }
-
-     // const removePreviousChart = () => {
-     //      if (this.chart) {
-     //           this.chart.dispose();
-     //      }
-     // }
-
 
      return (
           <div id="chart" style={{ width: "100%", height: "450px" }}></div>
      );
-}
+});
 
 export default Chart;
+

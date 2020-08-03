@@ -9,19 +9,18 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { observer } from 'mobx-react';
 import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
 import { WatchlistStoreContext } from '../../stores/WatchlistStore'
-import { SettingsStoreContext } from '../../stores/SettingsStore'
 import { UtilityStoreContext } from '../../stores/UtilityStore'
+// import { SettingsStoreContext } from '../../stores/SettingsStore';
 
 // TODO:
-// - Create Header component to clean up jsx
 // - Change all child components to functional
 // - Move setStartDate and setEndDate into constructor of GraphInfoStore
 
 const Home = observer(() => {
 	const GraphInfoStore = useContext(GraphInfoStoreContext)
 	const WatchlistStore = useContext(WatchlistStoreContext)
-	const SettingsStore = useContext(SettingsStoreContext)
 	const UtilityStore = useContext(UtilityStoreContext)
+	// const SettingsStore = useContext(SettingsStoreContext)
 
 
 	useEffect(() => {
@@ -60,11 +59,11 @@ const Home = observer(() => {
 					}
 				</section>
 
-				<Chart data={GraphInfoStore.graphData} loading={UtilityStore.loading} />
+				<Chart />
 
 			</div>
 			<footer id="footer">
-				<Chat allowChatNotifications={SettingsStore.chatNotifications} />
+				<Chat />
 			</footer>
 		</div>
 	);
