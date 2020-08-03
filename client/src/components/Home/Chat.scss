@@ -31,219 +31,230 @@ $submitBtn-color: #1A1A1D;
      }
 }
 
-#chat-container {
-     position: relative;
-     width: 350px;
-     height: 650px;
-     margin-right: 20px;
+#footer {
+     position: fixed;
+     bottom: 0;
+     width: 100vw;
+     height: 50px;
      display: flex;
-     flex-direction: column;
-     background: $footer-color;
-     border-top-left-radius: 8px;
-     border-top-right-radius: 8px;
-     transition: all 1s ease-in-out;
+     justify-content: flex-end;
+     align-items: center;
+     transition: all 0.5s ease-in-out;
 
-     #tabs {
-          position: absolute;
+     #chat-container {
+          position: relative;
+          width: 350px;
+          height: 650px;
+          margin-right: 20px;
           display: flex;
-          justify-content: center;
-          align-items: center;
-          border-top-left-radius: 5px;
-          border-top-right-radius: 5px;
-          cursor: pointer;
-          top: -40px;
-          height: 40px;
-          width: 50px;
-          // border: 1px red solid;
+          flex-direction: column;
+          background: $footer-color;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+          transition: all 1s ease-in-out;
 
-          &.chat-tab {
-               left: 30px;
-               color: #2693e6;
-          }
+          #tabs {
+               position: absolute;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               border-top-left-radius: 5px;
+               border-top-right-radius: 5px;
+               cursor: pointer;
+               top: -40px;
+               height: 40px;
+               width: 50px;
+               // border: 1px red solid;
 
-          &.users-tab {
-               left: 85px;
-               color: #009311;
-               background: #333;
-          }
-
-          &.minimize-tab {
-               top: -18px;
-               width: 35px;
-               height: 18px;
-               right: 15px;
-               color: #fff;
-               background: $footer-color;
-
-               &:hover {
-                    color: rgb(164, 164, 164);
+               &.chat-tab {
+                    left: 30px;
+                    color: #2693e6;
                }
-          }
-     }
 
-     #chat-header {
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          align-content: center;
-          position: sticky;
-          top: 0;
-          width: 100%;
-          height: 15px;
-          border-top-left-radius: 5px;
-          border-top-right-radius: 5px;
-     }
-
-     // **********************************************
-     // ******** SHOWS FOR MESSAGES TAB ONLY *********
-     // **********************************************
-
-     #chat-messages-body {
-          height: 645px;
-          width: 100%;
-
-          #chat-messages-container {
-               height: 285px;
-               width: 100%;
-               background: rgb(238, 238, 238);
-               overflow-y: auto;
-               font-family: 'Ubuntu', sans-serif;
-               border-left: 2px $footer-color solid;
-               border-right: 2px $footer-color solid;
-     
-               .typing-message {
-                    color: #333;
-                    font-size: 12px;
-                    margin-top: 4px;
-                    margin-left: 7px;
-                    font-style: italic;
+               &.users-tab {
+                    left: 85px;
+                    color: #009311;
+                    background: #333;
                }
-     
-               #chat-messages-content {
-                    display: flex;
-                    align-items: center;
-                    flex-direction: row;
-                    margin-left: 5px;
-                    margin-right: 5px;
-                    margin: 10px 5px 10px 5px;
-     
-     
-                    .message {
-                         display: flex;
-                         flex-direction: row;
-                         width: auto;
-     
-                         .user-icon {
-                              padding-top: 2px;
-                              margin-right: 5px;
-                              // border: 1px red solid;
-                         }
-     
-                         .chat-handle {
-                              font-weight: bold;
-                              font-size: 18px;
-                              margin-right: 5px;
-                              // border: 1px red solid;
-                         }
-     
-                         .chat-message { 
-                              color: #333;
-                              padding-top: 2px;
-                              // border: 1px red solid;
-                         }
+
+               &.minimize-tab {
+                    top: -18px;
+                    width: 35px;
+                    height: 18px;
+                    right: 15px;
+                    color: #fff;
+                    background: $footer-color;
+
+                    &:hover {
+                         color: rgb(164, 164, 164);
                     }
                }
-     
           }
-     
-          #message-container {
-               height: 50px;
-               width: 100%;
+
+          #chat-header {
                display: flex;
-               justify-content: space-between;
+               justify-content: flex-end;
                align-items: center;
                align-content: center;
-     
-               .message-text {
-                    height: 28px;
-                    width: 255px;
-                    font-size: 16px;
-                    font-weight: 400;
+               position: sticky;
+               top: 0;
+               width: 100%;
+               height: 15px;
+               border-top-left-radius: 5px;
+               border-top-right-radius: 5px;
+          }
+
+          // **********************************************
+          // ******** SHOWS FOR MESSAGES TAB ONLY *********
+          // **********************************************
+
+          #chat-messages-body {
+               height: 645px;
+               width: 100%;
+
+               #chat-messages-container {
+                    height: 285px;
+                    width: 100%;
+                    background: rgb(238, 238, 238);
+                    overflow-y: auto;
                     font-family: 'Ubuntu', sans-serif;
-                    padding: 2px 8px 2px 8px;
-                    border-radius: 5px;
-                    border: 2px #FEFEFA solid;
-                    background: #FEFEFA;
-                    color: #1A1A1D;
-                    outline: none;
-                    margin-left: 10px;
-                    overflow: auto;
-               }
-     
-               .submit {
-                    color: $submitBtn-BGcolor;
-                    background: $footer-color;
-                    border: none;
-                    margin-right: 25px;
-                    cursor: pointer;
-                    outline: none;
-                    transition: scale .5s ease-in-out;
-     
-                    &:active {
-                         transform: scale(1.30);
-                    }
-     
-                    &:hover {
-                         color: #2693e6;
-                    }
-               }
-          }
-     }
-
-     // **********************************************
-     // *********** SHOWS FOR USERS TAB ONLY **********
-     // **********************************************
-
-     #chat-users-body {
-          height: 645px;
-          width: 100%;
-
-          #chat-users-container {
-               height: 285px;
-               width: 100%;
-               background: rgb(238, 238, 238);
-               overflow-y: auto;
-               font-family: 'Ubuntu', sans-serif;
-               border-left: 2px $footer-color solid;
-               border-right: 2px $footer-color solid;
-
-               #chat-user-content {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    flex-direction: row;
-                    margin-left: 5px;
-                    margin-right: 5px;
-                    margin: 10px 20px 10px 10px;
-
-                    .user {
-                         display: flex;
-                         flex-direction: row;
-                         padding-right: 8px;
-                         font-size: 21px;
+                    border-left: 2px $footer-color solid;
+                    border-right: 2px $footer-color solid;
+          
+                    .typing-message {
                          color: #333;
+                         font-size: 12px;
+                         margin-top: 4px;
+                         margin-left: 7px;
+                         font-style: italic;
                     }
-
-                    .online-status {
-                         padding-top: 2px;
-                         color: green;
+          
+                    #chat-messages-content {
+                         display: flex;
+                         align-items: center;
+                         flex-direction: row;
+                         margin-left: 5px;
+                         margin-right: 5px;
+                         margin: 10px 5px 10px 5px;
+          
+          
+                         .message {
+                              display: flex;
+                              flex-direction: row;
+                              width: auto;
+          
+                              .user-icon {
+                                   padding-top: 2px;
+                                   margin-right: 5px;
+                                   // border: 1px red solid;
+                              }
+          
+                              .chat-handle {
+                                   font-weight: bold;
+                                   font-size: 18px;
+                                   margin-right: 5px;
+                                   // border: 1px red solid;
+                              }
+          
+                              .chat-message { 
+                                   color: #333;
+                                   padding-top: 2px;
+                                   // border: 1px red solid;
+                              }
+                         }
+                    }
+          
+               }
+          
+               #message-container {
+                    height: 50px;
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    align-content: center;
+          
+                    .message-text {
+                         height: 28px;
+                         width: 255px;
+                         font-size: 16px;
+                         font-weight: 400;
+                         font-family: 'Ubuntu', sans-serif;
+                         padding: 2px 8px 2px 8px;
+                         border-radius: 5px;
+                         border: 2px #FEFEFA solid;
+                         background: #FEFEFA;
+                         color: #1A1A1D;
+                         outline: none;
+                         margin-left: 10px;
+                         overflow: auto;
+                    }
+          
+                    .submit {
+                         color: $submitBtn-BGcolor;
+                         background: $footer-color;
+                         border: none;
+                         margin-right: 25px;
+                         cursor: pointer;
+                         outline: none;
+                         transition: scale .5s ease-in-out;
+          
+                         &:active {
+                              transform: scale(1.30);
+                         }
+          
+                         &:hover {
+                              color: #2693e6;
+                         }
                     }
                }
           }
 
-          #chat-users-footer {
-               height: 50px;
+          // **********************************************
+          // *********** SHOWS FOR USERS TAB ONLY **********
+          // **********************************************
+
+          #chat-users-body {
+               height: 645px;
                width: 100%;
+
+               #chat-users-container {
+                    height: 285px;
+                    width: 100%;
+                    background: rgb(238, 238, 238);
+                    overflow-y: auto;
+                    font-family: 'Ubuntu', sans-serif;
+                    border-left: 2px $footer-color solid;
+                    border-right: 2px $footer-color solid;
+
+                    #chat-user-content {
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;
+                         flex-direction: row;
+                         margin-left: 5px;
+                         margin-right: 5px;
+                         margin: 10px 20px 10px 10px;
+
+                         .user {
+                              display: flex;
+                              flex-direction: row;
+                              padding-right: 8px;
+                              font-size: 21px;
+                              color: #333;
+                         }
+
+                         .online-status {
+                              padding-top: 2px;
+                              color: green;
+                         }
+                    }
+               }
+
+               #chat-users-footer {
+                    height: 50px;
+                    width: 100%;
+               }
           }
      }
 }

@@ -3,7 +3,7 @@ import { createContext } from 'react'
 
 class SettingsStore {
      @observable darkMode = false;
-     @observable chatNotifications = true;
+     @observable allowChatNotifications = true;
      @observable displaySettingsMenu = false;
 
      @action
@@ -13,7 +13,7 @@ class SettingsStore {
 
      @action
      setChatNotifications = () => {
-          this.chatNotifications = !this.chatNotifications;
+          this.allowChatNotifications = !this.allowChatNotifications;
      }
 
      @action

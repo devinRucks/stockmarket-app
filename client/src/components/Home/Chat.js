@@ -1,59 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import './Chat.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCommentDots, faPaperPlane, faUsers, faUserCircle, faCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import socketIOClient from 'socket.io-client'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import { SettingsStoreContext } from '../../stores/SettingsStore'
 
-export default class Chat extends React.Component {
-     constructor(props) {
-          super(props)
-          this.state = {
-               inputValue: '',
-               username: '',
-               chat: [],
-               onlineUsers: [],
-               allUsers: [],
-               typing: '',
-               chatOpen: false,
-               chatMessagesView: true,
-               chatUsersView: false,
-               chatNotification: false
-          }
-          this.socket = socketIOClient()
-          this.username = Cookies.get('username')
-     }
+const Chat = observer(() => {
+     const [inputValue, setInputValue] = useState('');
+     const [username, setUsername] = useState('');
+     const [chat, setChat] = useState([]);
+     const [onlineUsers, addOnlineUser] = useState([]);
+     const [allUsers, addUser] = useState([]);
+     const [typing, setTyping] = useState('');
+     const [chatOpen, setChatOpen] = useState(false);
+     const [messagesViewActive, setMessagesViewActive] = useState(true);
+     const [usersViewActive, setUsersViewActive] = useState(false);
+     const [chatNotification, setChatNotification]
+     const SettingsStore = useContext(SettingsStoreContext);
 
-     async componentDidMount() {
+     let socket = socketIOClient();
+     let username = Cookies.get('username')
+
+     useEffect(() => {
           this.socket.on('chat', (data) => {
-               // setState of chat array with new incoming data from other sockets
-               this.setState({
-                    chat: [...this.state.chat, { 'handle': data.handle, 'message': data.message }],
-                    typing: ''
-               })
-               this.chatNotificationDisplay()
+               // set the state of the chat array with new incoming data from other sockets
+               setChat([...chat, { 'handle': data.handle, 'message': data.message }])
+               setTyping('');
+
+               chatNotificationDisplay();
           })
 
 
           // Nofies user if there is someone else typing a message. disappears after seconds.
           this.socket.on('typing', (data) => {
-               this.setState({ typing: `${data.handle} is typing... ` })
-               setTimeout(() => this.setState({ typing: '' }), 5000)
+               setTyping(`${data.handle} is typing...`)
+               setTimeout(() => setTyping(''), 5000)
           })
 
 
           // If a user connects, calls method that gets updated version of online users
-          this.socket.emit('onlineUsers', { user: this.username })
+          this.socket.emit('onlineUsers', { user: username })
           this.socket.on('onlineUsers', async () => { await this.getAllOnlineUsers() })
 
 
           // If a user disconnects, calls method that gets updated version of online users
           this.socket.on('disconnect', async () => { await this.getAllOnlineUsers() })
 
-          await this.getAllUsernames()
-          await this.getAllOnlineUsers()
-     }
+
+          await getAllUsernames()
+          await getAllOnlineUsers()
+
+     }, [])
 
      /**
       * Retrieves array of all usernames in database. 
@@ -63,15 +63,12 @@ export default class Chat extends React.Component {
       * @example
       *   [ {username: 'Bob'}, {username: 'Devin'} ]
       */
-     async getAllUsernames() {
+     const getAllUsernames = async () => {
           axios.post('/retrieveAllUsernames')
                .then(res => {
                     const allUsernames = res.data;
-                    // console.log(allUsernames)
-                    const filteredUsernames = allUsernames.filter(user => user.username !== this.username)
-                    this.setState({
-                         allUsers: [...this.state.allUsers, ...filteredUsernames]
-                    })
+                    const filteredUsernames = allUsernames.filter(user => user.username !== username)
+                    addUser([...allUsers, ...filteredUsernames])
                })
                .catch((err) => {
                     console.log(err)
@@ -87,73 +84,65 @@ export default class Chat extends React.Component {
       * @example
       * [ {username: 'Bob', socket_id: 'Rwebsetg4823'}, {username: 'Devin', socket_id: 'waKdmS302SDs02'} ]
       */
-     async getAllOnlineUsers() {
-          this.setState({ onlineUsers: [] })
+     const getAllOnlineUsers = async () => {
+          addOnlineUser([])
           axios.post('/retrieveAllOnlineUsers')
                .then(res => {
-                    // console.log(res.data)
-                    this.setState({
-                         onlineUsers: [...this.state.onlineUsers, ...res.data]
-                    })
+                    addOnlineUser([...onlineUsers, ...res.data])
                })
                .catch((err) => {
                     console.log(err)
                })
      }
 
-
-     updateInputValue = (event) => {
-          this.setState({ inputValue: event.target.value })
+     const updateInputValue = (e) => {
+          setInputValue(e.target.value)
           // If the user deletes message before sending, 
           // this will prevent the "User is typing..." message from continually showing
-          if (this.state.inputValue !== '') {
-               this.socket.emit('typing', { handle: this.username })
+          if (inputValue !== '') {
+               this.socket.emit('typing', { handle: username })
           }
      }
 
-     handleClick() {
+     const handleClick = () => {
           this.socket.emit('chat', {
-               handle: this.username,
-               message: this.state.inputValue
+               handle: username,
+               message: inputValue
           })
-          this.setState({ inputValue: '', username: this.username })
+          setInputValue('');
+          setUsername(username)
      }
 
-     handleChatView() {
-          const chatOpen = this.state.chatOpen
-          this.setState({ chatOpen: !chatOpen, chatNotification: false })
+     const handleChatView = () => {
+          setChatOpen(!chatOpen);
+          setChatNotification(false);
      }
 
      // If Message Tab is clicked and message content is not already showing
-     chatMessagesView() {
-          if (!this.state.chatMessagesView) {
-               this.setState({ chatMessagesView: true, chatUsersView: false })
+     const chatMessagesView = () => {
+          if (!messagesViewActive) {
+               setMessagesViewActive(true);
+               setUsersViewActive(false);
           }
      }
 
      // If Users Tab is clicked and users are not already showing
-     chatUsersView() {
-          if (!this.state.chatUsersView) {
-               this.setState({ chatMessagesView: false, chatUsersView: true })
+     const chatUsersView = () => {
+          if (!usersViewActive) {
+               setMessagesViewActive(false);
+               setUsersViewActive(true);
           }
      }
+
 
      // Notifies user if there are unread messages in chat. Gets called each time there is a new message.
-     chatNotificationDisplay() {
-          const { chatOpen } = this.state
-          const { allowChatNotifications } = this.props;
-
+     const chatNotificationDisplay = () => {
           if (chatOpen) {
-               this.setState({
-                    chatNotification: false
-               })
-          } else if (!chatOpen && allowChatNotifications) {
-               this.setState({
-                    chatNotification: true
-               })
+               setChatNotification(false);
+          } else if (!chatOpen && SettingsStore.allowChatNotifications) {
+               setChatNotification(true);
           }
      }
-
 
      /**
       * Returns true if a user from allUsers is also in onlineUsers, false if not.
@@ -161,102 +150,98 @@ export default class Chat extends React.Component {
       * @param {string} user - Each username in allUsers array. Gets mapped at render()
       * @return {boolean} used to determine color of onlineStatus dot
       */
-     checkUserOnlineStatus(user) {
-          const { onlineUsers } = this.state;
+     const checkUserOnlineStatus = (user) => {
           return onlineUsers.some(onlineUser => onlineUser['username'] === user)
      }
 
-     render() {
-          const { darkMode } = this.props;
-          const { inputValue, chat, allUsers, chatOpen, username, typing, chatMessagesView, chatUsersView, chatNotification } = this.state;
-          return (
 
-               <>
-                    {!chatOpen &&
-                         <div className="chat-icon" style={{ color: darkMode ? '#333' : '#fff' }}
-                              onClick={() => this.handleChatView()}>
-                              <FontAwesomeIcon icon={faCommentDots} size='2x' />
-                              {chatNotification &&
-                                   <div className="chat-notification">
-                                        <FontAwesomeIcon icon={faExclamationCircle} />
-                                   </div>
-                              }
-                         </div>
-                    }
-                    <div id="chat-container"
-                         style={{ display: !chatOpen ? 'none' : '' }}>
-                         <div id="tabs"
-                              className="chat-tab"
-                              onClick={() => this.chatMessagesView()}
-                              style={{ background: chatMessagesView ? '#49494d' : '#333' }}>
-                              <FontAwesomeIcon icon={faCommentDots} size='2x' />
-                         </div>
-                         <div id="tabs"
-                              className="users-tab"
-                              onClick={() => this.chatUsersView()}
-                              style={{ background: chatUsersView ? '#49494d' : '#333' }}>
-                              <FontAwesomeIcon icon={faUsers} size='2x' />
-                         </div>
-                         {chatOpen &&
-                              <div id="tabs" className="minimize-tab"
-                                   onClick={() => this.handleChatView()}>
-                                   <FontAwesomeIcon icon={faTimes} size='1x' />
-                              </div>
-                         }
 
-                         <header id="chat-header"></header>
-
-                         {chatMessagesView &&
-                              <div id="chat-messages-body">
-                                   <section id="chat-messages-container">
-                                        {chat.map((content, index) =>
-                                             <div id="chat-messages-content" key={index}>
-                                                  <div className="message">
-                                                       <div className="user-icon" style={{ color: username === content.handle ? '#2693e6' : '#f52525' }}>
-                                                            <FontAwesomeIcon icon={faUserCircle} />
-                                                       </div>
-                                                       <div className="chat-handle" style={{ color: username === content.handle ? '#333333' : '#282828' }}>{content.handle}:</div>
-                                                       <div className="chat-message">{content.message}</div>
-                                                  </div>
-                                             </div>
-                                        )}
-                                        <div className="typing-message">{typing}</div>
-                                   </section>
-
-                                   <footer id="message-container">
-                                        <textarea className="message-text"
-                                             onChange={(event) => this.updateInputValue(event)}
-                                             value={inputValue} />
-
-                                        <button className="submit"
-                                             onClick={() => this.handleClick()}
-                                             style={{ display: !chatOpen ? 'none' : '' }}>
-                                             <FontAwesomeIcon icon={faPaperPlane} size='2x' />
-                                        </button>
-                                   </footer>
-                              </div>
-                         }
-
-                         {chatUsersView &&
-                              <div id="chat-users-body">
-                                   <section id="chat-users-container">
-                                        {allUsers.map((user, index) =>
-                                             <div id="chat-user-content" key={index}>
-                                                  <div className="user">
-                                                       {user.username}
-                                                  </div>
-                                                  <div className="online-status" style={{ color: this.checkUserOnlineStatus(user.username) ? 'green' : 'gray' }}>
-                                                       <FontAwesomeIcon icon={faCircle} />
-                                                  </div>
-                                             </div>
-                                        )}
-                                   </section>
-
-                                   <footer id="chat-users-footer"></footer>
+     return (
+          <footer id="footer">
+               {!chatOpen &&
+                    <div className="chat-icon" style={{ color: SettingsStore.darkMode ? '#333' : '#fff' }}
+                         onClick={handleChatView}>
+                         <FontAwesomeIcon icon={faCommentDots} size='2x' />
+                         {chatNotification &&
+                              <div className="chat-notification">
+                                   <FontAwesomeIcon icon={faExclamationCircle} />
                               </div>
                          }
                     </div>
-               </>
-          )
-     }
-}
+               }
+               <div id="chat-container"
+                    style={{ display: !chatOpen ? 'none' : '' }}>
+                    <div id="tabs"
+                         className="chat-tab"
+                         onClick={chatMessagesView}
+                         style={{ background: messagesViewActive ? '#49494d' : '#333' }}>
+                         <FontAwesomeIcon icon={faCommentDots} size='2x' />
+                    </div>
+                    <div id="tabs"
+                         className="users-tab"
+                         onClick={chatUsersView}
+                         style={{ background: usersViewActive ? '#49494d' : '#333' }}>
+                         <FontAwesomeIcon icon={faUsers} size='2x' />
+                    </div>
+                    {chatOpen &&
+                         <div id="tabs" className="minimize-tab"
+                              onClick={handleChatView}>
+                              <FontAwesomeIcon icon={faTimes} size='1x' />
+                         </div>
+                    }
+
+                    <header id="chat-header"></header>
+
+                    {chatMessagesView &&
+                         <div id="chat-messages-body">
+                              <section id="chat-messages-container">
+                                   {chat.map((content, index) =>
+                                        <div id="chat-messages-content" key={index}>
+                                             <div className="message">
+                                                  <div className="user-icon" style={{ color: username === content.handle ? '#2693e6' : '#f52525' }}>
+                                                       <FontAwesomeIcon icon={faUserCircle} />
+                                                  </div>
+                                                  <div className="chat-handle" style={{ color: username === content.handle ? '#333333' : '#282828' }}>{content.handle}:</div>
+                                                  <div className="chat-message">{content.message}</div>
+                                             </div>
+                                        </div>
+                                   )}
+                                   <div className="typing-message">{typing}</div>
+                              </section>
+
+                              <footer id="message-container">
+                                   <textarea className="message-text"
+                                        onChange={(e) => updateInputValue(e)}
+                                        value={inputValue} />
+
+                                   <button className="submit"
+                                        onClick={handleClick}
+                                        style={{ display: !chatOpen ? 'none' : '' }}>
+                                        <FontAwesomeIcon icon={faPaperPlane} size='2x' />
+                                   </button>
+                              </footer>
+                         </div>
+                    }
+
+                    {chatUsersView &&
+                         <div id="chat-users-body">
+                              <section id="chat-users-container">
+                                   {allUsers.map((user, index) =>
+                                        <div id="chat-user-content" key={index}>
+                                             <div className="user">
+                                                  {user.username}
+                                             </div>
+                                             <div className="online-status" style={{ color: () => checkUserOnlineStatus(user.username) ? 'green' : 'gray' }}>
+                                                  <FontAwesomeIcon icon={faCircle} />
+                                             </div>
+                                        </div>
+                                   )}
+                              </section>
+
+                              <footer id="chat-users-footer"></footer>
+                         </div>
+                    }
+               </div>
+          </footer>
+     )
+});

@@ -45,7 +45,7 @@ const Settings = observer(() => {
                               <div className="setting-description">Chat Notifications</div>
                               <div className="setting-toggle">
                                    <Switch
-                                        checked={SettingsStore.chatNotifications}
+                                        checked={SettingsStore.allowChatNotifications}
                                         onChange={SettingsStore.setChatNotifications}
                                         onColor="#86d3ff"
                                         onHandleColor="#2693e6"

@@ -10,7 +10,6 @@ import { observer } from 'mobx-react';
 import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
 import { WatchlistStoreContext } from '../../stores/WatchlistStore'
 import { UtilityStoreContext } from '../../stores/UtilityStore'
-// import { SettingsStoreContext } from '../../stores/SettingsStore';
 
 // TODO:
 // - Change all child components to functional
@@ -20,7 +19,6 @@ const Home = observer(() => {
 	const GraphInfoStore = useContext(GraphInfoStoreContext)
 	const WatchlistStore = useContext(WatchlistStoreContext)
 	const UtilityStore = useContext(UtilityStoreContext)
-	// const SettingsStore = useContext(SettingsStoreContext)
 
 
 	useEffect(() => {
@@ -62,9 +60,7 @@ const Home = observer(() => {
 				<Chart />
 
 			</div>
-			<footer id="footer">
-				<Chat />
-			</footer>
+			<Chat />
 		</div>
 	);
 });
