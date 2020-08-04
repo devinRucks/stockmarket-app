@@ -40,6 +40,8 @@ const Header = observer(() => {
                     UtilityStore.setLoading(false)
                     UtilityStore.setErrorMsg(false)
                     setInputValue('')
+                    if (data.dataForGraph.length === 0)
+                         UtilityStore.setErrorMsg(true)
                })
                .catch(err => {
                     console.log(err)

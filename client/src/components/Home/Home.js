@@ -12,6 +12,14 @@ import { WatchlistStoreContext } from '../../stores/WatchlistStore'
 import { UtilityStoreContext } from '../../stores/UtilityStore'
 import { SettingsStoreContext } from '../../stores/SettingsStore'
 
+/**
+ * TODO:
+ * Make currentCompany in GraphInfoStore capitalized
+ * Make sure if the company is incorrect, the name is not displayed and error message is.
+ * Fix bug where error message is not appearing. If the company does not exist, there is still a status of 200 coming from server.
+ * Add dark mode
+ */
+
 const Home = observer(() => {
 	const GraphInfoStore = useContext(GraphInfoStoreContext)
 	const WatchlistStore = useContext(WatchlistStoreContext)
@@ -49,7 +57,7 @@ const Home = observer(() => {
 							<div className="current-company">
 								{GraphInfoStore.currentCompany}
 							</div>
-							<div className="add-to-watchlist">
+							<div className="add-to-watchlist" style={GraphInfoStore.currentCompany === '' ? { display: 'none' } : { display: 'flex' }}>
 								<div className="icon" onClick={addToWatchlist}>
 									<FontAwesomeIcon icon={faPlusCircle} />
 								</div>
