@@ -16,9 +16,7 @@ import { SettingsStoreContext } from '../../stores/SettingsStore'
 /**
  * TODO:
  * Make currentCompany in GraphInfoStore capitalized
- * Make sure if the company is incorrect, the name is not displayed and error message is.
- * Fix bug where error message is not appearing. If the company does not exist, there is still a status of 200 coming from server.
- * Add dark mode
+ * Reorganize server routes
  */
 
 const Home = observer(() => {

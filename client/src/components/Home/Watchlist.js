@@ -43,7 +43,7 @@ const Watchlist = observer(() => {
                     </div>
                     <div className="trash-icon">
                          <FontAwesomeIcon
-                              onClick={() => WatchlistStore.removeFromWatchlist(GraphInfoStore.currentCompany)}
+                              onClick={() => WatchlistStore.removeFromWatchlist(companySymbol)}
                               icon={faTrash} />
                     </div>
                </li>
