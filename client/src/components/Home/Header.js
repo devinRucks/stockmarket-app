@@ -8,7 +8,6 @@ import { faSignOutAlt, faExclamationCircle, faSearch } from '@fortawesome/free-s
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
 import { UtilityStoreContext } from '../../stores/UtilityStore'
-// import { SettingsStoreContext } from '../../stores/SettingsStore'
 import { Link } from 'react-router-dom'
 import './Header.scss';
 
@@ -19,7 +18,6 @@ const Header = observer(() => {
      const [postInitialRender, setPostIntialRender] = useState(false)
      const GraphInfoStore = useContext(GraphInfoStoreContext)
      const UtilityStore = useContext(UtilityStoreContext)
-     // const SettingsStore = useContext(SettingsStoreContext)
 
      useEffect(() => {
           setPostIntialRender(true)

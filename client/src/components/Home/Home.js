@@ -10,15 +10,17 @@ import { observer } from 'mobx-react';
 import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
 import { WatchlistStoreContext } from '../../stores/WatchlistStore'
 import { UtilityStoreContext } from '../../stores/UtilityStore'
-
-// TODO:
-// - Change all child components to functional
-// - Move setStartDate and setEndDate into constructor of GraphInfoStore
+import { SettingsStoreContext } from '../../stores/SettingsStore'
 
 const Home = observer(() => {
 	const GraphInfoStore = useContext(GraphInfoStoreContext)
 	const WatchlistStore = useContext(WatchlistStoreContext)
 	const UtilityStore = useContext(UtilityStoreContext)
+
+	// NOTE: This is used for Chat component. It is class based, which created some problems
+	// with using context in a clean way throughout the program like I originally wanted.
+	// So, I decided to import the store here and just pass down the values down thru props.
+	const SettingsStore = useContext(SettingsStoreContext)
 
 
 	useEffect(() => {
@@ -60,7 +62,7 @@ const Home = observer(() => {
 				<Chart />
 
 			</div>
-			<Chat />
+			<Chat allowChatNotifications={SettingsStore.allowChatNotifications} darkMode={SettingsStore.darkMode} />
 		</div>
 	);
 });
