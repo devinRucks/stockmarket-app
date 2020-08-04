@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { observer } from 'mobx-react';
 import './Chat.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,9 +8,11 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { SettingsStoreContext } from '../../stores/SettingsStore'
 
+let socket = socketIOClient();
+
 const Chat = observer(() => {
      const [inputValue, setInputValue] = useState('');
-     const [username, setUsername] = useState('');
+     const [username, setUsername] = useState(Cookies.get('username'));
      const [chat, setChat] = useState([]);
      const [onlineUsers, addOnlineUser] = useState([]);
      const [allUsers, addUser] = useState([]);
@@ -18,14 +20,13 @@ const Chat = observer(() => {
      const [chatOpen, setChatOpen] = useState(false);
      const [messagesViewActive, setMessagesViewActive] = useState(true);
      const [usersViewActive, setUsersViewActive] = useState(false);
-     const [chatNotification, setChatNotification]
+     const [chatNotification, setChatNotification] = useState(true)
      const SettingsStore = useContext(SettingsStoreContext);
 
-     let socket = socketIOClient();
-     let username = Cookies.get('username')
+     // let username = Cookies.get('username')
 
      useEffect(() => {
-          this.socket.on('chat', (data) => {
+          socket.on('chat', (data) => {
                // set the state of the chat array with new incoming data from other sockets
                setChat([...chat, { 'handle': data.handle, 'message': data.message }])
                setTyping('');
@@ -35,23 +36,23 @@ const Chat = observer(() => {
 
 
           // Nofies user if there is someone else typing a message. disappears after seconds.
-          this.socket.on('typing', (data) => {
+          socket.on('typing', (data) => {
                setTyping(`${data.handle} is typing...`)
                setTimeout(() => setTyping(''), 5000)
           })
 
 
           // If a user connects, calls method that gets updated version of online users
-          this.socket.emit('onlineUsers', { user: username })
-          this.socket.on('onlineUsers', async () => { await this.getAllOnlineUsers() })
+          socket.emit('onlineUsers', { user: username })
+          socket.on('onlineUsers', async () => { await getAllOnlineUsers() })
 
 
           // If a user disconnects, calls method that gets updated version of online users
-          this.socket.on('disconnect', async () => { await this.getAllOnlineUsers() })
+          socket.on('disconnect', async () => { await getAllOnlineUsers() })
 
 
-          await getAllUsernames()
-          await getAllOnlineUsers()
+          getAllUsernames()
+          getAllOnlineUsers()
 
      }, [])
 
@@ -63,16 +64,12 @@ const Chat = observer(() => {
       * @example
       *   [ {username: 'Bob'}, {username: 'Devin'} ]
       */
-     const getAllUsernames = async () => {
-          axios.post('/retrieveAllUsernames')
-               .then(res => {
-                    const allUsernames = res.data;
-                    const filteredUsernames = allUsernames.filter(user => user.username !== username)
-                    addUser([...allUsers, ...filteredUsernames])
-               })
-               .catch((err) => {
-                    console.log(err)
-               })
+     async function getAllUsernames() {
+          const res = await axios.post('/retrieveAllUsernames')
+          console.log(res)
+          const allUsernames = res.data;
+          const filteredUsernames = allUsernames.filter(user => user.username !== username)
+          addUser([...allUsers, ...filteredUsernames])
      }
 
      /**
@@ -84,15 +81,12 @@ const Chat = observer(() => {
       * @example
       * [ {username: 'Bob', socket_id: 'Rwebsetg4823'}, {username: 'Devin', socket_id: 'waKdmS302SDs02'} ]
       */
-     const getAllOnlineUsers = async () => {
-          addOnlineUser([])
-          axios.post('/retrieveAllOnlineUsers')
-               .then(res => {
-                    addOnlineUser([...onlineUsers, ...res.data])
-               })
-               .catch((err) => {
-                    console.log(err)
-               })
+     async function getAllOnlineUsers() {
+          addOnlineUser([]);
+          const res = await axios.post('/retrieveAllOnlineUsers')
+          // console.log(res)
+          addOnlineUser([...onlineUsers, ...res.data])
+          // console.log(onlineUsers)
      }
 
      const updateInputValue = (e) => {
@@ -100,12 +94,12 @@ const Chat = observer(() => {
           // If the user deletes message before sending, 
           // this will prevent the "User is typing..." message from continually showing
           if (inputValue !== '') {
-               this.socket.emit('typing', { handle: username })
+               socket.emit('typing', { handle: username })
           }
      }
 
      const handleClick = () => {
-          this.socket.emit('chat', {
+          socket.emit('chat', {
                handle: username,
                message: inputValue
           })
@@ -245,3 +239,5 @@ const Chat = observer(() => {
           </footer>
      )
 });
+
+export default Chat;
