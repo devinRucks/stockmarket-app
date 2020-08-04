@@ -3,11 +3,13 @@ import axios from 'axios'
 import Loading from '../Loading/Loading'
 import Settings from './Settings'
 import logo from '../../utils/title-img.png'
+import * as utils from '../../utils/styling'
 import { observer } from 'mobx-react';
 import { faSignOutAlt, faExclamationCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
 import { UtilityStoreContext } from '../../stores/UtilityStore'
+import { SettingsStoreContext } from '../../stores/SettingsStore'
 import { Link } from 'react-router-dom'
 import './Header.scss';
 
@@ -18,6 +20,7 @@ const Header = observer(() => {
      const [postInitialRender, setPostIntialRender] = useState(false)
      const GraphInfoStore = useContext(GraphInfoStoreContext)
      const UtilityStore = useContext(UtilityStoreContext)
+     const SettingsStore = useContext(SettingsStoreContext)
 
      useEffect(() => {
           setPostIntialRender(true)
@@ -78,7 +81,7 @@ const Header = observer(() => {
 
 
      return (
-          <header id="header-container">
+          <header id="header-container" style={SettingsStore.darkMode ? utils.headerAndFooterDarkMode : utils.headerAndFooterLightMode}>
 
                <div id="logo-container">
                     <img className="title-img" src={logo} alt={"title img"} height="45" width="60"></img>
@@ -89,7 +92,7 @@ const Header = observer(() => {
                     <section id="logout-settings-container">
                          <Settings />
                          <Link to='/'>
-                              <div className="logout-btn">
+                              <div className="logout-btn" style={SettingsStore.darkMode ? utils.headerAndFooterDarkMode : utils.headerAndFooterLightMode}>
                                    <FontAwesomeIcon
                                         onClick={logout}
                                         icon={faSignOutAlt} />

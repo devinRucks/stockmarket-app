@@ -1,5 +1,6 @@
 import React from 'react';
 import './Chat.scss'
+import * as utils from '../../utils/styling'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faCommentDots, faPaperPlane, faUsers, faUserCircle, faCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import socketIOClient from 'socket.io-client'
@@ -171,7 +172,7 @@ export default class Chat extends React.Component {
           const { inputValue, chat, allUsers, chatOpen, username, typing, chatMessagesView, chatUsersView, chatNotification } = this.state;
           return (
 
-               <footer id="footer">
+               <footer id="footer" style={darkMode ? utils.headerAndFooterDarkMode : utils.headerAndFooterLightMode}>
                     {!chatOpen &&
                          <div className="chat-icon" style={{ color: darkMode ? '#333' : '#fff' }}
                               onClick={() => this.handleChatView()}>

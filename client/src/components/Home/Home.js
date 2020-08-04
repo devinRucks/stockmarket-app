@@ -4,6 +4,7 @@ import Chart from './Chart'
 import Watchlist from './Watchlist'
 import Chat from './Chat'
 import Header from './Header'
+import * as utils from '../../utils/styling'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { observer } from 'mobx-react';
@@ -46,7 +47,7 @@ const Home = observer(() => {
 
 
 	return (
-		<div className="App">
+		<div className="App" style={SettingsStore.darkMode ? utils.generalDarkMode : utils.generalLightMode}>
 			< Header />
 			<div id="content-container">
 				<Watchlist />
@@ -54,10 +55,12 @@ const Home = observer(() => {
 				<section id="action-container">
 					{!UtilityStore.errorMsg &&
 						<>
-							<div className="current-company">
+							<div className="current-company" style={SettingsStore.darkMode ? utils.darkModeFontColor : utils.lightModeFontColor}>
 								{GraphInfoStore.currentCompany}
 							</div>
-							<div className="add-to-watchlist" style={GraphInfoStore.currentCompany === '' ? { display: 'none' } : { display: 'flex' }}>
+							<div className="add-to-watchlist"
+								style={GraphInfoStore.currentCompany === '' ? { display: 'none' } : { display: 'flex' }
+									&& SettingsStore.darkMode ? utils.darkModeFontColor : utils.lightModeFontColor}>
 								<div className="icon" onClick={addToWatchlist}>
 									<FontAwesomeIcon icon={faPlusCircle} />
 								</div>

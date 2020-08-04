@@ -1,14 +1,17 @@
 import React, { useEffect, useContext } from 'react';
 import './Watchlist.scss'
+import * as utils from '../../utils/styling'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { observer } from 'mobx-react';
 import { GraphInfoStoreContext } from '../../stores/GraphInfoStore'
 import { WatchlistStoreContext } from '../../stores/WatchlistStore'
+import { SettingsStoreContext } from '../../stores/SettingsStore'
 
 const Watchlist = observer(() => {
      const GraphInfoStore = useContext(GraphInfoStoreContext)
      const WatchlistStore = useContext(WatchlistStoreContext)
+     const SettingsStore = useContext(SettingsStoreContext)
 
      // sets customWatchlist on initial render
      // gets data from server
@@ -21,6 +24,7 @@ const Watchlist = observer(() => {
      const defaultCompanyList = WatchlistStore.defaultWatchlist.map((companySymbol, index) => {
           return (
                <li className="default-company"
+                    style={SettingsStore.darkMode ? utils.darkModeBorder : utils.lightModeBorder}
                     onClick={() => GraphInfoStore.setCurrentCompany(companySymbol)}
                     key={index}>
                     {companySymbol}
@@ -33,6 +37,7 @@ const Watchlist = observer(() => {
                     key={index}>
                     <div
                          className="myWatchlist-company"
+                         style={SettingsStore.darkMode ? utils.darkModeBorder : utils.lightModeBorder}
                          onClick={() => GraphInfoStore.setCurrentCompany(companySymbol)}>
                          {companySymbol}
                     </div>
@@ -47,7 +52,7 @@ const Watchlist = observer(() => {
 
      return (
           <section id="watchlist-container">
-               <div id="company-container">
+               <div id="company-container" style={SettingsStore.darkMode ? utils.generalDarkMode : utils.generalLightMode}>
                     <section id="default-companies">
                          <h1 className="defaultCompanies-title">Default Companies</h1>
                          <hr className="horizontal-row"></hr>
