@@ -10,6 +10,7 @@
 
 * [React](https://reactjs.org/) - Frontend
 * [Express](https://expressjs.com/) - Backend
+* [mobx-react](https://mobx-react.js.org/) - Application State Management
 * [MarketStack](https://marketstack.com/) - API
 * [am4core](https://www.amcharts.com/docs/v4/) - Chart
 * [JsDoc](https://jsdoc.app/) - Documentation
