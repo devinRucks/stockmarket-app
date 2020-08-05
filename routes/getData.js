@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const withAuth = require('../../controller/middleware');
+const withAuth = require('../controller/middleware');
 const axios = require('axios');
 const utils = require('../controller/apiDataManipulation');
 

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const withAuth = require('../../controller/middleware')
-const { findBlacklistedToken } = require('./model/tokenBlacklist')
+const withAuth = require('../controller/middleware')
+const { findBlacklistedToken } = require('../model/tokenBlacklist')
 
 router.route('/')
      .get(withAuth, (req, res) => {
