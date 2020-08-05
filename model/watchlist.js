@@ -23,7 +23,7 @@ exports.addToWatchlist = (company, userID, callback) => {
 }
 
 
-exports.retrieveWatchlist = (userID, callback) => {
+exports.getWatchlist = (userID, callback) => {
 
      const sql = `SELECT * FROM watchlist WHERE user_id='${userID}'`
 

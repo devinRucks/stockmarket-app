@@ -17,6 +17,7 @@ import { SettingsStoreContext } from '../../stores/SettingsStore'
  * TODO:
  * Make currentCompany in GraphInfoStore capitalized
  * Reorganize server routes
+ * Fix error when logging out and logging back in (check console)
  */
 
 const Home = observer(() => {

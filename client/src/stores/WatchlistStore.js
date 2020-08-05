@@ -43,7 +43,7 @@ class WatchlistStore {
      */
      @action
      setCustomWatchlist = async () => {
-          const res = await axios.post('/retrieveWatchlist')
+          const res = await axios.post('/getWatchlist')
           this.customWatchlist = res.data
      }
 

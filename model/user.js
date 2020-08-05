@@ -19,15 +19,6 @@ exports.addUser = (username, password, email, callback) => {
      });
 }
 
-exports.retrieveAllUsernames = (callback) => {
-     const sql = 'SELECT username FROM users'
-
-     db.query(sql, (err, result) => {
-          if (err) throw err;
-          callback(result)
-     })
-}
-
 
 exports.findUser = (username, password, callback) => {
 

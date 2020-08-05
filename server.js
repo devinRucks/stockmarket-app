@@ -1,22 +1,35 @@
 if (process.env.NODE_ENV !== 'production') {
      require('dotenv').config()
 }
-
 const express = require('express');
 const app = express();
 const socket = require('socket.io')
 const path = require('path')
-const jwt = require('jsonwebtoken')
-const axios = require('axios')
 const cookieParser = require('cookie-parser')
 const helmet = require('helmet')
 const { createTables } = require('./model/createTables')
-const { addUser, findUser, retrieveAllUsernames } = require('./model/user')
-const { addToWatchlist, retrieveWatchlist, removeFromWatchlist } = require('./model/watchlist')
-const { blacklistToken, findBlacklistedToken } = require('./model/tokenBlacklist')
-const { addOnlineUser, retrieveAllOnlineUsers, removeOnlineUser } = require('./model/chatUsers')
-const utils = require('./controller/apiDataManipulation')
-const withAuth = require('./controller/middleware')
+const { addOnlineUser, removeOnlineUser } = require('./model/chatUsers')
+
+// Watchlist
+const addToWatchlist = require('./routes/watchlist/addToWatchlist');
+const getWatchlist = require('./routes/watchlist/getWatchlist');
+const removeFromWatchlist = require('./routes/watchlist/removeFromWatchlist');
+
+// User
+const createUser = require('./routes/user/createUser');
+const logoutUser = require('./routes/user/logoutUser');
+const loginUser = require('./routes/user/loginUser');
+
+// Chat Users
+const getAllUsernames = require('./routes/chat/getAllUsernames');
+const getAllOnlineUsers = require('./routes/chat/getAllOnlineUsers');
+
+// Check Token
+const checkToken = require('./routes/checkToken');
+
+// Get Stock Data
+const getData = require('./routes/getData');
+
 
 app.use(express.json());
 app.use(cookieParser())
@@ -40,117 +53,26 @@ app.use((req, res, next) => {
 
 createTables();
 
-app.post('/addToWatchlist', withAuth, (req, res) => {
-     const company = req.body.company
-     const userId = req.cookies.userId
+// Watchlist
+app.use('/addToWatchlist', addToWatchlist);
+app.use('/getWatchlist', getWatchlist);
+app.use('/removeFromWatchlist', removeFromWatchlist);
 
-     addToWatchlist(company, userId, () => {
-          res.end()
-     })
-})
+// User
+app.use('/createUser', createUser);
+app.use('/loginUser', loginUser);
+app.use('/logoutUser', logoutUser);
 
-app.post('/retrieveWatchlist', (req, res) => {
-     const userId = req.cookies.userId
-     retrieveWatchlist(userId, (companies) => {
-          res.send(companies)
-     })
-})
+// Chat Users
+app.use('/getAllUsernames', getAllUsernames)
+app.use('/getAllOnlineUsers', getAllOnlineUsers)
 
-app.post('/removeFromWatchlist', withAuth, (req, res) => {
-     let company = req.body.company
-     const userId = req.cookies.userId
+// Check Token
+app.use('/checkToken', checkToken);
 
-     removeFromWatchlist(company, userId, () => {
-          res.sendStatus(200).end()
-     })
-})
+// Get Stock Data
+app.use('/getData', getData);
 
-app.post('/createUser', (req, res) => {
-     const { username, password, email } = req.body
-
-     addUser(username, password, email, (success) => {
-          if (success) {
-               console.log('User Added...')
-               res.sendStatus(200)
-          } else {
-               res.sendStatus(401)
-          }
-     })
-})
-
-app.get('/logoutUser', (req, res) => {
-     const token = { token: `${req.cookies.token}` }
-     blacklistToken(token, () => {
-          console.log("Token added to blacklist..")
-          res.end()
-     })
-})
-
-app.post('/retrieveAllUsernames', (req, res) => {
-     retrieveAllUsernames((users) => {
-          res.json(users)
-     })
-})
-
-app.post('/retrieveAllOnlineUsers', (req, res) => {
-     retrieveAllOnlineUsers((users) => {
-          res.json(users)
-     })
-})
-
-
-app.get('/checkToken', withAuth, (req, res) => {
-     const token = req.cookies.token
-     findBlacklistedToken(token, (result) => {
-          if (result.length) {
-               res.status(401).send("Unauthorized: Invalid Token...")
-          } else {
-               res.status(200).send("Authorized")
-          }
-     })
-})
-
-app.post('/loginUser', (req, res) => {
-     const { username, password } = req.body;
-
-     findUser(username, password, (user, result) => {
-          console.log(user)
-          if (user) {
-               const userId = result[0].id
-               const username = result[0].username
-               console.log("Successfully Logged In!")
-
-               const payload = { username }
-
-               const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '40m' })
-
-               res.cookie('token', token, { httpOnly: true }).cookie('userId', `${userId}`).cookie('username', `${username}`).sendStatus(200)
-          } else {
-               console.log("Incorrect Username/Password...")
-               res.status(401).send("Incorrect Username/Password...")
-          }
-     })
-})
-
-app.post('/getData', withAuth, async (req, res) => {
-     let stockSymbol = req.body.stockSymbol
-     let currentDate = req.body.currentDate
-     let prevMonthDate = req.body.prevMonthDate
-
-     const stockDataAPI = `https://api.marketstack.com/v1/eod?access_key=${process.env.STOCK_DATA_API_KEY}&symbols=${stockSymbol}&date_from=${prevMonthDate}&date_to=${currentDate}`
-
-     try {
-          const APIResponse = await axios.get(stockDataAPI)
-          const datesAndPrices = utils.dataManipulation(APIResponse)
-
-          res.json({
-               'dataForGraph': datesAndPrices.dataForGraph
-          })
-     } catch (error) {
-          res.status(401).send("This company does not exist")
-          return
-     }
-})
 
 
 const port = process.env.PORT || 8080;

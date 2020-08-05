@@ -65,7 +65,7 @@ export default class Chat extends React.Component {
       *   [ {username: 'Bob'}, {username: 'Devin'} ]
       */
      async getAllUsernames() {
-          axios.post('/retrieveAllUsernames')
+          axios.post('/getAllUsernames')
                .then(res => {
                     const allUsernames = res.data;
                     // console.log(allUsernames)
@@ -90,7 +90,7 @@ export default class Chat extends React.Component {
       */
      async getAllOnlineUsers() {
           this.setState({ onlineUsers: [] })
-          axios.post('/retrieveAllOnlineUsers')
+          axios.post('/getAllOnlineUsers')
                .then(res => {
                     // console.log(res.data)
                     this.setState({

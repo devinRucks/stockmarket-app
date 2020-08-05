@@ -14,8 +14,17 @@ exports.addOnlineUser = (username, socket_id, callback) => {
      })
 }
 
-exports.retrieveAllOnlineUsers = (callback) => {
+exports.getAllOnlineUsers = (callback) => {
      const sql = 'SELECT username FROM onlineUsers'
+
+     db.query(sql, (err, result) => {
+          if (err) throw err;
+          callback(result)
+     })
+}
+
+exports.getAllUsernames = (callback) => {
+     const sql = 'SELECT username FROM users'
 
      db.query(sql, (err, result) => {
           if (err) throw err;
